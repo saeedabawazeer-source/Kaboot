@@ -108,7 +108,9 @@ body{display:flex;justify-content:center;align-items:flex-start}
 .card-face.is-trump{border-color:#f97316}
 .card-val{font-size:12px;font-weight:900;line-height:1.1}
 .card-suit{font-size:13px;line-height:1}
+.card-ar-corner{font-size:7px;font-weight:700;line-height:1.2;opacity:.75;direction:rtl}
 .card-center{font-size:20px;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.65}
+.card-ar-center{font-size:13px;font-weight:900;opacity:.9;direction:rtl}
 .card-red{color:#C0202A}
 .card-blk{color:#111}
 
@@ -309,29 +311,62 @@ body{display:flex;justify-content:center;align-items:flex-start}
 <!-- ═══ RULES ═══ -->
 <div id="scr-rules" class="scr">
   <h1>📖 قواعد كابوت</h1>
-  <h2>🃏 الورق</h2>
-  <p>البلوت يُلعب بـ 32 ورقة من 7 إلى A في كل صورة (♠♥♦♣).</p>
-  <h2>🤝 الفرق</h2>
-  <p>4 لاعبين – فريقان: جنوب+شمال (أنت وشريكك) ضد غرب+شرق.</p>
+
+  <h2>🃏 أوراق اللعب</h2>
+  <p>كابوت يُلعب بـ 32 ورقة فقط — من السبعة حتى الاس في أربع صور:</p>
+  <ul>
+    <li>♠ بستوني &nbsp;·&nbsp; ♥ قلب &nbsp;·&nbsp; ♦ ديناري &nbsp;·&nbsp; ♣ طرنيب</li>
+  </ul>
+  <p>أسماء الأوراق: سبعة، ثمانية، تسعة، عشرة، <strong>بوا (J)</strong>، <strong>دام (Q)</strong>، <strong>كينغ (K)</strong>، <strong>اس (A)</strong>.</p>
+
+  <h2>🤝 اللاعبون والفرق</h2>
+  <p>أربعة لاعبين في فريقين: أنت وشريكك (جنوب وشمال) ضد خصمين (شرق وغرب). كل فريق يلعب مع بعض.</p>
+
   <h2>🎴 التوزيع</h2>
-  <p>كل لاعب يأخذ 7 أوراق، ورقة في الوسط مكشوفة (المركزية)، و3 ورقة احتياطية.</p>
+  <p>يأخذ كل لاعب <strong>7 أوراق</strong>. ورقة واحدة تُوضع في وسط الطاولة مكشوفة — تُسمى <strong>المركزية</strong>. وثلاث أوراق تبقى احتياطية مغطاة.</p>
+
   <h2>🗣️ المزايدة</h2>
+  <p>الهدف من المزايدة هو تحديد نوع اللعبة. أول لاعب يزايد (غير بس) يفوز بحق التحديد:</p>
   <ul>
-    <li><strong>حكم</strong> – اقبل صورة المركزية كاتم</li>
-    <li><strong>سن</strong> – لا اتم (بلوت)</li>
-    <li><strong>أشكل</strong> – اختر صورة أخرى كاتم</li>
-    <li><strong>بس</strong> – تمرير</li>
+    <li><strong>شن</strong> — اقبل صورة المركزية كاتم للجولة</li>
+    <li><strong>بلوت</strong> — العب بدون اتم، كل الصور متساوية</li>
+    <li><strong>أشكل</strong> — ارفض المركزية واختر صورة ثانية كاتم</li>
+    <li><strong>بس</strong> — تمرير الدور للاعب التالي</li>
   </ul>
-  <p>أول من يزايد (غير تمرير) يفوز بالمركزية (8 أوراق). الباقون يأخذون ورقة احتياطية.</p>
-  <h2>⭐ نقاط (حكم)</h2>
+  <p>بعد الفوز بالمزايدة: المزايد يضم المركزية (معه 8 أوراق)، وكل لاعب آخر يأخذ ورقة احتياطية (معه 8 أوراق).</p>
+  <p>إذا مرّر الجميع (بس)، تُعاد التوزيعة من جديد.</p>
+
+  <h2>⭐ قيم الأوراق — وضع الشن (مع اتم)</h2>
   <ul>
-    <li>J الاتم = 20 | 9 الاتم = 14 | A = 11 | 10 = 10</li>
-    <li>K = 4 | Q = 3 | J عادي = 2 | 7/8/9 عادي = 0</li>
-    <li>آخر حيلة = 10 نقاط إضافية</li>
+    <li>بوا الاتم (J) = <strong>20 نقطة</strong></li>
+    <li>تسعة الاتم (9) = <strong>14 نقطة</strong></li>
+    <li>اس (A) = 11 &nbsp;·&nbsp; عشرة (10) = 10 &nbsp;·&nbsp; كينغ (K) = 4 &nbsp;·&nbsp; دام (Q) = 3</li>
+    <li>بوا عادي (J) = 2 &nbsp;·&nbsp; سبعة / ثمانية / تسعة عادي = 0</li>
+    <li>مجموع النقاط في الجولة: <strong>152 نقطة</strong></li>
   </ul>
-  <h2>🏆 الفوز</h2>
-  <p>المزايد يحتاج أكثر من 76 نقطة (حكم) أو 60 (سن). كابوت = الخصم صفر نقاط!</p>
-  <button class="rules-back" onclick="goHome()">← رجوع</button>
+
+  <h2>⭐ قيم الأوراق — وضع البلوت (بدون اتم)</h2>
+  <ul>
+    <li>اس = 11 &nbsp;·&nbsp; عشرة = 10 &nbsp;·&nbsp; كينغ = 4 &nbsp;·&nbsp; دام = 3 &nbsp;·&nbsp; بوا = 2</li>
+    <li>سبعة / ثمانية / تسعة = 0</li>
+    <li>مجموع النقاط: <strong>120 نقطة</strong></li>
+  </ul>
+
+  <h2>🃏 كيفية اللعب</h2>
+  <p>تُلعب 8 حيل (rounds). في كل حيلة، يلزم اللاعب باتباع صورة أول ورقة لُعبت. إذا ما عنده من صورتها، يلعب أي ورقة. صاحب أعلى ورقة (أو اتم) يفوز بالحيلة ويبدأ الحيلة التالية.</p>
+  <p>آخر حيلة تعطي <strong>10 نقاط إضافية</strong> لمن يفوز بها.</p>
+
+  <h2>🏆 شروط الفوز</h2>
+  <ul>
+    <li><strong>وضع الشن:</strong> المزايد يحتاج أكثر من 76 نقطة من 152 للفوز</li>
+    <li><strong>وضع البلوت:</strong> المزايد يحتاج أكثر من 60 نقطة من 120 للفوز</li>
+    <li>إذا فشل المزايد، يفوز الفريق الثاني</li>
+  </ul>
+
+  <h2>💎 كابوت</h2>
+  <p>إذا حصل الفريق المنافس على صفر نقاط — يُعلن <strong>كابوت</strong>! وهو فوز ساحق للمزايد.</p>
+
+  <button class="rules-back" onclick="goHome()">← رجوع للرئيسية</button>
 </div>
 
 <!-- ═══ SCORE MODAL ═══ -->
@@ -356,6 +391,8 @@ body{display:flex;justify-content:center;align-items:flex-start}
 const SUITS   = ['♠','♥','♦','♣'];
 const VALS    = [7,8,9,10,11,12,13,14];
 const VNAME   = {7:'7',8:'8',9:'9',10:'10',11:'J',12:'Q',13:'K',14:'A'};
+const CARD_AR = {7:'سبعة',8:'ثمانية',9:'تسعة',10:'عشرة',11:'بوا',12:'دام',13:'كينغ',14:'اس'};
+const SUIT_AR = {'♠':'بستوني','♥':'قلب','♦':'ديناري','♣':'طرنيب'};
 const TEAMS   = {south:0,north:0,west:1,east:1};
 const POS_ORD = ['south','west','north','east'];
 const ARENAS  = [
@@ -469,10 +506,10 @@ function aiBid(hand,center,hasBid){
   const J=hand.some(c=>c.suit===cs&&c.value===11);
   const N=hand.some(c=>c.suit===cs&&c.value===9);
   const t=cnt[cs]||0;
-  if(sc>=60&&(J||N))return'sun';
-  if(sc>=50&&J&&N) return'sun';
-  if(sc>=55&&t>=3) return'sun';
-  if(sc>=44&&J&&t>=2)return'sun';
+  if(sc>=60&&(J||N))return'hokm';
+  if(sc>=50&&J&&N) return'hokm';
+  if(sc>=55&&t>=3) return'hokm';
+  if(sc>=44&&J&&t>=2)return'hokm';
   return'pass';
 }
 function aiPlay(pos,hand,lead,trump,mode,trick){
@@ -492,10 +529,20 @@ function aiPlay(pos,hand,lead,trump,mode,trick){
 // ─── Card HTML ───────────────────────────
 function faceHTML(c,cls,extra=''){
   const v=VNAME[c.value],r=isRed(c)?'card-red':'card-blk';
+  const ar=CARD_AR[c.value]||'';
+  const isFace=c.value>=11;
+  const centerContent=isFace?`<span class="card-ar-center">${ar}</span>`:`<span>${c.suit}</span>`;
   return`<div class="card-face ${cls} ${extra}">
-    <div class="${r}"><div class="card-val">${v}</div><div class="card-suit">${c.suit}</div></div>
-    <div class="card-center ${r}">${c.suit}</div>
-    <div class="${r}" style="transform:rotate(180deg)"><div class="card-val">${v}</div><div class="card-suit">${c.suit}</div></div>
+    <div class="${r}">
+      <div class="card-val">${v}</div>
+      <div class="card-suit">${c.suit}</div>
+      ${isFace?`<div class="card-ar-corner">${ar}</div>`:''}
+    </div>
+    <div class="card-center ${r}">${centerContent}</div>
+    <div class="${r}" style="transform:rotate(180deg)">
+      <div class="card-val">${v}</div>
+      <div class="card-suit">${c.suit}</div>
+    </div>
   </div>`;
 }
 function backHTML(cls){
@@ -563,22 +610,22 @@ function renderTable(){
     label.textContent='الورقة المركزية';
     trumpEl.style.display='none';
     const s=G.centerCard?.suit||'';
-    const sn={'♠':'سباتي','♥':'قلب','♦':'ديناري','♣':'كوبة'}[s]||'';
+    const sn=SUIT_AR[s]||'';
     content.innerHTML=G.centerCard?`
       <div class="center-card-wrap">
-        <div class="center-card-lbl">الاتم المقترح</div>
+        <div class="center-card-lbl">الصورة المقترحة للاتم</div>
         ${faceHTML(G.centerCard,'c-lg')}
         <div class="trump-badge">${s} ${sn}</div>
       </div>
     `:'';
 
   } else if(G.phase==='playing'||G.phase==='trickResolve'){
-    label.textContent='الحيلة';
+    label.textContent='الحيلة الحالية';
     if(G.mode==='sun'&&G.trumpSuit){
-      trumpEl.textContent='اتم '+G.trumpSuit;
+      trumpEl.textContent='شن '+G.trumpSuit+' '+SUIT_AR[G.trumpSuit];
       trumpEl.style.display='block';
     } else if(G.mode==='baloot'){
-      trumpEl.textContent='بلوت';
+      trumpEl.textContent='بلوت – بدون اتم';
       trumpEl.style.display='block';
     }
     // 2×2 grid: north top-left, west top-right, south bottom-left, east bottom-right
@@ -595,7 +642,7 @@ function renderTable(){
         return`<div class="trick-slot${c?' filled':''}">${c?faceHTML(c,'c-xs',win?'selected':''):''}</div>`;
       }).join('')
     }</div>
-    <div class="trick-counts">نحن:${G.tricks.us} | هم:${G.tricks.them}</div>`;
+    <div class="trick-counts">نحن: ${G.tricks.us} حيلة &nbsp;·&nbsp; هم: ${G.tricks.them} حيلة</div>`;
 
   } else if(G.phase==='dealing'){
     label.textContent='جاري التوزيع...';
@@ -615,9 +662,9 @@ function renderAction(){
   if(G.phase==='bidding'){
     if(G.bidOrder[G.bidIdx]==='south'){
       a.innerHTML=`<div class="bid-area">
-        <button class="bid-btn bid-hokm" onclick="humanBid('hokm')"><span>حكم</span><span class="bid-btn-sub">اقبل الاتم</span></button>
-        <button class="bid-btn bid-sun"  onclick="humanBid('sun')"><span>سن</span><span class="bid-btn-sub">بدون اتم</span></button>
-        <button class="bid-btn bid-ashkal" onclick="humanBid('ashkal')"><span>أشكل</span><span class="bid-btn-sub">اتم آخر</span></button>
+        <button class="bid-btn bid-hokm" onclick="humanBid('hokm')"><span>شن</span><span class="bid-btn-sub">اتم المركزية</span></button>
+        <button class="bid-btn bid-sun"  onclick="humanBid('sun')"><span>بلوت</span><span class="bid-btn-sub">بدون اتم</span></button>
+        <button class="bid-btn bid-ashkal" onclick="humanBid('ashkal')"><span>أشكل</span><span class="bid-btn-sub">اتم ثاني</span></button>
         <button class="bid-btn bid-pass" onclick="humanBid('pass')"><span>بس</span><span class="bid-btn-sub">تمرير</span></button>
       </div>`;
     } else {
@@ -626,19 +673,19 @@ function renderAction(){
   } else if(G.phase==='ashkal'){
     const others=SUITS.filter(s=>s!==G.centerCard.suit);
     a.innerHTML=`<div class="suit-picker">
-      <div class="suit-pick-lbl">اختر صورة الاتم الجديدة</div>
+      <div class="suit-pick-lbl">اختر صورة الاتم الجديدة (غير ${G.centerCard.suit} ${SUIT_AR[G.centerCard.suit]})</div>
       <div class="suit-pick-row">
         ${others.map(s=>{
           const r=s==='♥'||s==='♦';
-          return`<button class="suit-pick-btn ${r?'red-suit':'blk-suit'}" onclick="pickSuit('${s}')">${s}</button>`;
+          return`<button class="suit-pick-btn ${r?'red-suit':'blk-suit'}" onclick="pickSuit('${s}')"><div>${s}</div><div style="font-size:10px;font-weight:700;margin-top:2px">${SUIT_AR[s]}</div></button>`;
         }).join('')}
       </div>
     </div>`;
   } else if(G.phase==='playing'){
     const cur=G.trickOrder[G.trickIdx];
     a.innerHTML=cur==='south'
-      ?`<div class="play-hint" style="color:#ffd700;font-weight:700;font-size:12px">✋ دورك — اضغط على ورقة للعب</div>`
-      :`<div class="play-hint">دور ${POS_AR[cur]}...</div>`;
+      ?`<div class="play-hint" style="color:#ffd700;font-weight:700;font-size:13px">✋ دورك — اختر ورقة واضغط عليها مرتين</div>`
+      :`<div class="play-hint">⏳ دور ${POS_AR[cur]}...</div>`;
   } else {
     a.innerHTML=`<div class="play-hint"></div>`;
   }
@@ -700,7 +747,7 @@ function startBidding(){
 function advanceBid(){
   if(G.bidIdx>=G.bidOrder.length){
     if(!G.hasBid){
-      think('south','جميع مرروا…');
+      think('south','الكل مرّر — إعادة التوزيع');
       setTimeout(()=>{clearThink();newRound();},1000);
     }
     return;
@@ -738,12 +785,12 @@ function applyBid(pos,type){
   G.hasBid=true;G.bidWinner=pos;G.bidType=type;
   if(type==='hokm'){
     G.mode='sun';G.trumpSuit=G.centerCard.suit;
-    think(pos,'حكم! ✓');
+    think(pos,'شن! ✓');
     distribute(pos);
     setTimeout(()=>{clearThink();startPlay();},1200);
   } else if(type==='sun'){
     G.mode='baloot';G.trumpSuit=null;
-    think(pos,'سن! ✓');
+    think(pos,'بلوت! ✓');
     distribute(pos);
     setTimeout(()=>{clearThink();startPlay();},1200);
   } else if(type==='ashkal'){
@@ -871,8 +918,8 @@ function endRound(){
     setTimeout(()=>b.remove(),2400);
   }
 
-  const bid={hokm:'حكم',sun:'سن',ashkal:'أشكل'}[G.bidType]||G.bidType;
-  const tr=G.mode==='sun'&&G.trumpSuit?G.trumpSuit:'لا اتم';
+  const bid={hokm:'شن',sun:'بلوت',ashkal:'أشكل'}[G.bidType]||G.bidType;
+  const tr=G.mode==='sun'&&G.trumpSuit?(G.trumpSuit+' '+SUIT_AR[G.trumpSuit]):'بلوت (بدون اتم)';
   document.getElementById('m-winner').textContent=usWin?(kaboot?'💎 كابوت!':'🏆 فزنا!'):(kaboot?'💀 كابوت!':'😔 خسرنا');
   document.getElementById('m-winner').style.color=usWin?'#ffd700':'#ff6b6b';
   document.getElementById('m-title').textContent='نهاية الجولة '+G.roundNum;
