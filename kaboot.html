@@ -52,47 +52,59 @@ body{display:flex;justify-content:center;align-items:flex-start}
 .score-them{color:#fff;font-size:18px;font-weight:900}
 
 /* Player chips */
-.chip{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.32);border-radius:20px;padding:4px 10px 4px 6px}
-.chip-dot{width:8px;height:8px;border-radius:50%;background:#ffd700;flex-shrink:0}
-.chip-name{color:#fff;font-size:12px;font-weight:600}
+.chip{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,.32);border-radius:20px;padding:3px 8px 3px 5px}
+.chip-dot{width:7px;height:7px;border-radius:50%;background:#ffd700;flex-shrink:0}
+.chip-name{color:#fff;font-size:11px;font-weight:600}
 
 /* Avatar circle */
-.avatar{width:46px;height:46px;border-radius:50%;background:#5c23a0;border:2.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;transition:border-color .25s,box-shadow .25s}
-.avatar.active{border-color:#ffd700;box-shadow:0 0 14px rgba(255,215,0,.65)}
-
-/* North player area */
-.north-area{display:flex;flex-direction:column;align-items:center;padding:6px 0 4px;gap:4px;flex-shrink:0}
-.north-cards{display:flex;margin-top:2px}
-.fd-card{width:30px;height:44px;border-radius:6px;background:linear-gradient(135deg,#5c23a0,#3a0e6e);border:1.5px solid rgba(255,255,255,.22);margin-left:-10px;flex-shrink:0}
-.fd-card:first-child{margin-left:0}
-
-/* Table row */
-.table-row{display:flex;align-items:stretch;flex:1;padding:4px 8px;gap:6px;min-height:0}
-.side-area{width:58px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
-.table-felt{flex:1;background:#13172a;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1.5px solid rgba(255,255,255,.08);position:relative;padding:10px 8px;overflow:hidden}
-.table-label{color:rgba(255,255,255,.3);font-size:9px;letter-spacing:1px;position:absolute;top:7px}
-.trump-ind{position:absolute;top:7px;right:8px;background:#f97316;color:#fff;border-radius:10px;padding:2px 7px;font-size:9px;font-weight:700;display:none}
+.avatar{width:36px;height:36px;border-radius:50%;background:#5c23a0;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:border-color .25s,box-shadow .25s}
+.avatar.active{border-color:#ffd700;box-shadow:0 0 12px rgba(255,215,0,.65)}
 
 /* Think bubble */
-.think-bubble{background:rgba(255,255,255,.1);border-radius:10px;padding:2px 8px;font-size:11px;color:rgba(255,255,255,.75);min-width:40px;text-align:center;min-height:20px;line-height:20px}
+.think-bubble{background:rgba(255,255,255,.1);border-radius:10px;padding:1px 7px;font-size:10px;color:rgba(255,255,255,.8);min-width:36px;text-align:center;min-height:18px;line-height:18px;white-space:nowrap}
+
+/* ── North area ── */
+.north-area{display:flex;flex-direction:column;align-items:center;padding:4px 0 2px;gap:2px;flex-shrink:0;height:66px}
+.north-top-row{display:flex;align-items:center;gap:8px}
+.north-fan-wrap{position:relative;height:42px;width:100%;display:flex;justify-content:center;align-items:flex-end;overflow:visible;flex-shrink:0}
+.north-fan-inner{position:relative;display:inline-block;height:42px}
+
+/* ── Table row ── */
+.table-row{display:flex;align-items:stretch;flex:1;padding:3px 6px;gap:4px;min-height:0;overflow:hidden}
+
+/* ── Side areas (West / East) ── */
+.side-area{width:62px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;overflow:visible;position:relative}
+.side-fan-wrap{position:relative;flex:1;width:100%;display:flex;align-items:center;justify-content:center;overflow:visible}
+.side-fan-inner{position:relative;display:inline-block}
+/* Rotate the fan container so a horizontal fan reads as a vertical sideways stack */
+.west-fan .side-fan-inner{transform:rotate(90deg);transform-origin:center center}
+.east-fan .side-fan-inner{transform:rotate(-90deg);transform-origin:center center}
+
+/* ── Table felt ── */
+.table-felt{flex:1;background:#13172a;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1.5px solid rgba(255,255,255,.08);position:relative;padding:10px 6px;overflow:hidden}
+.table-label{color:rgba(255,255,255,.3);font-size:9px;letter-spacing:1px;position:absolute;top:6px}
+.trump-ind{position:absolute;top:6px;right:7px;background:#f97316;color:#fff;border-radius:10px;padding:2px 7px;font-size:9px;font-weight:700;display:none}
 
 /* Center card during bidding */
-.center-card-wrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+.center-card-wrap{display:flex;flex-direction:column;align-items:center;gap:3px}
 .center-card-lbl{color:rgba(255,255,255,.5);font-size:9px;letter-spacing:1px;text-align:center}
 .trump-badge{background:#5c23a0;color:#fff;font-size:10px;border-radius:10px;padding:2px 8px;margin-top:2px;font-weight:600}
 
 /* Trick slots */
-.trick-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:5px;width:100%;max-width:130px}
-.trick-slot{border-radius:7px;border:1.5px dashed rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;height:54px}
+.trick-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:4px;width:100%;max-width:120px}
+.trick-slot{border-radius:7px;border:1.5px dashed rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;height:50px}
 .trick-slot.filled{border-style:solid;border-color:transparent}
-.trick-counts{font-size:9px;color:rgba(255,255,255,.4);text-align:center;margin-top:4px}
+.trick-counts{font-size:9px;color:rgba(255,255,255,.4);text-align:center;margin-top:3px}
 
-/* South area */
-.south-area{display:flex;align-items:center;gap:10px;padding:4px 12px;flex-shrink:0}
+/* ── Fixed action area — NEVER changes size → no jumps ── */
+#action-area{height:80px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0 8px;overflow:hidden}
 
-/* Hand */
-.hand-wrap{padding:4px 0 6px;position:relative;height:96px;display:flex;align-items:flex-end;justify-content:center;flex-shrink:0}
-.hand-inner{position:relative;display:flex;align-items:flex-end;justify-content:center;height:92px}
+/* Bid buttons */
+.bid-area{display:flex;gap:7px;justify-content:center;align-items:center;width:100%;height:100%}
+
+/* ── Hand ── */
+.hand-wrap{padding:0 0 10px;position:relative;height:124px;display:flex;align-items:flex-end;justify-content:center;flex-shrink:0}
+.hand-inner{position:relative;display:flex;align-items:flex-end;justify-content:center;height:120px}
 .hand-card-pos{position:absolute;bottom:0;transform-origin:bottom center;cursor:pointer}
 
 /* Playing card face */
@@ -129,11 +141,10 @@ body{display:flex;justify-content:center;align-items:flex-start}
 .c-sm{width:34px;height:50px}
 .c-xs{width:28px;height:42px}
 
-/* Bid buttons */
-.bid-area{padding:8px 10px 14px;display:flex;gap:7px;justify-content:center;flex-shrink:0}
+/* Bid buttons — live inside fixed #action-area */
 .bid-btn{
-  flex:1;border:none;border-radius:14px;padding:11px 4px 9px;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;gap:2px;
+  flex:1;border:none;border-radius:14px;padding:0;height:64px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   font-size:15px;font-weight:800;color:#fff;
   box-shadow:0 4px 12px rgba(0,0,0,.4);
   transition:transform .1s,filter .1s;
@@ -146,16 +157,16 @@ body{display:flex;justify-content:center;align-items:flex-start}
 .bid-ashkal{background:linear-gradient(145deg,#5c23a0,#3a0e6e)}
 .bid-pass{background:rgba(0,0,0,.38);color:rgba(255,255,255,.65)}
 
-/* Suit picker */
-.suit-picker{padding:6px 14px 14px;display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0}
-.suit-pick-lbl{color:rgba(255,255,255,.75);font-size:12px;font-weight:600}
-.suit-pick-row{display:flex;gap:10px}
-.suit-pick-btn{width:54px;height:54px;border-radius:14px;border:none;cursor:pointer;font-size:26px;background:rgba(255,255,255,.12);color:#fff;transition:background .15s}
+/* Suit picker — also lives inside fixed #action-area */
+.suit-picker{display:flex;flex-direction:column;align-items:center;gap:5px;width:100%}
+.suit-pick-lbl{color:rgba(255,255,255,.75);font-size:11px;font-weight:600}
+.suit-pick-row{display:flex;gap:8px}
+.suit-pick-btn{width:48px;height:48px;border-radius:12px;border:none;cursor:pointer;font-size:22px;background:rgba(255,255,255,.12);color:#fff;transition:background .15s}
 .suit-pick-btn.red-suit{color:#C0202A;background:rgba(255,255,255,.9)}
 .suit-pick-btn.blk-suit{color:#111;background:rgba(255,255,255,.9)}
 
-/* Play hint */
-.play-hint{padding:8px;text-align:center;color:rgba(255,255,255,.55);font-size:11px;flex-shrink:0}
+/* Play hint — centered in fixed #action-area */
+.play-hint{text-align:center;color:rgba(255,255,255,.55);font-size:11px;width:100%}
 
 /* Score Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .25s}
@@ -249,15 +260,14 @@ body{display:flex;justify-content:center;align-items:flex-start}
 
   <!-- North (Partner) -->
   <div class="north-area">
-    <div class="chip">
-      <div class="chip-dot"></div>
-      <span class="chip-name">الشريك</span>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px">
+    <div class="north-top-row">
       <div class="avatar" id="av-north">👤</div>
-      <div class="north-cards" id="north-cards"></div>
+      <div class="chip"><div class="chip-dot"></div><span class="chip-name">الشريك</span></div>
+      <div class="think-bubble" id="th-north">&nbsp;</div>
     </div>
-    <div class="think-bubble" id="th-north">&nbsp;</div>
+    <div class="north-fan-wrap">
+      <div class="north-fan-inner" id="north-fan-inner"></div>
+    </div>
   </div>
 
   <!-- Table row -->
@@ -267,6 +277,9 @@ body{display:flex;justify-content:center;align-items:flex-start}
     <div class="side-area">
       <div class="avatar" id="av-west">👤</div>
       <div class="chip"><span class="chip-name" style="font-size:10px">غرب</span></div>
+      <div class="side-fan-wrap west-fan">
+        <div class="side-fan-inner" id="west-fan-inner"></div>
+      </div>
       <div class="think-bubble" id="th-west">&nbsp;</div>
     </div>
 
@@ -281,30 +294,21 @@ body{display:flex;justify-content:center;align-items:flex-start}
     <div class="side-area">
       <div class="avatar" id="av-east">👤</div>
       <div class="chip"><span class="chip-name" style="font-size:10px">شرق</span></div>
+      <div class="side-fan-wrap east-fan">
+        <div class="side-fan-inner" id="east-fan-inner"></div>
+      </div>
       <div class="think-bubble" id="th-east">&nbsp;</div>
     </div>
 
   </div>
 
-  <!-- South (You) -->
-  <div class="south-area">
-    <div class="avatar" id="av-south">👤</div>
-    <div>
-      <div class="chip">
-        <div class="chip-dot" style="background:#C0202A"></div>
-        <span class="chip-name">أنت</span>
-      </div>
-      <div class="think-bubble" id="th-south" style="margin-top:3px">&nbsp;</div>
-    </div>
-  </div>
+  <!-- Fixed action area: bid buttons / suit picker / play hint — always same height -->
+  <div id="action-area"></div>
 
   <!-- Your hand -->
   <div class="hand-wrap">
     <div class="hand-inner" id="hand-inner"></div>
   </div>
-
-  <!-- Action area: bid buttons / suit picker / play hint -->
-  <div id="action-area"></div>
 
 </div>
 
@@ -312,61 +316,51 @@ body{display:flex;justify-content:center;align-items:flex-start}
 <div id="scr-rules" class="scr">
   <h1>📖 قواعد كابوت</h1>
 
-  <h2>🃏 أوراق اللعب</h2>
-  <p>كابوت يُلعب بـ 32 ورقة فقط — من السبعة حتى الاس في أربع صور:</p>
+  <h2>🃏 الأوراق</h2>
+  <p>اللعبة تستخدم 32 ورقة — من السبعة للاكه في أربع صور:</p>
   <ul>
-    <li>♠ بستوني &nbsp;·&nbsp; ♥ قلب &nbsp;·&nbsp; ♦ ديناري &nbsp;·&nbsp; ♣ طرنيب</li>
+    <li>♠ <strong>سبيت</strong> &nbsp;·&nbsp; ♥ <strong>هاس</strong> &nbsp;·&nbsp; ♦ <strong>ديمان</strong> &nbsp;·&nbsp; ♣ <strong>شريا</strong></li>
   </ul>
-  <p>أسماء الأوراق: سبعة، ثمانية، تسعة، عشرة، <strong>بوا (J)</strong>، <strong>دام (Q)</strong>، <strong>كينغ (K)</strong>، <strong>اس (A)</strong>.</p>
+  <p>أسماء الأوراق: سبعة، ثمانية، تسعة، عشرة، <strong>ولد (J)</strong>، <strong>بنت (Q)</strong>، <strong>شيبة (K)</strong>، <strong>اكه (A)</strong>.</p>
 
-  <h2>🤝 اللاعبون والفرق</h2>
-  <p>أربعة لاعبين في فريقين: أنت وشريكك (جنوب وشمال) ضد خصمين (شرق وغرب). كل فريق يلعب مع بعض.</p>
+  <h2>🤝 اللاعبون</h2>
+  <p>أربعة لاعبين في فريقين: أنت وشريكك ضد الخصمين — كل فريق يلعب سوى.</p>
 
   <h2>🎴 التوزيع</h2>
-  <p>يأخذ كل لاعب <strong>7 أوراق</strong>. ورقة واحدة تُوضع في وسط الطاولة مكشوفة — تُسمى <strong>المركزية</strong>. وثلاث أوراق تبقى احتياطية مغطاة.</p>
+  <p>كل لاعب يأخذ <strong>7 أوراق</strong>. ورقة تُوضع في المنتصف مكشوفة وتُسمى <strong>المركزية</strong>، وثلاث أوراق تبقى احتياطية مغطاة.</p>
 
   <h2>🗣️ المزايدة</h2>
-  <p>الهدف من المزايدة هو تحديد نوع اللعبة. أول لاعب يزايد (غير بس) يفوز بحق التحديد:</p>
+  <p>أول لاعب يزايد (غير بس) يفوز ويحدد نوع اللعبة:</p>
   <ul>
-    <li><strong>شن</strong> — اقبل صورة المركزية كاتم للجولة</li>
-    <li><strong>بلوت</strong> — العب بدون اتم، كل الصور متساوية</li>
-    <li><strong>أشكل</strong> — ارفض المركزية واختر صورة ثانية كاتم</li>
-    <li><strong>بس</strong> — تمرير الدور للاعب التالي</li>
+    <li><strong>حكم</strong> — اقبل صورة المركزية كاتم</li>
+    <li><strong>صن</strong> — العب بدون اتم (من الفرنسية sans atout)</li>
+    <li><strong>أشكل</strong> — ارفض المركزية وحدد صورة ثانية كاتم</li>
+    <li><strong>بس</strong> — مرّر الدور</li>
   </ul>
-  <p>بعد الفوز بالمزايدة: المزايد يضم المركزية (معه 8 أوراق)، وكل لاعب آخر يأخذ ورقة احتياطية (معه 8 أوراق).</p>
-  <p>إذا مرّر الجميع (بس)، تُعاد التوزيعة من جديد.</p>
+  <p>الفائز بالمزايدة يضم المركزية (8 أوراق)، وكل لاعب ثاني يأخذ ورقة احتياطية (8 أوراق). إذا مرّر الكل تُعاد التوزيعة.</p>
 
-  <h2>⭐ قيم الأوراق — وضع الشن (مع اتم)</h2>
+  <h2>⭐ نقاط وضع الحكم (مع اتم)</h2>
   <ul>
-    <li>بوا الاتم (J) = <strong>20 نقطة</strong></li>
-    <li>تسعة الاتم (9) = <strong>14 نقطة</strong></li>
-    <li>اس (A) = 11 &nbsp;·&nbsp; عشرة (10) = 10 &nbsp;·&nbsp; كينغ (K) = 4 &nbsp;·&nbsp; دام (Q) = 3</li>
-    <li>بوا عادي (J) = 2 &nbsp;·&nbsp; سبعة / ثمانية / تسعة عادي = 0</li>
-    <li>مجموع النقاط في الجولة: <strong>152 نقطة</strong></li>
-  </ul>
-
-  <h2>⭐ قيم الأوراق — وضع البلوت (بدون اتم)</h2>
-  <ul>
-    <li>اس = 11 &nbsp;·&nbsp; عشرة = 10 &nbsp;·&nbsp; كينغ = 4 &nbsp;·&nbsp; دام = 3 &nbsp;·&nbsp; بوا = 2</li>
-    <li>سبعة / ثمانية / تسعة = 0</li>
-    <li>مجموع النقاط: <strong>120 نقطة</strong></li>
+    <li>ولد الحكم (J) = <strong>20 نقطة</strong></li>
+    <li>تسعة الحكم (9) = <strong>14 نقطة</strong></li>
+    <li>اكه (A) = 11 &nbsp;·&nbsp; عشرة = 10 &nbsp;·&nbsp; شيبة (K) = 4 &nbsp;·&nbsp; بنت (Q) = 3</li>
+    <li>ولد عادي (J) = 2 &nbsp;·&nbsp; 7 / 8 / 9 عادي = 0</li>
+    <li>المجموع: <strong>152 نقطة</strong> — المزايد يحتاج <strong>أكثر من 76</strong></li>
   </ul>
 
-  <h2>🃏 كيفية اللعب</h2>
-  <p>تُلعب 8 حيل (rounds). في كل حيلة، يلزم اللاعب باتباع صورة أول ورقة لُعبت. إذا ما عنده من صورتها، يلعب أي ورقة. صاحب أعلى ورقة (أو اتم) يفوز بالحيلة ويبدأ الحيلة التالية.</p>
-  <p>آخر حيلة تعطي <strong>10 نقاط إضافية</strong> لمن يفوز بها.</p>
-
-  <h2>🏆 شروط الفوز</h2>
+  <h2>⭐ نقاط وضع الصن (بدون اتم)</h2>
   <ul>
-    <li><strong>وضع الشن:</strong> المزايد يحتاج أكثر من 76 نقطة من 152 للفوز</li>
-    <li><strong>وضع البلوت:</strong> المزايد يحتاج أكثر من 60 نقطة من 120 للفوز</li>
-    <li>إذا فشل المزايد، يفوز الفريق الثاني</li>
+    <li>اكه = 11 &nbsp;·&nbsp; عشرة = 10 &nbsp;·&nbsp; شيبة = 4 &nbsp;·&nbsp; بنت = 3 &nbsp;·&nbsp; ولد = 2 &nbsp;·&nbsp; 7/8/9 = 0</li>
+    <li>المجموع: <strong>120 نقطة</strong> — المزايد يحتاج <strong>أكثر من 60</strong></li>
   </ul>
+
+  <h2>🃏 اللعب</h2>
+  <p>تُلعب 8 أكلات. كل لاعب يتبع صورة أول ورقة نزلت. إذا ما عنده من نفس الصورة يلعب أي ورقة. أعلى ورقة (أو اتم) تكسب الأكلة، وصاحبها يبدأ الأكلة الجاية. آخر أكلة = <strong>10 نقاط إضافية</strong>.</p>
 
   <h2>💎 كابوت</h2>
-  <p>إذا حصل الفريق المنافس على صفر نقاط — يُعلن <strong>كابوت</strong>! وهو فوز ساحق للمزايد.</p>
+  <p>إذا حصل الفريق الثاني على صفر نقاط يُعلن <strong>كابوت</strong> — فوز ساحق للمزايد!</p>
 
-  <button class="rules-back" onclick="goHome()">← رجوع للرئيسية</button>
+  <button class="rules-back" onclick="goHome()">← رجوع</button>
 </div>
 
 <!-- ═══ SCORE MODAL ═══ -->
@@ -391,8 +385,8 @@ body{display:flex;justify-content:center;align-items:flex-start}
 const SUITS   = ['♠','♥','♦','♣'];
 const VALS    = [7,8,9,10,11,12,13,14];
 const VNAME   = {7:'7',8:'8',9:'9',10:'10',11:'J',12:'Q',13:'K',14:'A'};
-const CARD_AR = {7:'سبعة',8:'ثمانية',9:'تسعة',10:'عشرة',11:'بوا',12:'دام',13:'كينغ',14:'اس'};
-const SUIT_AR = {'♠':'بستوني','♥':'قلب','♦':'ديناري','♣':'طرنيب'};
+const CARD_AR = {7:'سبعة',8:'ثمانية',9:'تسعة',10:'عشرة',11:'ولد',12:'بنت',13:'شيبة',14:'اكه'};
+const SUIT_AR = {'♠':'سبيت','♥':'هاس','♦':'ديمان','♣':'شريا'};
 const TEAMS   = {south:0,north:0,west:1,east:1};
 const POS_ORD = ['south','west','north','east'];
 const ARENAS  = [
@@ -549,17 +543,17 @@ function backHTML(cls){
   return`<div class="card-back ${cls}"></div>`;
 }
 
-// ─── Render: Hand ────────────────────────
+// ─── Render: Hand (south) ────────────────
 function renderHand(){
   const inner=document.getElementById('hand-inner');
   const hand=G.hands.south||[];
   inner.innerHTML='';
   if(!hand.length)return;
   const n=hand.length;
-  const deg=Math.min(5,32/n);
+  const deg=Math.min(5,36/n);
   const mid=(n-1)/2;
-  const W=44;
-  const ov=n>6?26:20;
+  const W=52;                        // card width (c-lg = 62, c-md = 46)
+  const ov=n>6?28:22;
   const totalW=W+(n-1)*ov;
   inner.style.width=totalW+'px';
   const valid=G.phase==='playing'&&G.trickOrder[G.trickIdx]==='south'
@@ -567,26 +561,73 @@ function renderHand(){
   hand.forEach((c,i)=>{
     const rot=(i-mid)*deg;
     const xOff=(i-mid)*ov;
-    const yLift=Math.abs(i-mid)*3;
+    const yLift=Math.abs(i-mid)*4;
     const isSel=i===G.selectedCard;
     const isDim=valid&&!valid.includes(c);
     const isTr=G.mode==='sun'&&c.suit===G.trumpSuit;
     const extra=[isSel?'selected':'',isDim?'dimmed':'',isTr?'is-trump':''].join(' ');
-    const yBase=isSel?yLift-16:yLift;
+    const yBase=isSel?yLift-18:yLift;
     const wrap=document.createElement('div');
     wrap.className='hand-card-pos';
+    // use c-lg for the hand (62×90) — matches screenshot big fan
     wrap.style.cssText=`left:${xOff+totalW/2-W/2}px;transform:rotate(${rot}deg) translateY(${yBase}px);z-index:${i};`;
-    wrap.innerHTML=faceHTML(c,'c-md',extra);
+    wrap.innerHTML=faceHTML(c,'c-lg',extra);
     wrap.addEventListener('click',()=>onCardClick(i));
     inner.appendChild(wrap);
   });
 }
 
-// ─── Render: North cards ─────────────────
+// ─── Render: North fan (face-down backs) ─
 function renderNorth(){
-  const nc=document.getElementById('north-cards');
+  const el=document.getElementById('north-fan-inner');
+  if(!el)return;
   const n=(G.hands.north||[]).length;
-  nc.innerHTML=Array(n).fill('<div class="fd-card"></div>').join('');
+  el.innerHTML='';
+  if(!n){el.style.width='0';return;}
+  const W=26,H=38;
+  const deg=Math.min(4,28/n);
+  const ov=n>6?16:12;
+  const mid=(n-1)/2;
+  const totalW=W+(n-1)*ov;
+  el.style.width=totalW+'px';
+  el.style.height=H+'px';
+  for(let i=0;i<n;i++){
+    const rot=(i-mid)*deg;
+    const xOff=(i-mid)*ov;
+    const yLift=Math.abs(i-mid)*2;
+    const div=document.createElement('div');
+    div.style.cssText=`position:absolute;bottom:0;left:${xOff+totalW/2-W/2}px;transform:rotate(${rot}deg) translateY(${yLift}px);transform-origin:bottom center;z-index:${i};`;
+    div.innerHTML=backHTML('c-xs');
+    el.appendChild(div);
+  }
+}
+
+// ─── Render: Side fans (west / east) ─────
+function renderSides(){
+  ['west','east'].forEach(pos=>{
+    const el=document.getElementById(pos+'-fan-inner');
+    if(!el)return;
+    const n=(G.hands[pos]||[]).length;
+    el.innerHTML='';
+    if(!n){el.style.width='0';el.style.height='0';return;}
+    // Build a horizontal fan then let CSS rotate it 90°/-90°
+    const W=26,H=38;
+    const ov=n>6?14:10;
+    const deg=Math.min(3,22/n);
+    const mid=(n-1)/2;
+    const totalW=W+(n-1)*ov;
+    el.style.width=totalW+'px';
+    el.style.height=H+'px';
+    for(let i=0;i<n;i++){
+      const rot=(i-mid)*deg;
+      const xOff=(i-mid)*ov;
+      const yLift=Math.abs(i-mid)*2;
+      const div=document.createElement('div');
+      div.style.cssText=`position:absolute;bottom:0;left:${xOff+totalW/2-W/2}px;transform:rotate(${rot}deg) translateY(${yLift}px);transform-origin:bottom center;z-index:${i};`;
+      div.innerHTML=backHTML('c-xs');
+      el.appendChild(div);
+    }
+  });
 }
 
 // ─── Render: Avatars ─────────────────────
@@ -622,10 +663,10 @@ function renderTable(){
   } else if(G.phase==='playing'||G.phase==='trickResolve'){
     label.textContent='الحيلة الحالية';
     if(G.mode==='sun'&&G.trumpSuit){
-      trumpEl.textContent='شن '+G.trumpSuit+' '+SUIT_AR[G.trumpSuit];
+      trumpEl.textContent='حكم: '+SUIT_AR[G.trumpSuit]+' '+G.trumpSuit;
       trumpEl.style.display='block';
     } else if(G.mode==='baloot'){
-      trumpEl.textContent='بلوت – بدون اتم';
+      trumpEl.textContent='صن – بدون اتم';
       trumpEl.style.display='block';
     }
     // 2×2 grid: north top-left, west top-right, south bottom-left, east bottom-right
@@ -662,8 +703,8 @@ function renderAction(){
   if(G.phase==='bidding'){
     if(G.bidOrder[G.bidIdx]==='south'){
       a.innerHTML=`<div class="bid-area">
-        <button class="bid-btn bid-hokm" onclick="humanBid('hokm')"><span>شن</span><span class="bid-btn-sub">اتم المركزية</span></button>
-        <button class="bid-btn bid-sun"  onclick="humanBid('sun')"><span>بلوت</span><span class="bid-btn-sub">بدون اتم</span></button>
+        <button class="bid-btn bid-hokm" onclick="humanBid('hokm')"><span>حكم</span><span class="bid-btn-sub">اتم المركزية</span></button>
+        <button class="bid-btn bid-sun"  onclick="humanBid('sun')"><span>صن</span><span class="bid-btn-sub">بدون اتم</span></button>
         <button class="bid-btn bid-ashkal" onclick="humanBid('ashkal')"><span>أشكل</span><span class="bid-btn-sub">اتم ثاني</span></button>
         <button class="bid-btn bid-pass" onclick="humanBid('pass')"><span>بس</span><span class="bid-btn-sub">تمرير</span></button>
       </div>`;
@@ -708,6 +749,7 @@ function clearThink(){POS_ORD.forEach(p=>think(p,''));}
 function render(){
   renderHand();
   renderNorth();
+  renderSides();
   renderAvatars();
   renderTable();
   renderAction();
@@ -785,12 +827,12 @@ function applyBid(pos,type){
   G.hasBid=true;G.bidWinner=pos;G.bidType=type;
   if(type==='hokm'){
     G.mode='sun';G.trumpSuit=G.centerCard.suit;
-    think(pos,'شن! ✓');
+    think(pos,'حكم! ✓');
     distribute(pos);
     setTimeout(()=>{clearThink();startPlay();},1200);
   } else if(type==='sun'){
     G.mode='baloot';G.trumpSuit=null;
-    think(pos,'بلوت! ✓');
+    think(pos,'صن! ✓');
     distribute(pos);
     setTimeout(()=>{clearThink();startPlay();},1200);
   } else if(type==='ashkal'){
@@ -865,7 +907,7 @@ function playCard(pos,card){
   G.hands[pos]=G.hands[pos].filter(c=>c!==card);
   if(!G.leadSuit)G.leadSuit=card.suit;
   G.trickIdx++;
-  renderTable();renderHand();renderNorth();
+  renderTable();renderHand();renderNorth();renderSides();
   if(G.trickIdx<4){setTimeout(advancePlay,250);}
   else{setTimeout(resolveTrick,650);}
 }
@@ -918,8 +960,8 @@ function endRound(){
     setTimeout(()=>b.remove(),2400);
   }
 
-  const bid={hokm:'شن',sun:'بلوت',ashkal:'أشكل'}[G.bidType]||G.bidType;
-  const tr=G.mode==='sun'&&G.trumpSuit?(G.trumpSuit+' '+SUIT_AR[G.trumpSuit]):'بلوت (بدون اتم)';
+  const bid={hokm:'حكم',sun:'صن',ashkal:'أشكل'}[G.bidType]||G.bidType;
+  const tr=G.mode==='sun'&&G.trumpSuit?(SUIT_AR[G.trumpSuit]+' '+G.trumpSuit):'صن (بدون اتم)';
   document.getElementById('m-winner').textContent=usWin?(kaboot?'💎 كابوت!':'🏆 فزنا!'):(kaboot?'💀 كابوت!':'😔 خسرنا');
   document.getElementById('m-winner').style.color=usWin?'#ffd700':'#ff6b6b';
   document.getElementById('m-title').textContent='نهاية الجولة '+G.roundNum;
