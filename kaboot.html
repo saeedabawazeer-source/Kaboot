@@ -236,9 +236,7 @@ body{display:flex;justify-content:center}
 .g-score-num{color:#fff;font-size:18px;font-weight:900;line-height:1}
 .g-score-div{width:2px;background:#ffd700;align-self:stretch}
 
-/* ══ Player panels ══
-   Neobrutalist box: avatar circle on top, name+think inside
-*/
+/* ══ Player panels ══ */
 .pp{
   background:#5c23a0;
   border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;
@@ -264,7 +262,6 @@ body{display:flex;justify-content:center}
   min-height:17px;line-height:17px;
   white-space:nowrap;text-align:center;min-width:32px;
 }
-/* Card count badge */
 .card-badge{
   position:absolute;
   background:#ffd700;color:#0d0d0d;
@@ -274,65 +271,90 @@ body{display:flex;justify-content:center}
   z-index:10;
 }
 
-/* ── North zone ── */
-.g-north{
-  display:flex;flex-direction:column;align-items:center;
-  padding:4px 0 0;gap:0;flex-shrink:0;
+/* ══ GAME CANVAS — absolute layout, table is fixed anchor ══ */
+.g-canvas{
+  flex:1;position:relative;min-height:0;overflow:hidden;
 }
-/* North player panel: avatar on TOP (overhangs fan below) */
-.north-pp{
-  padding:4px 10px 5px;
-  margin-top:2px;
-  width:min(130px,36vw);
-  position:relative;
-}
-.north-pp .pp-av{
-  position:absolute;top:-18px;left:50%;transform:translateX(-50%);
-}
-.north-pp-inner{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:2px}
-/* North fan wrap */
-.north-fan-wrap{position:relative;height:38px;width:100%;display:flex;justify-content:center;align-items:flex-end;overflow:visible}
-.north-fan-inner{position:relative;display:inline-block;height:38px}
 
-/* ── Middle row ── */
-.g-middle{display:flex;align-items:stretch;flex:1;padding:4px 6px;gap:4px;min-height:0;overflow:hidden}
-
-/* ── Side zones (West / East) ── */
-.g-side{
-  width:68px;flex-shrink:0;
+/* ── Game table — SAME SQUARE shape as home carpet ── */
+.g-tbl{
+  position:absolute;
+  width:min(218px,58vw);
+  height:min(218px,58vw);
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:6px;position:relative;
+  padding:6px;z-index:1;
 }
-/* Side player panel: avatar on TOP */
-.side-pp{
-  padding:4px 6px 5px;
-  width:64px;
-  position:relative;
-}
-.side-pp .pp-av{
-  position:absolute;top:-18px;left:50%;transform:translateX(-50%);
-}
-.side-pp-inner{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:2px}
-/* Side card fan — rotated */
-.side-fan-wrap{position:relative;flex:1;width:100%;display:flex;align-items:center;justify-content:center;overflow:visible}
-.side-fan-inner{position:relative;display:inline-block}
-.g-west .side-fan-inner{transform:rotate(90deg);transform-origin:center}
-.g-east .side-fan-inner{transform:rotate(-90deg);transform-origin:center}
-
-/* ── Game table ── */
-.g-table{
-  flex:1;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  position:relative;padding:6px;overflow:hidden;
-}
-.g-table-label{color:rgba(255,255,255,.22);font-size:8px;letter-spacing:1px;position:absolute;top:5px}
 .trump-ind{
-  position:absolute;top:5px;right:6px;
+  position:absolute;top:5px;left:6px;
   background:#f97316;color:#fff;
   border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;
   border-radius:8px;padding:2px 6px;font-size:9px;font-weight:800;display:none;
 }
+#table-label{
+  position:absolute;bottom:5px;width:100%;
+  text-align:center;color:rgba(255,255,255,.22);font-size:8px;letter-spacing:1px;
+}
 #table-content{width:100%;position:relative}
+
+/* ── North player: centered above table ── */
+.gp-north{
+  position:absolute;
+  left:50%;top:8px;
+  transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  z-index:2;
+}
+.gp-north .gp-fan{
+  position:relative;height:44px;
+  display:flex;align-items:flex-end;justify-content:center;
+  overflow:visible;
+}
+.gp-north .pp{
+  padding:4px 10px 5px;
+  width:min(128px,36vw);
+  position:relative;
+}
+.gp-north .pp-av{
+  position:absolute;top:-17px;left:50%;transform:translateX(-50%);
+}
+.gp-north .pp-inner{margin-top:17px;display:flex;flex-direction:column;align-items:center;gap:2px}
+
+/* ── West player: left side, vertically centered ── */
+.gp-west{
+  position:absolute;
+  left:4px;top:50%;
+  transform:translateY(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  z-index:2;
+}
+/* ── East player: right side, vertically centered ── */
+.gp-east{
+  position:absolute;
+  right:4px;top:50%;
+  transform:translateY(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  z-index:2;
+}
+.gp-west .pp,.gp-east .pp{
+  width:60px;padding:4px 5px 5px;position:relative;
+}
+.gp-west .pp-av,.gp-east .pp-av{
+  position:absolute;top:-17px;left:50%;transform:translateX(-50%);
+}
+.gp-west .pp-inner,.gp-east .pp-inner{
+  margin-top:17px;display:flex;flex-direction:column;align-items:center;gap:2px;
+}
+/* Side fan: small vertical card stack */
+.gp-side-fan{
+  position:relative;width:28px;height:80px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:visible;
+}
+#west-fan-inner,#east-fan-inner{
+  position:relative;display:inline-block;
+}
 
 /* ── Directional trick cross ── */
 .trick-cross{
@@ -657,61 +679,61 @@ body{display:flex;justify-content:center}
     <button class="g-topbar-btn" id="g-sound">&#9834;</button>
   </div>
 
-  <!-- North zone -->
-  <div class="g-north">
-    <div class="north-fan-wrap">
-      <div class="north-fan-inner" id="north-fan-inner"></div>
-    </div>
-    <div class="pp north-pp" id="pp-north">
-      <div class="pp-av" id="av-north">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-      </div>
-      <div class="north-pp-inner">
-        <div class="pp-name">الشريك</div>
-        <div class="pp-think" id="th-north">&nbsp;</div>
-      </div>
-    </div>
-  </div>
+  <!-- Game canvas: all players + table absolutely positioned -->
+  <div class="g-canvas">
 
-  <!-- Middle row: West | Table | East -->
-  <div class="g-middle">
+    <!-- Table — same square shape as home carpet -->
+    <div class="kaboot-table g-tbl" id="game-table">
+      <div class="trump-ind" id="trump-ind"></div>
+      <div id="table-content"></div>
+      <div id="table-label"></div>
+    </div>
 
-    <!-- West -->
-    <div class="g-side g-west">
-      <div class="pp side-pp" id="pp-west">
+    <!-- North player -->
+    <div class="gp-north">
+      <div class="gp-fan">
+        <div id="north-fan-inner"></div>
+      </div>
+      <div class="pp" id="pp-north">
+        <div class="pp-av" id="av-north">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+        </div>
+        <div class="pp-inner">
+          <div class="pp-name">الشريك</div>
+          <div class="pp-think" id="th-north">&nbsp;</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- West player -->
+    <div class="gp-west">
+      <div class="pp" id="pp-west">
         <div class="pp-av" id="av-west">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
         </div>
-        <div class="side-pp-inner">
+        <div class="pp-inner">
           <div class="pp-name">غرب</div>
           <div class="pp-think" id="th-west">&nbsp;</div>
         </div>
       </div>
-      <div class="side-fan-wrap">
-        <div class="side-fan-inner" id="west-fan-inner"></div>
+      <div class="gp-side-fan">
+        <div id="west-fan-inner"></div>
       </div>
     </div>
 
-    <!-- Table felt — same shape as home carpet (rounded rect) -->
-    <div class="kaboot-table g-table" id="game-table">
-      <div class="g-table-label" id="table-label">المنضدة</div>
-      <div class="trump-ind" id="trump-ind"></div>
-      <div id="table-content"></div>
-    </div>
-
-    <!-- East -->
-    <div class="g-side g-east">
-      <div class="pp side-pp" id="pp-east">
+    <!-- East player -->
+    <div class="gp-east">
+      <div class="pp" id="pp-east">
         <div class="pp-av" id="av-east">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
         </div>
-        <div class="side-pp-inner">
+        <div class="pp-inner">
           <div class="pp-name">شرق</div>
           <div class="pp-think" id="th-east">&nbsp;</div>
         </div>
       </div>
-      <div class="side-fan-wrap">
-        <div class="side-fan-inner" id="east-fan-inner"></div>
+      <div class="gp-side-fan">
+        <div id="east-fan-inner"></div>
       </div>
     </div>
 
@@ -931,24 +953,25 @@ function renderNorth(){
   badge.textContent=n;el.appendChild(badge);
 }
 
-// ── Render: Side fans + badge ──────────────────────
+// ── Render: Side fans — vertical card stack ────────
 function renderSides(){
   ['west','east'].forEach(pos=>{
     const el=document.getElementById(pos+'-fan-inner');if(!el)return;
     const n=(G.hands[pos]||[]).length;el.innerHTML='';
-    if(!n){el.style.width='0';el.style.height='0';return;}
-    const W=24,H=36;const ov=n>6?13:10;const deg=Math.min(3,22/n);const mid=(n-1)/2;
-    const totalW=W+(n-1)*ov;el.style.width=totalW+'px';el.style.height=H+'px';
+    if(!n){el.style.cssText='width:0;height:0;position:relative;';return;}
+    // Vertical stack: cards overlapping going downward
+    const W=24,H=36,step=7;
+    const totalH=H+(n-1)*step;
+    el.style.cssText=`width:${W}px;height:${totalH}px;position:relative;display:inline-block;`;
     for(let i=0;i<n;i++){
-      const rot=(i-mid)*deg,xOff=(i-mid)*ov,yLift=Math.abs(i-mid)*2;
       const div=document.createElement('div');
-      div.style.cssText=`position:absolute;bottom:0;left:${xOff+totalW/2-W/2}px;transform:rotate(${rot}deg) translateY(${yLift}px);transform-origin:bottom center;z-index:${i};`;
+      div.style.cssText=`position:absolute;top:${i*step}px;left:0;z-index:${i};`;
       div.innerHTML=backHTML('c-xs');el.appendChild(div);
     }
-    // Badge
+    // Badge at top
     const badge=document.createElement('div');
     badge.className='card-badge';
-    badge.style.cssText='top:-8px;right:-8px;';
+    badge.style.cssText='top:-8px;left:50%;transform:translateX(-50%);';
     badge.textContent=n;el.appendChild(badge);
   });
 }
