@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "كابوت",
+    "slug": "kaboot",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#0d0618"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.kaboot.game"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0d0618"
+      },
+      "package": "com.kaboot.game"
+    }
+  }
+}
