@@ -1,17 +1,16 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { cardLabel, SUIT_SYMBOLS, isRed } from '../game/engine';
 
 /**
- * A single playing card.
+ * Playing card component.
  * Props:
  *  card       – { suit, value }
- *  size       – 'sm' | 'md' | 'lg' (default 'md')
+ *  size       – 'sm' | 'md' | 'lg' | 'xl' (default 'md')
  *  faceDown   – boolean
- *  selected   – boolean (lifted up, gold border)
- *  dimmed     – boolean (greyed out = unplayable)
- *  isTrump    – boolean (orange border)
- *  onPress    – callback
+ *  selected   – boolean (lifted, gold glow)
+ *  dimmed     – boolean (greyed out / unplayable)
+ *  isTrump    – boolean (orange accent border)
  */
 export default function PlayingCard({
   card,
@@ -20,134 +19,145 @@ export default function PlayingCard({
   selected = false,
   dimmed = false,
   isTrump = false,
-  onPress,
 }) {
-  const dims = {
-    sm: { width: 28, height: 42, fontSize: 10, suitFSize: 10, centerFSize: 16, pad: 2 },
-    md: { width: 46, height: 66, fontSize: 13, suitFSize: 12, centerFSize: 24, pad: 3 },
-    lg: { width: 54, height: 78, fontSize: 15, suitFSize: 14, centerFSize: 28, pad: 4 },
-  }[size];
+  const D = {
+    sm: { w: 34,  h: 50,  val: 11, suit: 10, center: 18, r: 5,  pad: 2 },
+    md: { w: 50,  h: 72,  val: 14, suit: 12, center: 24, r: 7,  pad: 3 },
+    lg: { w: 64,  h: 92,  val: 17, suit: 15, center: 30, r: 9,  pad: 4 },
+    xl: { w: 82,  h: 118, val: 22, suit: 18, center: 40, r: 12, pad: 5 },
+  }[size] || { w: 50, h: 72, val: 14, suit: 12, center: 24, r: 7, pad: 3 };
 
+  /* ── Face-down ── */
   if (faceDown) {
     return (
       <View style={[
-        styles.faceDown,
-        { width: dims.width, height: dims.height, borderRadius: dims.width * 0.15 },
+        s.faceDown,
+        { width: D.w, height: D.h, borderRadius: D.r },
       ]}>
-        <Text style={styles.faceDownText}>🂠</Text>
+        <View style={s.fdInner}>
+          <Text style={[s.fdSym, { fontSize: D.center * 0.55 }]}>🂠</Text>
+        </View>
       </View>
     );
   }
 
   if (!card) return null;
 
-  const red = isRed(card.suit);
-  const color = red ? '#d32f2f' : '#111';
-  const sym = SUIT_SYMBOLS[card.suit];
-  const val = cardLabel(card.value);
+  const red   = isRed(card.suit);
+  const color = red ? '#d32f2f' : '#111111';
+  const sym   = SUIT_SYMBOLS[card.suit];
+  const val   = cardLabel(card.value);
 
-  const cardStyle = [
-    styles.card,
-    {
-      width: dims.width,
-      height: dims.height,
-      borderRadius: dims.width * 0.15,
-      padding: dims.pad,
-    },
-    selected && styles.selected,
-    dimmed && styles.dimmed,
-    isTrump && styles.trumpBorder,
-  ];
-
-  const Content = (
-    <View style={cardStyle}>
-      {/* Top-left */}
-      <View style={styles.corner}>
-        <Text style={[styles.val, { fontSize: dims.fontSize, color }]}>{val}</Text>
-        <Text style={[styles.suitSm, { fontSize: dims.suitFSize, color }]}>{sym}</Text>
+  return (
+    <View style={[
+      s.card,
+      { width: D.w, height: D.h, borderRadius: D.r, padding: D.pad },
+      selected && s.selected,
+      dimmed   && s.dimmed,
+      isTrump  && s.trump,
+    ]}>
+      {/* Top-left corner */}
+      <View style={s.cornerTL}>
+        <Text style={[s.valTxt, { fontSize: D.val, color }]}>{val}</Text>
+        <Text style={[s.suitTxt, { fontSize: D.suit, color }]}>{sym}</Text>
       </View>
-      {/* Center suit */}
-      <Text style={[styles.centerSuit, { fontSize: dims.centerFSize, color }]}>{sym}</Text>
-      {/* Bottom-right (rotated) */}
-      <View style={[styles.corner, styles.cornerBot]}>
-        <Text style={[styles.val, { fontSize: dims.fontSize, color }]}>{val}</Text>
-        <Text style={[styles.suitSm, { fontSize: dims.suitFSize, color }]}>{sym}</Text>
+
+      {/* Center suit symbol */}
+      <View style={s.centerWrap}>
+        <Text style={[s.centerSym, { fontSize: D.center, color }]}>{sym}</Text>
+      </View>
+
+      {/* Bottom-right corner (rotated) */}
+      <View style={[s.cornerTL, s.cornerBR]}>
+        <Text style={[s.valTxt, { fontSize: D.val, color }]}>{val}</Text>
+        <Text style={[s.suitTxt, { fontSize: D.suit, color }]}>{sym}</Text>
       </View>
     </View>
   );
-
-  if (onPress) {
-    return (
-      <TouchableOpacity onPress={onPress} activeOpacity={0.75} style={selected && { marginBottom: 12 }}>
-        {Content}
-      </TouchableOpacity>
-    );
-  }
-  return Content;
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#e0e0e0',
     justifyContent: 'space-between',
-    alignItems: 'stretch',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
     elevation: 6,
-    position: 'relative',
   },
   selected: {
-    borderWidth: 2,
     borderColor: '#ffd700',
+    borderWidth: 2.5,
     shadowColor: '#ffd700',
-    shadowOpacity: 0.8,
-    shadowRadius: 8,
+    shadowOpacity: 0.9,
+    shadowRadius: 10,
+    elevation: 10,
   },
   dimmed: {
-    opacity: 0.4,
+    opacity: 0.38,
   },
-  trumpBorder: {
+  trump: {
     borderColor: '#ff8c00',
     borderWidth: 2,
   },
-  corner: {
+
+  /* Corners */
+  cornerTL: {
     alignItems: 'flex-start',
+    lineHeight: 1,
   },
-  cornerBot: {
+  cornerBR: {
     alignItems: 'flex-end',
     transform: [{ rotate: '180deg' }],
   },
-  val: {
+  valTxt: {
     fontWeight: '800',
-    lineHeight: 16,
+    lineHeight: 20,
+    includeFontPadding: false,
   },
-  suitSm: {
+  suitTxt: {
     lineHeight: 14,
+    includeFontPadding: false,
   },
-  centerSuit: {
+
+  /* Center symbol */
+  centerWrap: {
     position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: [{ translateX: -12 }, { translateY: -14 }],
+    top: 0, left: 0, right: 0, bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+  centerSym: {
+    fontWeight: '400',
+  },
+
+  /* Face-down */
   faceDown: {
-    backgroundColor: '#1a1a6e',
-    borderWidth: 1,
+    backgroundColor: '#4a1480',
+    borderWidth: 2,
     borderColor: 'rgba(255,255,255,0.25)',
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
-    shadowRadius: 3,
-    elevation: 4,
+    shadowRadius: 4,
+    elevation: 5,
+    overflow: 'hidden',
   },
-  faceDownText: {
-    fontSize: 16,
+  fdInner: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    margin: 4,
+  },
+  fdSym: {
     color: 'rgba(255,255,255,0.3)',
   },
 });
