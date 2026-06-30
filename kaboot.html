@@ -193,10 +193,10 @@ body{display:flex;justify-content:center}
 /* Topbar — dark red (brand), not black */
 .g-topbar{
   display:flex;align-items:center;justify-content:space-between;
-  padding:8px 12px 6px;
+  padding:6px 12px 4px;
   background:#2a0000;
   border-bottom:1px solid rgba(255,255,255,.06);
-  flex-shrink:0;min-height:48px;
+  flex-shrink:0;min-height:44px;
 }
 .g-topbar-btn{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.15);border-radius:10px;width:36px;height:36px;font-size:16px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
 .g-score{display:flex;align-items:center;border:2.5px solid #ffd700;box-shadow:3px 3px 0 rgba(0,0,0,.3);border-radius:12px;overflow:hidden}
@@ -214,21 +214,25 @@ body{display:flex;justify-content:center}
 /* Neobrutalist name box */
 .pp-box{background:#5c23a0;border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;border-radius:14px;display:flex;flex-direction:column;align-items:center;gap:2px}
 .pp-name{color:#fff;font-size:10px;font-weight:900;text-align:center;display:flex;align-items:center;gap:3px}
-.pp-think{background:#fff;color:#0d0d0d;border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:800;min-height:17px;line-height:17px;white-space:nowrap;text-align:center;min-width:32px}
+.pp-think{background:#fff;color:#0d0d0d;border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:800;min-height:17px;line-height:17px;white-space:nowrap;text-align:center;min-width:32px;opacity:0;transition:opacity .25s}
+.pp-think.show{opacity:1}
 .card-badge{position:absolute;background:#ffd700;color:#0d0d0d;border:2px solid #0d0d0d;border-radius:50%;width:18px;height:18px;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:10}
 /* Dealer badge */
 .dealer-badge{background:#ffd700;color:#0d0d0d;font-size:8px;font-weight:900;border-radius:5px;padding:0px 3px;border:1.5px solid #0d0d0d;line-height:14px;display:none}
 .dealer-badge.show{display:inline-block}
 
-/* ── Game canvas: players + table absolutely pinned ── */
+/* ── Game canvas ── */
 .g-canvas{flex:1;position:relative;min-height:0;overflow:hidden}
 
-/* Table — BIGGER */
+/* ── Table: big, tilted toward player ── */
 .g-tbl{
   position:absolute;
-  width:min(252px,66vw);
-  height:min(252px,66vw);
-  left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(296px,76vw);
+  height:min(296px,76vw);
+  /* Push lower so table feels RIGHT in front of you */
+  left:50%;top:46%;
+  transform:translate(-50%,-50%) perspective(700px) rotateX(18deg);
+  transform-origin:center 55%;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:6px;z-index:1;background:#13172a;
 }
@@ -236,70 +240,52 @@ body{display:flex;justify-content:center}
 #table-label{position:absolute;bottom:4px;width:100%;text-align:center;color:rgba(255,255,255,.22);font-size:8px;letter-spacing:1px}
 #table-content{width:100%;position:relative;z-index:1}
 
-/* ── NORTH: fan above, avatar overlaps bottom of fan into name box ── */
+/* ── NORTH: fan directly above table top edge, avatar overlaps into box ── */
 .gp-north{
-  position:absolute;left:50%;top:6px;transform:translateX(-50%);
+  position:absolute;left:50%;top:2px;transform:translateX(-50%);
   display:flex;flex-direction:column;align-items:center;gap:0;z-index:2;
 }
 .gp-fan-n{
   position:relative;
   display:flex;justify-content:center;align-items:flex-end;
-  padding-bottom:20px;overflow:visible;
+  padding-bottom:3px;overflow:visible;
 }
-.gp-fan-n .pp-av{
-  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
-}
-.pp-box-n{
-  background:#5c23a0;border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;
-  border-radius:14px;padding:22px 16px 6px;
-  display:flex;flex-direction:column;align-items:center;gap:2px;
-  min-width:min(120px,34vw);
-}
+/* north avatar now lives in .pp-box-opp */
+/* pp-box-n replaced by .pp-box-opp */
 
-/* ── WEST/EAST: panel | avatar overlapping | fan ── */
+/* ── WEST/EAST: panel | avatar overlapping | fan pointing at table ── */
+/* Side players: column layout — fan on top (facing up), box below */
 .gp-west{
-  position:absolute;left:5px;top:50%;transform:translateY(-50%);
-  display:flex;flex-direction:row;align-items:center;gap:0;z-index:2;
+  position:absolute;left:4px;top:46%;transform:translateY(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:0;z-index:2;
 }
 .gp-east{
-  position:absolute;right:5px;top:50%;transform:translateY(-50%);
-  display:flex;flex-direction:row-reverse;align-items:center;gap:0;z-index:2;
+  position:absolute;right:4px;top:46%;transform:translateY(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:0;z-index:2;
 }
-/* Side name box */
-.pp-box-s{
+/* Side fan wrapper — no rotation, fans face UP same as north */
+.gp-fan-s{
+  position:relative;display:flex;justify-content:center;align-items:flex-end;
+  overflow:visible;padding-bottom:2px;
+}
+#west-fan-inner,#east-fan-inner{
+  position:relative;display:inline-block;overflow:visible;
+}
+/* Shared opponent name box — avatar sits on TOP edge */
+.pp-box-opp{
   background:#5c23a0;border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;
-  border-radius:14px;padding:6px 6px 6px;width:54px;
+  border-radius:14px;padding:22px 10px 5px;
   display:flex;flex-direction:column;align-items:center;gap:2px;
-  position:relative;
+  position:relative;min-width:54px;
 }
-/* Avatar sits on the table-facing edge, overlapping into the fan */
-.gp-west .pp-av{
-  position:relative;margin-right:-19px;flex-shrink:0;
-}
-.gp-east .pp-av{
-  position:relative;margin-left:-19px;flex-shrink:0;
-}
-/* Side fan wrapper — wide enough for rotated spread */
-.gp-side-fan{
-  position:relative;overflow:visible;
-  display:flex;align-items:center;justify-content:center;
-  width:36px;height:110px;
-}
-#west-fan-inner{
-  position:relative;display:inline-block;
-  transform:rotate(90deg);transform-origin:center;
-  overflow:visible;
-}
-#east-fan-inner{
-  position:relative;display:inline-block;
-  transform:rotate(-90deg);transform-origin:center;
-  overflow:visible;
+.pp-box-opp .pp-av{
+  position:absolute;top:-19px;left:50%;transform:translateX(-50%);
 }
 
 /* Trick cross */
 .trick-cross{display:grid;grid-template-areas:". tn ." "tw tc te" ". ts .";grid-template-columns:1fr auto 1fr;grid-template-rows:auto auto auto;gap:4px;width:100%;align-items:center;justify-items:center}
 .tc-n{grid-area:tn}.tc-w{grid-area:tw;justify-self:end}.tc-c{grid-area:tc}.tc-e{grid-area:te;justify-self:start}.tc-s{grid-area:ts}
-.trick-slot-d{width:38px;height:55px;border-radius:8px;border:2px dashed rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center}
+.trick-slot-d{width:36px;height:52px;border-radius:8px;border:2px dashed rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center}
 .trick-slot-d.filled{border-color:transparent}
 .trick-slot-d.win-slot{box-shadow:0 0 0 2px #ffd700}
 .tc-c{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.3);border:1.5px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(255,255,255,.35);text-align:center}
@@ -310,10 +296,10 @@ body{display:flex;justify-content:center}
 .table-think{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;color:#0d0d0d;border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;border-radius:12px;padding:4px 12px;font-size:13px;font-weight:900;white-space:nowrap;z-index:5;animation:popIn .2s cubic-bezier(.34,1.56,.64,1)}
 @keyframes popIn{from{transform:translate(-50%,-50%) scale(.6);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
 
-/* Action area */
-#action-area{height:84px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0 8px;overflow:hidden}
+/* Action area — compact, no dead space */
+#action-area{height:72px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0 8px;overflow:hidden}
 .bid-area{display:flex;gap:6px;justify-content:center;align-items:center;width:100%;height:100%}
-.bid-btn{flex:1;height:64px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:17px;font-weight:900;color:#fff;border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;border-radius:14px;transition:transform .1s,box-shadow .1s}
+.bid-btn{flex:1;height:58px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:16px;font-weight:900;color:#fff;border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;border-radius:14px;transition:transform .1s,box-shadow .1s}
 .bid-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #0d0d0d}
 .bid-btn-sub{font-size:8px;font-weight:600;opacity:.72}
 .bid-hokm{background:#14b8a6}
@@ -331,9 +317,64 @@ body{display:flex;justify-content:center}
 /* Bid round label */
 .bid-round-lbl{color:rgba(255,255,255,.55);font-size:9px;font-weight:700;text-align:center;width:100%;position:absolute;top:-14px;left:0}
 
-/* Hand — BIGGER POV fan */
-.g-hand{padding:0 0 12px;position:relative;height:140px;display:flex;align-items:flex-end;justify-content:center;flex-shrink:0}
-.hand-inner{position:relative;display:flex;align-items:flex-end;justify-content:center;height:134px}
+/* South player bar — sits between action area and hand */
+.g-south-bar{
+  display:flex;align-items:center;gap:8px;padding:0 10px;
+  height:42px;flex-shrink:0;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.g-south-av{
+  width:32px;height:32px;border-radius:50%;background:#7c3aed;
+  border:2.5px solid #ffd700;box-shadow:2px 2px 0 #0d0d0d;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:border-color .2s,box-shadow .2s;
+}
+.g-south-av svg{width:16px;height:16px;fill:rgba(220,180,255,.9)}
+.g-south-av.active{border-color:#fff;box-shadow:2px 2px 0 #ffd700,0 0 8px rgba(255,215,0,.5)}
+.g-south-info{flex:1;display:flex;flex-direction:column;gap:0}
+.g-south-name{color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;gap:4px}
+.g-south-trophies{color:#ffd700;font-size:10px;font-weight:700}
+/* Sira button — compact info pill */
+.m3-badge{
+  background:#ffd700;color:#0d0d0d;border:2px solid #0d0d0d;
+  border-radius:8px;padding:2px 7px;font-size:10px;font-weight:900;
+  box-shadow:2px 2px 0 #0d0d0d;
+}
+.m3-badge b{color:#C0202A;}
+.sira-btn{
+  background:rgba(0,0,0,.4);color:#ffd700;
+  border:2px solid #ffd700;border-radius:10px;
+  padding:3px 10px;font-size:11px;font-weight:900;
+  cursor:pointer;flex-shrink:0;
+  transition:transform .1s,box-shadow .1s;
+  box-shadow:2px 2px 0 rgba(0,0,0,.4);
+}
+.sira-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 rgba(0,0,0,.4)}
+/* Sira overlay */
+.sira-overlay{
+  position:absolute;inset:0;background:rgba(0,0,0,.88);z-index:50;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.sira-overlay.on{opacity:1;pointer-events:auto}
+.sira-card{
+  background:#1c1033;border:3px solid #ffd700;box-shadow:5px 5px 0 #0d0d0d;
+  border-radius:20px;padding:20px 18px;width:86%;max-width:320px;
+}
+.sira-title{color:#ffd700;font-size:16px;font-weight:900;text-align:center;margin-bottom:14px}
+.sira-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.sira-row:last-of-type{border:none}
+.sira-lbl{color:rgba(255,255,255,.55);font-size:12px}
+.sira-val{color:#fff;font-size:13px;font-weight:800}
+.sira-close{
+  width:100%;margin-top:14px;padding:10px;background:#C0202A;color:#fff;
+  border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;border-radius:12px;
+  font-size:13px;font-weight:900;cursor:pointer;
+}
+
+/* Hand — POV fan, tight to bottom */
+.g-hand{padding:0 0 6px;position:relative;height:116px;display:flex;align-items:flex-end;justify-content:center;flex-shrink:0}
+.hand-inner{position:relative;display:flex;align-items:flex-end;justify-content:center;height:110px}
 .hand-card-pos{position:absolute;bottom:0;transform-origin:bottom center;cursor:pointer}
 
 /* Cards — direction:ltr so value shows TOP-LEFT corner */
@@ -347,11 +388,11 @@ body{display:flex;justify-content:center}
 .card-red{color:#C0202A}.card-blk{color:#111}
 .card-back{background:#5c23a0;border-radius:8px;border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;position:relative;overflow:hidden}
 .card-back::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(255,255,255,.05) 4px,rgba(255,255,255,.05) 8px)}
-/* Card sizes — POV cards BIGGER */
-.c-lg{width:68px;height:100px}
-.c-md{width:46px;height:66px}
+/* Card sizes */
+.c-lg{width:72px;height:106px}
+.c-md{width:44px;height:64px}
 .c-sm{width:34px;height:50px}
-.c-xs{width:26px;height:38px}
+.c-xs{width:24px;height:35px}
 
 /* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .25s}
@@ -381,6 +422,130 @@ body{display:flex;justify-content:center}
 .soon-title{color:#fff;font-size:22px;font-weight:900}
 .soon-sub{color:rgba(255,255,255,.4);font-size:13px;text-align:center;padding:0 30px}
 .soon-back{background:#C0202A;color:#fff;border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;border-radius:12px;padding:10px 28px;font-size:14px;font-weight:900;cursor:pointer;margin-top:8px}
+
+/* ═══════════════════════════════════════════
+   STORE SCREEN
+═══════════════════════════════════════════ */
+#scr-store{background:#0d0d0d}
+.store-topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 8px;background:#1a0005;border-bottom:2px solid rgba(255,255,255,.1);flex-shrink:0}
+.store-title{color:#ffd700;font-size:17px;font-weight:900;letter-spacing:1px}
+.store-coins-pill{display:flex;align-items:center;gap:5px;background:rgba(255,215,0,.12);border:2px solid #ffd700;border-radius:20px;padding:4px 10px;color:#ffd700;font-size:13px;font-weight:900}
+.store-tabs{display:flex;background:#110002;border-bottom:2px solid rgba(255,255,255,.08);flex-shrink:0}
+.store-tab{flex:1;padding:11px 0;text-align:center;color:rgba(255,255,255,.45);font-size:12px;font-weight:800;cursor:pointer;border-bottom:3px solid transparent;letter-spacing:.5px}
+.store-tab.active{color:#ffd700;border-bottom-color:#ffd700;background:rgba(255,215,0,.05)}
+.store-body{flex:1;overflow-y:auto;padding:14px}
+.store-section{margin-bottom:8px}
+.store-section-title{color:rgba(255,255,255,.4);font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.store-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.store-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.s-card{background:rgba(255,255,255,.05);border:2.5px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:7px;position:relative;transition:border-color .2s}
+.s-card.owned{border-color:#22c55e}
+.s-card.s-active{border-color:#ffd700;box-shadow:0 0 14px rgba(255,215,0,.25)}
+.s-card-preview{width:100%;height:52px;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1.5px solid rgba(255,255,255,.1)}
+.s-card-name{color:#fff;font-size:12px;font-weight:900;text-align:center;line-height:1.2}
+.s-price{display:flex;align-items:center;gap:3px;color:#ffd700;font-size:11px;font-weight:900}
+.s-btn{width:100%;padding:6px 0;border:2px solid #0d0d0d;border-radius:8px;font-weight:900;font-size:11px;cursor:pointer;box-shadow:2px 2px 0 #0d0d0d;transition:transform .1s}
+.s-btn:active{transform:translate(2px,2px);box-shadow:none}
+.s-btn.buy{background:#ffd700;color:#0d0d0d}
+.s-btn.select-btn{background:#5c23a0;color:#fff}
+.s-btn.selected{background:#22c55e;color:#fff}
+.s-btn.locked{background:rgba(255,255,255,.07);color:rgba(255,255,255,.25);cursor:not-allowed;border-color:transparent;box-shadow:none}
+.s-owned-badge{position:absolute;top:6px;right:6px;background:#22c55e;color:#fff;font-size:9px;font-weight:900;padding:2px 5px;border-radius:5px}
+.s-active-badge{position:absolute;top:6px;right:6px;background:#ffd700;color:#0d0d0d;font-size:9px;font-weight:900;padding:2px 5px;border-radius:5px}
+.s-pack-emotes{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:2px}
+.s-pack-emotes span{background:rgba(255,255,255,.1);border-radius:4px;padding:2px 5px;font-size:9px;color:rgba(255,255,255,.7)}
+
+/* ═══════════════════════════════════════════
+   PROFILE SCREEN
+═══════════════════════════════════════════ */
+#scr-profile{background:#0d0d0d}
+.prof-header{background:linear-gradient(180deg,#5c23a0 0%,#3a1060 100%);padding:28px 16px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;flex-shrink:0;border-bottom:3px solid #ffd700}
+.prof-av-wrap{position:relative;width:80px;height:80px}
+.prof-av{width:80px;height:80px;border-radius:50%;background:#7c3aed;border:4px solid #ffd700;box-shadow:0 0 0 3px rgba(0,0,0,.4),4px 4px 0 #0d0d0d;display:flex;align-items:center;justify-content:center}
+.prof-av svg{width:44px;height:44px;fill:rgba(255,255,255,.9)}
+.prof-name{color:#fff;font-size:18px;font-weight:900;letter-spacing:.5px}
+.prof-league-tag{background:rgba(0,0,0,.35);border:2px solid #ffd700;border-radius:20px;padding:3px 12px;color:#ffd700;font-size:11px;font-weight:800}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid rgba(255,255,255,.08)}
+.stat-cell{padding:16px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;border-right:1px solid rgba(255,255,255,.08)}
+.stat-cell:last-child{border-right:none}
+.stat-num{color:#ffd700;font-size:22px;font-weight:900;line-height:1}
+.stat-lbl{color:rgba(255,255,255,.5);font-size:10px;font-weight:700;letter-spacing:.5px}
+.achiev-section{padding:14px}
+.achiev-title{color:rgba(255,255,255,.4);font-size:10px;font-weight:800;letter-spacing:1.5px;margin-bottom:10px}
+.achiev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.achiev-card{background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.achiev-card.unlocked{border-color:#ffd700;background:rgba(255,215,0,.08)}
+.achiev-icon{font-size:22px;filter:grayscale(1);opacity:.35}
+.achiev-card.unlocked .achiev-icon{filter:none;opacity:1}
+.achiev-name{color:rgba(255,255,255,.5);font-size:9px;font-weight:800;text-align:center;letter-spacing:.3px}
+.achiev-card.unlocked .achiev-name{color:#ffd700}
+
+/* ═══════════════════════════════════════════
+   SETTINGS SCREEN
+═══════════════════════════════════════════ */
+#scr-settings{background:#0d0d0d}
+.set-topbar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#1a0005;border-bottom:2px solid rgba(255,255,255,.1);flex-shrink:0}
+.set-back{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.15);border-radius:10px;width:36px;height:36px;color:#fff;font-size:16px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.set-title{color:#fff;font-size:17px;font-weight:900}
+.set-body{flex:1;overflow-y:auto}
+.set-group{margin:14px 14px 0;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden}
+.set-group-label{background:rgba(255,255,255,.05);padding:6px 14px;color:rgba(255,255,255,.35);font-size:10px;font-weight:800;letter-spacing:1.5px}
+.set-row{display:flex;align-items:center;justify-content:space-between;padding:14px 14px;border-top:1px solid rgba(255,255,255,.07)}
+.set-row:first-of-type{border-top:none}
+.set-lbl{color:#fff;font-size:14px;font-weight:700}
+.set-sub{color:rgba(255,255,255,.4);font-size:11px;margin-top:1px}
+.toggle{width:46px;height:26px;background:rgba(255,255,255,.15);border-radius:13px;position:relative;cursor:pointer;border:2.5px solid rgba(255,255,255,.1);transition:background .2s;flex-shrink:0}
+.toggle.on{background:#22c55e;border-color:#22c55e}
+.toggle::after{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:1px;left:1px;transition:left .2s;box-shadow:1px 1px 3px rgba(0,0,0,.3)}
+.toggle.on::after{left:21px}
+.set-name-input{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.2);border-radius:10px;color:#fff;font-size:14px;font-weight:700;padding:7px 10px;width:130px;text-align:center;direction:rtl}
+.set-name-input:focus{outline:none;border-color:#ffd700}
+.set-save-btn{background:#ffd700;border:2.5px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;border-radius:10px;color:#0d0d0d;font-size:13px;font-weight:900;padding:8px 18px;cursor:pointer}
+
+/* ═══════════════════════════════════════════
+   EMOTE TRAY (in-game)
+═══════════════════════════════════════════ */
+#emote-tray{
+  position:absolute;bottom:0;left:0;right:0;
+  background:#110002;border-top:3px solid #5c23a0;
+  border-radius:20px 20px 0 0;padding:10px 10px 14px;
+  z-index:50;transform:translateY(100%);transition:transform .25s;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:7px;
+}
+#emote-tray.open{transform:translateY(0)}
+.emote-btn{background:#5c23a0;border:2.5px solid rgba(255,255,255,.2);border-radius:10px;color:#fff;font-size:11px;font-weight:900;padding:10px 4px;cursor:pointer;text-align:center;line-height:1.3;box-shadow:2px 2px 0 #0d0d0d}
+.emote-btn:active{transform:translate(2px,2px);box-shadow:none}
+#emote-overlay-bg{position:absolute;inset:0;z-index:49;display:none}
+#emote-overlay-bg.open{display:block}
+
+/* ═══════════════════════════════════════════
+   DAILY REWARD MODAL
+═══════════════════════════════════════════ */
+#daily-modal{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:400;display:none;align-items:center;justify-content:center}
+#daily-modal.show{display:flex}
+.daily-box{background:#1a0005;border:3px solid #ffd700;border-radius:22px;padding:30px 24px 24px;text-align:center;width:min(300px,85vw);box-shadow:6px 6px 0 #0d0d0d}
+.daily-title{color:rgba(255,255,255,.6);font-size:12px;font-weight:800;letter-spacing:1.5px;margin-bottom:6px}
+.daily-heading{color:#fff;font-size:20px;font-weight:900;margin-bottom:16px}
+.daily-coins-display{background:rgba(255,215,0,.1);border:3px solid #ffd700;border-radius:16px;padding:18px;margin-bottom:18px}
+.daily-coins-num{color:#ffd700;font-size:44px;font-weight:900;line-height:1;text-shadow:3px 3px 0 rgba(0,0,0,.3)}
+.daily-coins-lbl{color:rgba(255,255,255,.6);font-size:12px;font-weight:700;margin-top:4px}
+.daily-claim-btn{width:100%;padding:13px;background:#ffd700;border:2.5px solid #0d0d0d;border-radius:12px;font-size:16px;font-weight:900;color:#0d0d0d;cursor:pointer;box-shadow:3px 3px 0 #0d0d0d}
+.daily-streak{color:rgba(255,255,255,.4);font-size:11px;margin-top:10px}
+
+/* ═══════════════════════════════════════════
+   CARD BACK VARIANTS
+═══════════════════════════════════════════ */
+.cb-0{background:#5c23a0;border:1.5px solid rgba(255,255,255,.15)}
+.cb-1{background:#1a1a2e;border:1.5px solid #4a90d9}
+.cb-2{background:#1a0d00;border:1.5px solid #c8a050}
+.cb-3{background:#001a0d;border:1.5px solid #22c55e}
+.cb-0::after,.cb-1::after,.cb-2::after,.cb-3::after{content:'ك';color:rgba(255,255,255,.12);font-size:28px;font-weight:900;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+
+/* Avatar frame variants */
+.frame-1 .prof-av,.frame-1 .h-av{border-color:#4a90d9;box-shadow:0 0 10px rgba(74,144,217,.4),3px 3px 0 #0d0d0d}
+.frame-2 .prof-av,.frame-2 .h-av{border-color:#C0202A;box-shadow:0 0 10px rgba(192,32,42,.5),3px 3px 0 #0d0d0d}
+.frame-3 .prof-av,.frame-3 .h-av{border-color:#ffd700;box-shadow:0 0 16px rgba(255,215,0,.6),0 0 32px rgba(255,215,0,.2),3px 3px 0 #0d0d0d}
+
 </style>
 </head>
 <body>
@@ -469,7 +634,7 @@ body{display:flex;justify-content:center}
   </div>
 
   <div class="bottom-nav">
-    <button class="nav-tab" onclick="showSoon('المتجر','سكنات وطاولات جديدة قريباً')">
+    <button class="nav-tab" onclick="showScreen('scr-store')">
       <svg viewBox="0 0 24 24" fill="none"><path d="M6 2L3 7h18L18 2H6z" stroke="currentColor" stroke-width="2"/><rect x="3" y="7" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 11a3 3 0 006 0" stroke="currentColor" stroke-width="2"/></svg>
       <span class="nav-label">متجر</span>
     </button>
@@ -479,9 +644,9 @@ body{display:flex;justify-content:center}
       </div>
       <span class="nav-label">الرئيسية</span>
     </button>
-    <button class="nav-tab" onclick="showSoon('الديوانية','أنشئ ديوانيتك وادعُ أصحابك')">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v7c0 5 3.5 9.7 8 10.9C16.5 22.7 20 18 20 13V6L12 2z" stroke="currentColor" stroke-width="2"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2"/></svg>
-      <span class="nav-label">ديوانية</span>
+    <button class="nav-tab" onclick="showScreen('scr-profile')">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="currentColor" stroke-width="2"/></svg>
+      <span class="nav-label">ملفي</span>
     </button>
   </div>
 
@@ -507,6 +672,7 @@ body{display:flex;justify-content:center}
       <div id="g-dealer-row" style="font-size:9px;color:rgba(255,255,255,.5);font-weight:700"></div>
     </div>
     <button class="g-topbar-btn" id="g-sound">&#9834;</button>
+    <button class="g-topbar-btn" onclick="toggleEmoteTray()" title="تعابير"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" fill="rgba(255,255,255,.8)"/><path d="M8 10h8M8 14h5" stroke="#5c23a0" stroke-width="1.5" stroke-linecap="round"/></svg></button>
   </div>
 
   <div class="g-canvas">
@@ -518,71 +684,136 @@ body{display:flex;justify-content:center}
       <div id="table-label"></div>
     </div>
 
-    <!-- North: fan top, avatar overlapping bottom of fan into name box -->
+    <!-- North: fan top, avatar on top of box -->
     <div class="gp-north">
       <div class="gp-fan-n">
         <div id="north-fan-inner"></div>
+      </div>
+      <div class="pp-box-opp" id="pp-north">
         <div class="pp-av" id="av-north">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
         </div>
-      </div>
-      <div class="pp-box-n" id="pp-north">
         <div class="pp-name">الشريك <span class="dealer-badge" id="db-north">م</span></div>
         <div class="pp-think" id="th-north">&nbsp;</div>
       </div>
     </div>
 
-    <!-- West: name box | avatar overlapping | fan toward table -->
+    <!-- West: fan top (facing up), avatar on top of box, box below -->
     <div class="gp-west">
-      <div class="pp-box-s" id="pp-west">
+      <div class="gp-fan-s">
+        <div id="west-fan-inner"></div>
+      </div>
+      <div class="pp-box-opp" id="pp-west">
+        <div class="pp-av" id="av-west">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+        </div>
         <div class="pp-name">غرب <span class="dealer-badge" id="db-west">م</span></div>
         <div class="pp-think" id="th-west">&nbsp;</div>
       </div>
-      <div class="pp-av" id="av-west">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-      </div>
-      <div class="gp-side-fan"><div id="west-fan-inner"></div></div>
     </div>
 
-    <!-- East: fan toward table | avatar overlapping | name box -->
+    <!-- East: fan top (facing up), avatar on top of box, box below -->
     <div class="gp-east">
-      <div class="pp-box-s" id="pp-east">
+      <div class="gp-fan-s">
+        <div id="east-fan-inner"></div>
+      </div>
+      <div class="pp-box-opp" id="pp-east">
+        <div class="pp-av" id="av-east">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+        </div>
         <div class="pp-name">شرق <span class="dealer-badge" id="db-east">م</span></div>
         <div class="pp-think" id="th-east">&nbsp;</div>
       </div>
-      <div class="pp-av" id="av-east">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-      </div>
-      <div class="gp-side-fan"><div id="east-fan-inner"></div></div>
     </div>
 
   </div>
 
+  <!-- Sira overlay -->
+  <div class="sira-overlay" id="sira-overlay">
+    <div class="sira-card">
+      <div class="sira-title">سرة الجولة</div>
+      <div id="sira-rows"></div>
+      <button class="sira-close" onclick="document.getElementById('sira-overlay').classList.remove('on')">إغلاق</button>
+    </div>
+  </div>
+
   <div id="action-area"></div>
 
+  <!-- South player bar -->
+  <div class="g-south-bar">
+    <div class="g-south-av" id="av-south">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+    </div>
+    <div class="g-south-info">
+      <div class="g-south-name">أنت <span class="dealer-badge" id="db-south">م</span></div>
+      <div class="g-south-trophies" id="south-trophies">0 ♛</div>
+    </div>
+    <button class="sira-btn" onclick="showSiraOverlay()">سِرا</button>
+  </div>
+  <div id="mashree3-bar" style="display:none;flex-wrap:wrap;gap:4px;padding:0 4px 3px;justify-content:center;"></div>
+
   <div class="g-hand"><div class="hand-inner" id="hand-inner"></div></div>
+
+  <!-- Emote tray -->
+  <div id="emote-overlay-bg" onclick="closeEmoteTray()"></div>
+  <div id="emote-tray">
+    <button class="emote-btn" onclick="sendEmote('احسنت')">احسنت</button>
+    <button class="emote-btn" onclick="sendEmote('حظ سعيد')">حظ سعيد</button>
+    <button class="emote-btn" onclick="sendEmote('ماشاء الله')">ماشاء الله</button>
+    <button class="emote-btn" onclick="sendEmote('شكراً')">شكراً</button>
+    <button class="emote-btn" onclick="sendEmote('اكشف')">اكشف</button>
+    <button class="emote-btn" onclick="sendEmote('ما عندك شي')">ما عندك شي</button>
+    <button class="emote-btn" onclick="sendEmote('سجل')">سجل</button>
+    <button class="emote-btn" onclick="sendEmote('تسلم')">تسلم</button>
+  </div>
 
 </div>
 
 <!-- RULES -->
 <div id="scr-rules" class="scr">
   <h1>قواعد كابوت</h1>
+
   <h2>الأوراق</h2>
-  <p>32 ورقة — سبعة للاكه في أربع صور: ♠ سبيت · ♥ هاس · ♦ ديمان · ♣ شريا</p>
-  <p>أسماء: ولد (J) · بنت (Q) · شيبة (K) · اكه (A)</p>
+  <p>32 ورقة (7 للآس) في 4 أشكال: ♠ سبيت · ♥ هاس · ♦ ديمان · ♣ شريا</p>
+  <p>أسماء الأوراق: ولد (J) · بنت (Q) · شيبة (K) · اكه (A)</p>
+
   <h2>المزايدة — جولتان</h2>
-  <p>الجولة الأولى: كل لاعب يختار <strong>حكم</strong> (اتم المقلوب) · <strong>صن</strong> (بدون اتم) · <strong>بس</strong> (يمرّر).</p>
-  <p>إذا مرّر الجميع — حكم ثاني: <strong>أشكل</strong> (اختر أي اتم) · <strong>بس</strong>. إذا مرّر الجميع تُعاد التوزيع.</p>
-  <h2>نقاط الحكم (152)</h2>
-  <p>ولد الحكم=20 · تسعة الحكم=14 · اكه=11 · عشرة=10 · شيبة=4 · بنت=3 · ولد=2 · المزايد يحتاج &gt;76</p>
-  <h2>نقاط الصن (120)</h2>
-  <p>اكه=11 · عشرة=10 · شيبة=4 · بنت=3 · ولد=2 · المزايد يحتاج &gt;60</p>
+  <p><strong>الجولة الأولى</strong> — كل لاعب بالدور يختار:</p>
+  <ul>
+    <li><strong>حكم</strong> — اتم المقلوب (الورقة الوسطى)</li>
+    <li><strong>صن</strong> — بلا اتم</li>
+    <li><strong>بس</strong> — يمرّر للتالي</li>
+  </ul>
+  <p>إذا مرّر الجميع → <strong>حكم ثاني</strong>:</p>
+  <ul>
+    <li><strong>حكم ثاني</strong> — اتم مختلف عن المقلوب</li>
+    <li><strong>صن</strong> — بلا اتم</li>
+    <li><strong>بس</strong> — مرّر · إذا مرّر الجميع تُعاد التوزيع</li>
+  </ul>
+
+  <h2>نقاط الحكم — مجموع 162</h2>
+  <ul>
+    <li>ولد الحكم = 20 · تسعة الحكم = 14</li>
+    <li>اكه = 11 · عشرة = 10 · شيبة = 4 · بنت = 3 · ولد = 2</li>
+    <li>آخر أكلة = +10 · للفوز: <strong>82 نقطة فأكثر</strong></li>
+  </ul>
+
+  <h2>نقاط الصن — مجموع 130</h2>
+  <ul>
+    <li>اكه = 11 · عشرة = 10 · شيبة = 4 · بنت = 3 · ولد = 2 (كل الأشكال)</li>
+    <li>آخر أكلة = +10 · للفوز: <strong>66 نقطة فأكثر</strong></li>
+  </ul>
+
   <h2>اللعب</h2>
-  <p>8 أكلات. اتبع الصورة الأولى. آخر أكلة +10 نقاط. صفر للخصم = كابوت!</p>
+  <p>8 أكلات. يجب اتباع الصورة المفتوحة. الحكم يكسر أي صورة. ولد الحكم ثم تسعة الحكم أقوى أوراق.</p>
+
+  <h2>الكابوت</h2>
+  <p>إذا أخذ فريق واحد كل الأكلات الثماني = كابوت! الخصم يأخذ صفر والفائز يأخذ ضعف النقاط.</p>
+
   <button class="rules-back" onclick="goHome()">رجوع</button>
 </div>
 
-<!-- SOON -->
+<!-- SOON<!-- SOON -->
 <div id="scr-soon" class="scr">
   <div class="soon-title" id="soon-title">قريباً</div>
   <div class="soon-sub" id="soon-sub">هذه الميزة تحت التطوير</div>
@@ -627,6 +858,20 @@ let trophies = +localStorage.getItem('kb_trophies')||0;
 let coins    = +localStorage.getItem('kb_coins')||1250;
 let wins     = +localStorage.getItem('kb_wins')||0;
 let losses   = +localStorage.getItem('kb_losses')||0;
+let playerName  = localStorage.getItem('kb_name')||'لاعب';
+let soundOn     = localStorage.getItem('kb_sound')!=='off';
+let vibrOn      = localStorage.getItem('kb_vibr')!=='off';
+let gameSpeed   = +(localStorage.getItem('kb_speed')||1);  // 1=normal,2=fast
+let activeArena = +(localStorage.getItem('kb_arena')||0);
+let ownedArenas = JSON.parse(localStorage.getItem('kb_owned_arenas')||'[0]');
+let ownedPacks  = JSON.parse(localStorage.getItem('kb_owned_packs')||'["pack_0"]');
+let activePack  = localStorage.getItem('kb_active_pack')||'pack_0';
+let ownedBacks  = JSON.parse(localStorage.getItem('kb_owned_backs')||'[0]');
+let activeBack  = +(localStorage.getItem('kb_active_back')||0);
+let ownedFrames = JSON.parse(localStorage.getItem('kb_owned_frames')||'[0]');
+let activeFrame = +(localStorage.getItem('kb_active_frame')||0);
+let dailyStreak = +(localStorage.getItem('kb_daily_streak')||0);
+let lastDaily   = localStorage.getItem('kb_last_daily')||'';
 
 // ── Game State ──────────────────────────────
 let G = {};
@@ -704,9 +949,12 @@ function aiBid(hand,center,hasBid,bidRound){
     if(noTrump>=52)return'sun';
     return'pass';
   } else {
-    // Round 2: أشكل or pass
-    const best=SUITS.map(s=>({s,sc:hand.reduce((a,c)=>a+cardPts(c,'sun',s),0)})).sort((a,b)=>b.sc-a.sc)[0];
-    if(best.sc>=42)return'ashkal';
+    // Round 2: حكم ثاني (ashkal) | صن | بس
+    const noTrump2=hand.reduce((a,c)=>a+cardPts(c,'baloot',null),0);
+    if(noTrump2>=48)return'sun';
+    const opts=SUITS.filter(s=>s!==center.suit);
+    const best=opts.map(s=>({s,sc:hand.reduce((a,c)=>a+cardPts(c,'sun',s),0)})).sort((a,b)=>b.sc-a.sc)[0];
+    if(best&&best.sc>=40)return'ashkal';
     return'pass';
   }
 }
@@ -797,18 +1045,91 @@ function renderSides(){
   });
 }
 
+
+// ── مشاريع (Combinations) ────────────────────────────────────────
+function detectMashree3(hand, trump, mode){
+  const res=[];
+  if(!hand||!hand.length) return res;
+  // بيلا: K+Q of trump (only in hokm mode)
+  if(mode==='sun'&&trump){
+    const hasK=hand.some(c=>c.suit===trump&&c.value===13);
+    const hasQ=hand.some(c=>c.suit===trump&&c.value===12);
+    if(hasK&&hasQ) res.push({type:'bila',pts:20,label:'بيلا '+trump});
+  }
+  // تربيعة: 4 of same value
+  const vc={};hand.forEach(c=>{vc[c.value]=(vc[c.value]||0)+1;});
+  Object.entries(vc).forEach(([v,cnt])=>{
+    if(cnt===4){
+      const pts=+v===11?200:+v===9?150:100;
+      res.push({type:'tarbia',pts,label:'تربيعة '+(CARD_AR[+v]||v)});
+    }
+  });
+  // Sequences: 3+ consecutive same suit
+  SUITS.forEach(suit=>{
+    const sc=hand.filter(c=>c.suit===suit).map(c=>c.value).sort((a,b)=>a-b);
+    if(sc.length<3) return;
+    let seq=[sc[0]];
+    for(let i=1;i<sc.length;i++){
+      if(sc[i]===sc[i-1]+1) seq.push(sc[i]);
+      else{
+        if(seq.length>=3) res.push(seq.length>=4?{type:'50',pts:50,label:'خمسينية '+suit}:{type:'40',pts:20,label:'ربعينية '+suit});
+        seq=[sc[i]];
+      }
+    }
+    if(seq.length>=3) res.push(seq.length>=4?{type:'50',pts:50,label:'خمسينية '+suit}:{type:'40',pts:20,label:'ربعينية '+suit});
+  });
+  return res;
+}
+
+function applyMashree3(){
+  if(!G.phase||G.phase==='deal'||G.phase==='bid') return;
+  // Detect for all players
+  ['south','north','west','east'].forEach(pos=>{
+    G.mashree3=G.mashree3||{};
+    G.mashree3[pos]=detectMashree3(G.hands[pos]||[],G.trumpSuit,G.mode);
+  });
+  // Compare teams: team0=south+north, team1=west+east
+  const t0=[...G.mashree3.south,...G.mashree3.north];
+  const t1=[...G.mashree3.west,...G.mashree3.east];
+  const t0pts=t0.reduce((s,x)=>s+x.pts,0);
+  const t1pts=t1.reduce((s,x)=>s+x.pts,0);
+  // Winner gets all their points; loser gets 0
+  // (tie: hokm team wins)
+  let winTeam;
+  if(t0pts>t1pts) winTeam=0;
+  else if(t1pts>t0pts) winTeam=1;
+  else winTeam=G.bidWinner&&(G.bidWinner==='west'||G.bidWinner==='east')?1:0;
+  G.mashree3PtsTeam0 = winTeam===0?t0pts:0;
+  G.mashree3PtsTeam1 = winTeam===1?t1pts:0;
+  // Show south's مشاريع
+  const myProj=G.mashree3.south;
+  const bar=document.getElementById('mashree3-bar');
+  if(bar){
+    if(myProj&&myProj.length){
+      bar.innerHTML=myProj.map(p=>`<span class="m3-badge">${p.label} <b>${p.pts}</b></span>`).join('');
+      bar.style.display='flex';
+      clearTimeout(bar._t);bar._t=setTimeout(()=>{bar.style.display='none';},4000);
+    } else bar.style.display='none';
+  }
+}
+
 // ── Render: Avatars + dealer badge ───────────
 function renderAvatars(){
-  POS_ORD.forEach(p=>{
+  // All 4 opponents + south
+  [...POS_ORD,'south'].forEach(p=>{
     const el=document.getElementById('av-'+p);if(!el)return;
     const bidActive=G.phase==='bidding'&&G.bidOrder[G.bidIdx]===p;
     const playActive=(G.phase==='playing'||G.phase==='trickResolve')&&G.trickOrder[G.trickIdx]===p;
-    el.classList.toggle('active',bidActive||playActive);
+    // south uses g-south-av class (active = gold ring)
+    if(p==='south'){
+      el.classList.toggle('active',bidActive||playActive);
+    } else {
+      el.classList.toggle('active',bidActive||playActive);
+    }
     // Dealer badge
     const db=document.getElementById('db-'+p);
     if(db)db.classList.toggle('show',p===G.dealer);
   });
-  // South dealer shown in action area label (no panel)
 }
 
 // ── Render: Table ────────────────────────────
@@ -865,9 +1186,10 @@ function renderAction(){
           <button class="bid-btn bid-pass" onclick="humanBid('pass')"><span>بس</span><span class="bid-btn-sub">مرّر</span></button>
         </div>`;
       } else {
-        // Round 2 (حكم ثاني): أشكل | بس
+        // Round 2: حكم ثاني | صن | بس
         a.innerHTML=`<div class="bid-area">
-          <button class="bid-btn bid-ashkal" onclick="humanBid('ashkal')"><span>أشكل</span><span class="bid-btn-sub">اختر الاتم</span></button>
+          <button class="bid-btn bid-hokm"   onclick="humanBid('ashkal')"><span>حكم ثاني</span><span class="bid-btn-sub">اتم ثاني</span></button>
+          <button class="bid-btn bid-sun"    onclick="humanBid('sun')"><span>صن</span><span class="bid-btn-sub">بدون اتم</span></button>
           <button class="bid-btn bid-pass"   onclick="humanBid('pass')"><span>بس</span><span class="bid-btn-sub">مرّر</span></button>
         </div>`;
       }
@@ -876,7 +1198,7 @@ function renderAction(){
       a.innerHTML=`<div class="play-hint">${rnd} — انتظار ${POS_AR[G.bidOrder[G.bidIdx]]}...</div>`;
     }
   } else if(G.phase==='ashkal'){
-    const suits=SUITS; // Round 2 أشكل: any suit allowed
+    const suits=G.bidRound===2?SUITS.filter(s=>s!==G.centerCard.suit):SUITS;
     a.innerHTML=`<div class="suit-picker">
       <div class="suit-pick-lbl">اختر الاتم</div>
       <div class="suit-pick-row">
@@ -901,20 +1223,51 @@ function renderScores(){
   document.getElementById('g-them').textContent=G.score.them;
   const dr=document.getElementById('g-dealer-row');
   if(dr)dr.textContent=G.dealer?'المُوزِّع: '+POS_AR[G.dealer]:'';
+  // South panel
+  const st=document.getElementById('south-trophies');
+  if(st)st.textContent=trophies+' ♛';
 }
 
-// ── Think bubbles ────────────────────────────
+// ── Sira overlay ──────────────────────────────
+function showSiraOverlay(){
+  const mode=G.mode==='baloot'?'صن':(G.mode==='sun'&&G.trumpSuit?(SUIT_AR[G.trumpSuit]+' '+G.trumpSuit):'—');
+  const needed=G.mode==='baloot'?66:82;
+  const bidder=G.bidWinner?POS_AR[G.bidWinner]:'—';
+  const rows=document.getElementById('sira-rows');
+  if(!rows)return;
+  rows.innerHTML=`
+    <div class="sira-row"><span class="sira-lbl">نوع اللعب</span><span class="sira-val">${mode}</span></div>
+    <div class="sira-row"><span class="sira-lbl">المزايد</span><span class="sira-val">${bidder}</span></div>
+    <div class="sira-row"><span class="sira-lbl">نقاط تحتاجها</span><span class="sira-val">${G.hasBid?needed+'+'  :'—'}</span></div>
+    <div class="sira-row"><span class="sira-lbl">نقاطنا</span><span class="sira-val" style="color:#4ade80">${G.points.us}</span></div>
+    <div class="sira-row"><span class="sira-lbl">نقاطهم</span><span class="sira-val" style="color:#f87171">${G.points.them}</span></div>
+    <div class="sira-row"><span class="sira-lbl">أكلاتنا</span><span class="sira-val">${G.tricks.us} · ${G.tricks.them} أكلاتهم</span></div>
+    <div class="sira-row"><span class="sira-lbl">الجولة</span><span class="sira-val">${G.roundNum}</span></div>
+  `;
+  document.getElementById('sira-overlay').classList.add('on');
+}
+
+// ── Think bubbles — appear 3s then auto-hide ────
 function think(pos,txt){
-  const el=document.getElementById('th-'+pos);if(el)el.textContent=txt||' ';
+  const el=document.getElementById('th-'+pos);
+  if(el){
+    if(txt&&txt.trim()){
+      el.textContent=txt;el.classList.add('show');
+      clearTimeout(el._ht);
+      el._ht=setTimeout(()=>{el.classList.remove('show');el.textContent=' ';},3000);
+    } else {
+      if(el._ht)clearTimeout(el._ht);el.classList.remove('show');el.textContent=' ';
+    }
+  }
   if(txt&&pos!=='south'){
     const tc=document.getElementById('table-content');if(!tc)return;
     let tb=document.getElementById('ttb');
     if(!tb){tb=document.createElement('div');tb.id='ttb';tb.className='table-think';tc.appendChild(tb);}
     tb.textContent=txt;
-    clearTimeout(tb._t);tb._t=setTimeout(()=>tb.remove(),900);
+    clearTimeout(tb._t);tb._t=setTimeout(()=>{if(tb.parentNode)tb.remove();},1800);
   }
 }
-function clearThink(){POS_ORD.forEach(p=>think(p,''));}
+function clearThink(){POS_ORD.forEach(p=>{const el=document.getElementById('th-'+p);if(el){if(el._ht)clearTimeout(el._ht);el.classList.remove('show');el.textContent=' ';}});}
 
 function render(){renderHand();renderNorth();renderSides();renderAvatars();renderTable();renderAction();renderScores();}
 
@@ -933,7 +1286,7 @@ function newRound(){
   G.centerCard=d.centerCard;G.reserve=d.reserve;
   G.trick={};G.trickLeader='south';G.leadSuit=null;
   G.points={us:0,them:0};G.tricks={us:0,them:0};
-  G.selectedCard=-1;G.bidIdx=0;G.bidRound=1;G.hasBid=false;
+  G.selectedCard=-1;G.bidIdx=0;G.bidRound=1;G.mashree3={south:[],north:[],west:[],east:[]};G.mashree3PtsTeam0=0;G.mashree3PtsTeam1=0;G.hasBid=false;
   G.bidWinner=null;G.bidType=null;G.mode=null;G.trumpSuit=null;
   G.trickWinner=null;G.trickOrder=[];G.trickIdx=0;
   G.phase='dealing';clearThink();render();
@@ -1014,7 +1367,7 @@ function distribute(winner){
 
 // ── Play Phase ───────────────────────────────
 function buildOrder(leader){const si=POS_ORD.indexOf(leader);G.trickOrder=POS_ORD.map((_,i)=>POS_ORD[(si+i)%4]);}
-function startPlay(){G.phase='playing';G.trickLeader='south';buildOrder(G.trickLeader);G.trickIdx=0;render();advancePlay();}
+function startPlay(){G.phase='playing';applyMashree3();G.trickLeader='south';buildOrder(G.trickLeader);G.trickIdx=0;render();advancePlay();}
 function advancePlay(){
   if(G.trickIdx>=4){resolveTrick();return;}renderAvatars();renderAction();
   const cur=G.trickOrder[G.trickIdx];
@@ -1034,7 +1387,7 @@ function playCard(pos,card){
   if(G.trickIdx<4){setTimeout(advancePlay,250);}else{setTimeout(resolveTrick,650);}
 }
 function resolveTrick(){
-  G.phase='trickResolve';const w=whoWins(G.trick,G.leadSuit,G.trumpSuit,G.mode);G.trickWinner=w;
+  G.phase='trickResolve';const w=whoWins(G.trick,G.leadSuit,G.trumpSuit,G.mode);G.trickWinner=w;aiReact(w);
   const team=TEAMS[w];let pts=0;Object.values(G.trick).forEach(c=>pts+=cardPts(c,G.mode,G.trumpSuit));
   if(team===0){G.points.us+=pts;G.tricks.us++;}else{G.points.them+=pts;G.tricks.them++;}
   renderTable();renderAvatars();
@@ -1047,8 +1400,9 @@ function resolveTrick(){
 }
 function endRound(){
   G.phase='roundEnd';const{us,them}=G.points;const bidTeam=TEAMS[G.bidWinner];
-  const half=G.mode==='sun'?76:60;
+  const half=G.mode==='sun'?82:66;
   const kaboot=bidTeam===0?them===0:us===0;
+  G.scores[0]+=(G.mashree3PtsTeam0||0);G.scores[1]+=(G.mashree3PtsTeam1||0);
   let usWin;
   if(kaboot){usWin=bidTeam===0;}
   else if(bidTeam===0){usWin=us>half;}
@@ -1093,7 +1447,7 @@ function showScreen(id){
   document.querySelectorAll('.scr').forEach(el=>el.classList.remove('on'));
   document.getElementById(id).classList.add('on');
 }
-function goHome(){document.getElementById('score-modal').classList.remove('on');updateHomeUI();showScreen('scr-home');}
+function goHome(){document.getElementById('score-modal').classList.remove('on');updateHomeUI();showScreen('scr-home');setTimeout(checkDailyReward,500);}
 function showSoon(title,sub){
   document.getElementById('soon-title').textContent=title;
   document.getElementById('soon-sub').textContent=sub;
@@ -1104,15 +1458,519 @@ function showSoon(title,sub){
 function updateHomeUI(){
   document.getElementById('h-trophies').textContent=trophies.toLocaleString();
   document.getElementById('h-coins').textContent=coins.toLocaleString();
+  const hName=document.querySelector('.h-name');if(hName)hName.textContent=playerName;
   const ar=ARENAS.slice().reverse().find(a=>trophies>=a.min)||ARENAS[0];
   document.getElementById('h-arena').textContent=ar.ar;
   const al=document.getElementById('h-arena-league');if(al)al.textContent=ar.league;
   document.getElementById('h-league').textContent=ar.ar+' · '+ar.league;
   const carpet=document.getElementById('arena-carpet');
-  if(carpet){ARENAS.forEach(a=>carpet.classList.remove(a.cls));carpet.classList.add(ar.cls);}
+  const selAr=ARENAS[activeArena]||ar;
+  if(carpet){ARENAS.forEach(a=>carpet.classList.remove(a.cls));carpet.classList.add(selAr.cls);}
+  // Apply to game canvas too
+  const gc=document.querySelector('.g-canvas');
+  if(gc){ARENAS.forEach(a=>gc.classList.remove(a.cls));gc.classList.add(selAr.cls);}
 }
 
-(()=>{ updateHomeUI(); })();
+(()=>{ updateHomeUI(); setTimeout(checkDailyReward,800); })();
+
+// ═══════════════════════════════════════════════════════════
+//  STORE DATA
+// ═══════════════════════════════════════════════════════════
+const STORE_ARENAS=[
+  {id:0,name:'الديوانية',      price:0,    cls:'arena-0',desc:'الديوانية الأصيلة'},
+  {id:1,name:'الاستراحة',      price:500,  cls:'arena-1',desc:'استراحة خضراء هادئة'},
+  {id:2,name:'قاعة البيارق',   price:1000, cls:'arena-2',desc:'قاعة المحاربين'},
+  {id:3,name:'القصر الملكي',   price:2000, cls:'arena-3',desc:'البهاء الملكي'},
+  {id:4,name:'الديوانية الذهبية',price:3500,cls:'arena-4',desc:'القمة الذهبية'},
+];
+const STORE_PACKS=[
+  {id:'pack_0',name:'الأساسية',price:0,  emotes:['احسنت','حظ سعيد','شكراً']},
+  {id:'pack_1',name:'البلوت',  price:300,emotes:['اكشف','ما عندك شي','سجل','تسلم']},
+  {id:'pack_2',name:'الهجي',   price:500,emotes:['حكيت!','طيّب خوي','والله عجيب','يا حليلك']},
+  {id:'pack_3',name:'الحماس',  price:800,emotes:['يلا يلا!','ركّز!','اللعب يبدأ','ما يسوى']},
+];
+const STORE_FRAMES=[
+  {id:0,name:'ذهبي',    price:0,    preview:'border:4px solid #ffd700'},
+  {id:1,name:'ماسي',    price:600,  preview:'border:4px solid #4a90d9'},
+  {id:2,name:'ملكي',    price:1200, preview:'border:4px solid #C0202A'},
+  {id:3,name:'أسطوري',  price:2500, preview:'border:4px solid #ffd700;box-shadow:0 0 14px rgba(255,215,0,.8)'},
+];
+const STORE_BACKS=[
+  {id:0,name:'بنفسجي', price:0,   cls:'cb-0'},
+  {id:1,name:'رخام',   price:400, cls:'cb-1'},
+  {id:2,name:'ذهبي',   price:800, cls:'cb-2'},
+  {id:3,name:'فيروزي', price:1200,cls:'cb-3'},
+];
+
+// ═══════════════════════════════════════════════════════════
+//  STORE FUNCTIONS
+// ═══════════════════════════════════════════════════════════
+let currentStoreTab='arenas';
+
+function switchStoreTab(tab,el){
+  currentStoreTab=tab;
+  document.querySelectorAll('.store-tab').forEach(t=>t.classList.remove('active'));
+  if(el)el.classList.add('active');
+  renderStoreBody();
+}
+
+function renderStore(){
+  document.getElementById('store-coins-disp').textContent=coins.toLocaleString();
+  renderStoreBody();
+}
+
+function renderStoreBody(){
+  const body=document.getElementById('store-body');
+  if(!body)return;
+  if(currentStoreTab==='arenas') body.innerHTML=renderArenas();
+  else if(currentStoreTab==='emotes') body.innerHTML=renderEmotePacks();
+  else if(currentStoreTab==='frames') body.innerHTML=renderFrames();
+  else if(currentStoreTab==='backs') body.innerHTML=renderBacks();
+}
+
+function renderArenas(){
+  return '<div class="store-section"><div class="store-section-title">اختر ساحة اللعب</div><div class="store-grid-2">'+
+    STORE_ARENAS.map(a=>{
+      const owned=ownedArenas.includes(a.id);
+      const active=activeArena===a.id;
+      let badge=active?'<div class="s-active-badge">مفعّل</div>':(owned?'<div class="s-owned-badge">مملوك</div>':'');
+      let btn=active?'<button class="s-btn selected">مفعّل</button>':
+               owned?`<button class="s-btn select-btn" onclick="selectArena(${a.id})">اختر</button>`:
+               a.price===0?`<button class="s-btn buy" onclick="buyArena(${a.id})">مجاني</button>`:
+               `<button class="s-btn buy" onclick="buyArena(${a.id})" ${coins<a.price?'disabled style="opacity:.5"':''}>شراء</button>`;
+      let priceHtml=a.price>0&&!owned?`<div class="s-price"><svg width="11" height="11" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffd700"/></svg>${a.price.toLocaleString()}</div>`:'';
+      return `<div class="s-card ${owned?'owned':''} ${active?'s-active':''}">
+        ${badge}
+        <div class="s-card-preview ${a.cls}" style="width:100%;height:52px;border-radius:8px"></div>
+        <div class="s-card-name">${a.name}</div>
+        ${priceHtml}
+        ${btn}
+      </div>`;
+    }).join('')+
+  '</div></div>';
+}
+
+function renderEmotePacks(){
+  return '<div class="store-section"><div class="store-section-title">حزم التعابير</div><div class="store-grid-2">'+
+    STORE_PACKS.map(p=>{
+      const owned=ownedPacks.includes(p.id);
+      const active=activePack===p.id;
+      let btn=active?'<button class="s-btn selected">مفعّلة</button>':
+               owned?`<button class="s-btn select-btn" onclick="selectPack('${p.id}')">تفعيل</button>`:
+               p.price===0?`<button class="s-btn buy" onclick="buyPack('${p.id}')">مجانية</button>`:
+               `<button class="s-btn buy" onclick="buyPack('${p.id}')" ${coins<p.price?'disabled style="opacity:.5"':''}>شراء</button>`;
+      let priceHtml=p.price>0&&!owned?`<div class="s-price"><svg width="11" height="11" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffd700"/></svg>${p.price}</div>`:'';
+      return `<div class="s-card ${owned?'owned':''} ${active?'s-active':''}">
+        <div class="s-card-name">${p.name}</div>
+        <div class="s-pack-emotes">${p.emotes.map(e=>`<span>${e}</span>`).join('')}</div>
+        ${priceHtml}
+        ${btn}
+      </div>`;
+    }).join('')+
+  '</div></div>';
+}
+
+function renderFrames(){
+  return '<div class="store-section"><div class="store-section-title">إطارات الصورة الشخصية</div><div class="store-grid-2">'+
+    STORE_FRAMES.map(f=>{
+      const owned=ownedFrames.includes(f.id);
+      const active=activeFrame===f.id;
+      let btn=active?'<button class="s-btn selected">مفعّل</button>':
+               owned?`<button class="s-btn select-btn" onclick="selectFrame(${f.id})">اختر</button>`:
+               f.price===0?`<button class="s-btn buy" onclick="buyFrame(${f.id})">مجاني</button>`:
+               `<button class="s-btn buy" onclick="buyFrame(${f.id})" ${coins<f.price?'disabled style="opacity:.5"':''}>شراء</button>`;
+      let priceHtml=f.price>0&&!owned?`<div class="s-price"><svg width="11" height="11" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffd700"/></svg>${f.price}</div>`:'';
+      return `<div class="s-card ${owned?'owned':''} ${active?'s-active':''}">
+        <div class="s-card-preview" style="border-radius:50%;width:60px;height:60px;background:#7c3aed;${f.preview};display:flex;align-items:center;justify-content:center">
+          <svg viewBox="0 0 40 40" width="30" height="30"><circle cx="20" cy="14" r="8" fill="rgba(255,255,255,.8)"/><path d="M4 38c0-8.8 7.2-16 16-16s16 7.2 16 16" fill="rgba(255,255,255,.8)"/></svg>
+        </div>
+        <div class="s-card-name">${f.name}</div>
+        ${priceHtml}
+        ${btn}
+      </div>`;
+    }).join('')+
+  '</div></div>';
+}
+
+function renderBacks(){
+  return '<div class="store-section"><div class="store-section-title">ظهر البطاقة</div><div class="store-grid-2">'+
+    STORE_BACKS.map(b=>{
+      const owned=ownedBacks.includes(b.id);
+      const active=activeBack===b.id;
+      let btn=active?'<button class="s-btn selected">مفعّل</button>':
+               owned?`<button class="s-btn select-btn" onclick="selectBack(${b.id})">اختر</button>`:
+               b.price===0?`<button class="s-btn buy" onclick="buyBack(${b.id})">مجاني</button>`:
+               `<button class="s-btn buy" onclick="buyBack(${b.id})" ${coins<b.price?'disabled style="opacity:.5"':''}>شراء</button>`;
+      let priceHtml=b.price>0&&!owned?`<div class="s-price"><svg width="11" height="11" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffd700"/></svg>${b.price}</div>`:'';
+      return `<div class="s-card ${owned?'owned':''} ${active?'s-active':''}">
+        <div class="s-card-preview ${b.cls}" style="width:40px;height:58px;border-radius:6px;position:relative"></div>
+        <div class="s-card-name">${b.name}</div>
+        ${priceHtml}
+        ${btn}
+      </div>`;
+    }).join('')+
+  '</div></div>';
+}
+
+function buyArena(id){
+  const a=STORE_ARENAS.find(x=>x.id===id);if(!a||ownedArenas.includes(id))return;
+  if(coins<a.price){alert('عملاتك غير كافية!');return;}
+  coins-=a.price;ownedArenas.push(id);
+  localStorage.setItem('kb_coins',coins);localStorage.setItem('kb_owned_arenas',JSON.stringify(ownedArenas));
+  selectArena(id);renderStore();updateHomeUI();
+}
+function selectArena(id){
+  activeArena=id;localStorage.setItem('kb_arena',id);
+  renderStore();updateHomeUI();
+}
+function buyPack(id){
+  const p=STORE_PACKS.find(x=>x.id===id);if(!p||ownedPacks.includes(id))return;
+  if(coins<p.price){alert('عملاتك غير كافية!');return;}
+  coins-=p.price;ownedPacks.push(id);
+  localStorage.setItem('kb_coins',coins);localStorage.setItem('kb_owned_packs',JSON.stringify(ownedPacks));
+  selectPack(id);renderStore();updateHomeUI();
+}
+function selectPack(id){
+  activePack=id;localStorage.setItem('kb_active_pack',id);
+  renderStore();updateEmoteTray();
+}
+function buyFrame(id){
+  const f=STORE_FRAMES.find(x=>x.id===id);if(!f||ownedFrames.includes(id))return;
+  if(coins<f.price){alert('عملاتك غير كافية!');return;}
+  coins-=f.price;ownedFrames.push(id);
+  localStorage.setItem('kb_coins',coins);localStorage.setItem('kb_owned_frames',JSON.stringify(ownedFrames));
+  selectFrame(id);renderStore();
+}
+function selectFrame(id){
+  activeFrame=id;localStorage.setItem('kb_active_frame',id);
+  renderStore();renderProfile();
+}
+function buyBack(id){
+  const b=STORE_BACKS.find(x=>x.id===id);if(!b||ownedBacks.includes(id))return;
+  if(coins<b.price){alert('عملاتك غير كافية!');return;}
+  coins-=b.price;ownedBacks.push(id);
+  localStorage.setItem('kb_coins',coins);localStorage.setItem('kb_owned_backs',JSON.stringify(ownedBacks));
+  selectBack(id);renderStore();
+}
+function selectBack(id){
+  activeBack=id;localStorage.setItem('kb_active_back',id);
+  renderStore();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PROFILE & ACHIEVEMENTS
+// ═══════════════════════════════════════════════════════════
+const ACHIEVEMENTS=[
+  {id:'first_game', name:'أول لعبة',  icon:'♠', cond:()=>wins+losses>=1},
+  {id:'first_win',  name:'أول فوز',   icon:'♛', cond:()=>wins>=1},
+  {id:'win10',      name:'10 انتصارات',icon:'♥', cond:()=>wins>=10},
+  {id:'win50',      name:'50 انتصار', icon:'♦', cond:()=>wins>=50},
+  {id:'trophies100',name:'100 كأس',   icon:'♣', cond:()=>trophies>=100},
+  {id:'arena5',     name:'الأسطورة',  icon:'♛', cond:()=>trophies>=2000},
+];
+
+function renderProfile(){
+  const el=document.getElementById('prof-name');if(el)el.textContent=playerName;
+  const wEl=document.getElementById('prof-wins');if(wEl)wEl.textContent=wins;
+  const lEl=document.getElementById('prof-losses');if(lEl)lEl.textContent=losses;
+  const tEl=document.getElementById('prof-trophies');if(tEl)tEl.textContent=trophies;
+  const ar=ARENAS.slice().reverse().find(a=>trophies>=a.min)||ARENAS[0];
+  const lt=document.getElementById('prof-league-tag');if(lt)lt.textContent=ar.ar+' · '+ar.league;
+  // Avatar frame
+  const ph=document.getElementById('prof-header');
+  if(ph){ph.className='prof-header frame-'+activeFrame;}
+  // Achievements
+  const grid=document.getElementById('achiev-grid');
+  if(grid){
+    grid.innerHTML=ACHIEVEMENTS.map(a=>{
+      const ok=a.cond();
+      return `<div class="achiev-card ${ok?'unlocked':''}">
+        <div class="achiev-icon">${a.icon}</div>
+        <div class="achiev-name">${a.name}</div>
+      </div>`;
+    }).join('');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SETTINGS
+// ═══════════════════════════════════════════════════════════
+const SPEED_LABELS=['بطيء','عادي','سريع'];
+function openSettings(){
+  const inp=document.getElementById('set-name-inp');if(inp)inp.value=playerName;
+  const st=document.getElementById('set-sound-toggle');if(st){st.className='toggle'+(soundOn?' on':'');}
+  const vt=document.getElementById('set-vibr-toggle');if(vt){vt.className='toggle'+(vibrOn?' on':'');}
+  const sl=document.getElementById('set-speed-lbl');if(sl)sl.textContent=SPEED_LABELS[gameSpeed]||'عادي';
+}
+function toggleSetting(key){
+  if(key==='sound'){soundOn=!soundOn;localStorage.setItem('kb_sound',soundOn?'on':'off');const el=document.getElementById('set-sound-toggle');if(el)el.className='toggle'+(soundOn?' on':'');}
+  if(key==='vibr'){vibrOn=!vibrOn;localStorage.setItem('kb_vibr',vibrOn?'on':'off');const el=document.getElementById('set-vibr-toggle');if(el)el.className='toggle'+(vibrOn?' on':'');}
+}
+function cycleSpeed(){
+  gameSpeed=(gameSpeed+1)%3;localStorage.setItem('kb_speed',gameSpeed);
+  const sl=document.getElementById('set-speed-lbl');if(sl)sl.textContent=SPEED_LABELS[gameSpeed];
+}
+function saveSettings(){
+  const inp=document.getElementById('set-name-inp');
+  if(inp&&inp.value.trim()){playerName=inp.value.trim();localStorage.setItem('kb_name',playerName);}
+  showScreen('scr-profile');renderProfile();
+}
+function confirmReset(){
+  if(confirm('هل أنت متأكد؟ سيتم حذف كل تقدمك!')){
+    localStorage.clear();location.reload();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  DAILY REWARD
+// ═══════════════════════════════════════════════════════════
+function checkDailyReward(){
+  const today=new Date().toDateString();
+  if(lastDaily===today)return;
+  const yesterday=new Date(Date.now()-86400000).toDateString();
+  dailyStreak=lastDaily===yesterday?dailyStreak+1:1;
+  const base=100,bonus=Math.min(dailyStreak-1,6)*25;
+  const total=base+bonus;
+  document.getElementById('daily-amount').textContent='+'+total;
+  document.getElementById('daily-streak').textContent='يوم '+dailyStreak+' متتالي'+(dailyStreak>1?' — مكافأة تتابع!':'');
+  document.getElementById('daily-modal').classList.add('show');
+  // Store pending amount
+  document.getElementById('daily-modal').dataset.amount=total;
+}
+function claimDaily(){
+  const total=+(document.getElementById('daily-modal').dataset.amount||150);
+  coins+=total;
+  const today=new Date().toDateString();
+  lastDaily=today;
+  localStorage.setItem('kb_coins',coins);
+  localStorage.setItem('kb_last_daily',today);
+  localStorage.setItem('kb_daily_streak',dailyStreak);
+  document.getElementById('daily-modal').classList.remove('show');
+  updateHomeUI();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  IN-GAME EMOTES
+// ═══════════════════════════════════════════════════════════
+function getActiveEmotes(){
+  const pack=STORE_PACKS.find(p=>p.id===activePack)||STORE_PACKS[0];
+  return pack.emotes;
+}
+function updateEmoteTray(){
+  const tray=document.getElementById('emote-tray');if(!tray)return;
+  const emotes=getActiveEmotes();
+  tray.innerHTML=emotes.map(e=>`<button class="emote-btn" onclick="sendEmote('${e}')">${e}</button>`).join('');
+}
+function toggleEmoteTray(){
+  const tray=document.getElementById('emote-tray');
+  const bg=document.getElementById('emote-overlay-bg');
+  if(!tray)return;
+  const open=tray.classList.toggle('open');
+  if(bg)bg.classList.toggle('open',open);
+}
+function closeEmoteTray(){
+  const tray=document.getElementById('emote-tray');
+  const bg=document.getElementById('emote-overlay-bg');
+  if(tray)tray.classList.remove('open');
+  if(bg)bg.classList.remove('open');
+}
+function sendEmote(txt){
+  think('south',txt);
+  closeEmoteTray();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  AI EMOTES (opponent reactions)
+// ═══════════════════════════════════════════════════════════
+const AI_EMOTES_WIN=['ماشاء الله','احسنت','سجل!','والله!'];
+const AI_EMOTES_LOSE=['حظ سعيد','طيّب','تسلم'];
+function aiReact(winner){
+  const losers=POS_ORD.filter(p=>p!==winner);
+  if(Math.random()<0.35&&winner!=='south'){
+    setTimeout(()=>think(winner,AI_EMOTES_WIN[Math.floor(Math.random()*AI_EMOTES_WIN.length)]),600);
+  }
+  if(Math.random()<0.2){
+    const loser=losers.find(p=>p!=='south'&&Math.random()<0.5);
+    if(loser)setTimeout(()=>think(loser,AI_EMOTES_LOSE[Math.floor(Math.random()*AI_EMOTES_LOSE.length)]),900);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CARD BACK (apply active back)
+// ═══════════════════════════════════════════════════════════
+// Override backHTML to use activeBack
+function backHTML(cls){
+  const b=STORE_BACKS[activeBack]||STORE_BACKS[0];
+  return`<div class="card-back ${cls} ${b.cls}" style="position:relative"></div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  showScreen HOOK — run screen-specific init
+// ═══════════════════════════════════════════════════════════
+const _origShowScreen=showScreen;
+function showScreen(id){
+  _origShowScreen(id);
+  if(id==='scr-store'){renderStore();}
+  else if(id==='scr-profile'){renderProfile();}
+  else if(id==='scr-settings'){openSettings();}
+}
+
 </script>
+
+<!-- ══════════════════════════════════════════
+     STORE SCREEN
+══════════════════════════════════════════ -->
+<div id="scr-store" class="scr">
+  <div class="store-topbar">
+    <span class="store-title">المتجر</span>
+    <div class="store-coins-pill">
+      <svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffd700"/><circle cx="12" cy="12" r="7" fill="#c8900a"/></svg>
+      <span id="store-coins-disp">0</span>
+    </div>
+  </div>
+  <div class="store-tabs">
+    <div class="store-tab active" onclick="switchStoreTab('arenas',this)">أرينات</div>
+    <div class="store-tab" onclick="switchStoreTab('emotes',this)">تعابير</div>
+    <div class="store-tab" onclick="switchStoreTab('frames',this)">إطارات</div>
+    <div class="store-tab" onclick="switchStoreTab('backs',this)">بطاقات</div>
+  </div>
+  <div class="store-body" id="store-body"></div>
+  <div class="bottom-nav">
+    <button class="nav-tab active-tab" onclick="showScreen('scr-store')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 2L3 7h18L18 2H6z" stroke="currentColor" stroke-width="2"/><rect x="3" y="7" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 11a3 3 0 006 0" stroke="currentColor" stroke-width="2"/></svg>
+      <span class="nav-label">متجر</span>
+    </button>
+    <button class="nav-tab nav-center" onclick="showScreen('scr-home')">
+      <div class="nav-disc">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="9" height="13" rx="2" fill="white" opacity=".9"/><rect x="12" y="5" width="9" height="13" rx="2" fill="white" opacity=".7"/></svg>
+      </div>
+      <span class="nav-label">الرئيسية</span>
+    </button>
+    <button class="nav-tab" onclick="showScreen('scr-profile')">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="currentColor" stroke-width="2"/></svg>
+      <span class="nav-label">ملفي</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PROFILE SCREEN
+══════════════════════════════════════════ -->
+<div id="scr-profile" class="scr">
+  <div class="prof-header" id="prof-header">
+    <div class="prof-av-wrap">
+      <div class="prof-av" id="prof-av">
+        <svg viewBox="0 0 40 40"><circle cx="20" cy="14" r="8"/><path d="M4 38c0-8.8 7.2-16 16-16s16 7.2 16 16"/></svg>
+      </div>
+    </div>
+    <div class="prof-name" id="prof-name">لاعب</div>
+    <div class="prof-league-tag" id="prof-league-tag">الديوانية · دوري 1</div>
+  </div>
+  <div class="stats-grid" id="prof-stats">
+    <div class="stat-cell">
+      <div class="stat-num" id="prof-wins">0</div>
+      <div class="stat-lbl">انتصار</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" id="prof-losses">0</div>
+      <div class="stat-lbl">خسارة</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" id="prof-trophies">0</div>
+      <div class="stat-lbl">كأس ♛</div>
+    </div>
+  </div>
+  <div class="achiev-section">
+    <div class="achiev-title">الإنجازات</div>
+    <div class="achiev-grid" id="achiev-grid"></div>
+  </div>
+  <div style="padding:0 14px 4px">
+    <button class="s-btn select-btn" onclick="showScreen('scr-settings')" style="width:100%;padding:12px;font-size:14px;margin-top:4px">الإعدادات</button>
+  </div>
+  <div class="bottom-nav">
+    <button class="nav-tab" onclick="showScreen('scr-store')">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 2L3 7h18L18 2H6z" stroke="currentColor" stroke-width="2"/><rect x="3" y="7" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 11a3 3 0 006 0" stroke="currentColor" stroke-width="2"/></svg>
+      <span class="nav-label">متجر</span>
+    </button>
+    <button class="nav-tab nav-center" onclick="showScreen('scr-home')">
+      <div class="nav-disc">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="9" height="13" rx="2" fill="white" opacity=".9"/><rect x="12" y="5" width="9" height="13" rx="2" fill="white" opacity=".7"/></svg>
+      </div>
+      <span class="nav-label">الرئيسية</span>
+    </button>
+    <button class="nav-tab active-tab" onclick="showScreen('scr-profile')">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="currentColor" stroke-width="2"/></svg>
+      <span class="nav-label">ملفي</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SETTINGS SCREEN
+══════════════════════════════════════════ -->
+<div id="scr-settings" class="scr">
+  <div class="set-topbar">
+    <button class="set-back" onclick="showScreen('scr-profile')">←</button>
+    <span class="set-title">الإعدادات</span>
+  </div>
+  <div class="set-body">
+    <div class="set-group">
+      <div class="set-group-label">الحساب</div>
+      <div class="set-row">
+        <div><div class="set-lbl">اسمك</div><div class="set-sub">يظهر للمنافسين</div></div>
+        <input class="set-name-input" id="set-name-inp" type="text" maxlength="12" placeholder="لاعب" dir="rtl"/>
+      </div>
+    </div>
+    <div class="set-group" style="margin-top:12px">
+      <div class="set-group-label">الصوت واللعب</div>
+      <div class="set-row">
+        <div><div class="set-lbl">الأصوات</div><div class="set-sub">أصوات الأكلات والمزاد</div></div>
+        <div class="toggle on" id="set-sound-toggle" onclick="toggleSetting('sound')"></div>
+      </div>
+      <div class="set-row">
+        <div><div class="set-lbl">الاهتزاز</div><div class="set-sub">اهتزاز عند الفوز</div></div>
+        <div class="toggle on" id="set-vibr-toggle" onclick="toggleSetting('vibr')"></div>
+      </div>
+      <div class="set-row">
+        <div><div class="set-lbl">سرعة اللعبة</div><div class="set-sub" id="set-speed-lbl">عادي</div></div>
+        <button class="s-btn buy" onclick="cycleSpeed()" style="width:70px;padding:6px">تغيير</button>
+      </div>
+    </div>
+    <div class="set-group" style="margin-top:12px">
+      <div class="set-group-label">حول التطبيق</div>
+      <div class="set-row">
+        <div><div class="set-lbl">كابوت</div><div class="set-sub">الإصدار 1.0 — بلوت السعودي</div></div>
+      </div>
+      <div class="set-row">
+        <div><div class="set-lbl">حذف البيانات</div><div class="set-sub">يحذف كل تقدمك</div></div>
+        <button class="s-btn" onclick="confirmReset()" style="width:80px;padding:6px;background:#C0202A;color:#fff;border-color:#0d0d0d">حذف</button>
+      </div>
+    </div>
+    <div style="padding:16px 14px">
+      <button class="daily-claim-btn" onclick="saveSettings()">حفظ الإعدادات</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DAILY REWARD MODAL
+══════════════════════════════════════════ -->
+<div id="daily-modal">
+  <div class="daily-box">
+    <div class="daily-title">مكافأة يومية</div>
+    <div class="daily-heading">أهلاً بعودتك!</div>
+    <div class="daily-coins-display">
+      <div class="daily-coins-num" id="daily-amount">+150</div>
+      <div class="daily-coins-lbl">عملة ذهبية</div>
+    </div>
+    <button class="daily-claim-btn" onclick="claimDaily()">استلم المكافأة</button>
+    <div class="daily-streak" id="daily-streak">يوم 1 متتالي</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     IN-GAME EMOTE TRAY (inside scr-game)
+══════════════════════════════════════════ -->
+
 </body>
 </html>
