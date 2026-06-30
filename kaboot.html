@@ -5,488 +5,311 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>كابوت</title>
 <style>
-/* ══ Reset ══ */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;font-family:'Arial',sans-serif}
 html,body{height:100%;overflow:hidden;background:#0d0d0d}
 body{display:flex;justify-content:center}
 #root{width:100%;max-width:430px;height:100dvh;overflow:hidden;position:relative;display:flex;flex-direction:column}
-
-/* ══ Screens ══ */
 .scr{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .25s;display:flex;flex-direction:column}
 .scr.on{opacity:1;pointer-events:auto}
 
-/* ══════════════════════════════════════
-   SHARED TABLE — same shape home & game
-══════════════════════════════════════ */
-/* Table dimensions used in both screens */
-.kaboot-table{
-  background:#13172a;
-  border-radius:18px;
-  border:3px solid #0d0d0d;
-  box-shadow:5px 5px 0 #0d0d0d;
-  position:relative;
-  overflow:hidden;
-}
-/* Inner felt ring */
-.kaboot-table::before{
-  content:'';position:absolute;inset:8px;
-  border:1.5px solid rgba(255,255,255,.06);
-  border-radius:12px;pointer-events:none;
-}
+/* Shared table style */
+.kaboot-table{border-radius:18px;border:3px solid #0d0d0d;box-shadow:5px 5px 0 #0d0d0d;position:relative;overflow:hidden}
+.kaboot-table::before{content:'';position:absolute;inset:8px;border:1.5px solid rgba(255,255,255,.08);border-radius:12px;pointer-events:none;z-index:0}
 
-/* ══════════════════════════════════════
-   HOME SCREEN
-══════════════════════════════════════ */
+/* ======================================================
+   HOME SCREEN — Full brand red, no black bars
+====================================================== */
 #scr-home{background:#C0202A}
 
-/* ── Home top bar ── */
+/* Profile row — on red, no black bg */
 .h-topbar{
   display:flex;align-items:flex-start;justify-content:space-between;
-  padding:12px 14px 8px;background:#0d0d0d;flex-shrink:0;gap:8px;
+  padding:14px 14px 6px;flex-shrink:0;gap:8px;
 }
 .h-profile{display:flex;align-items:flex-start;gap:10px}
-.h-avatar{
+.h-av{
   width:52px;height:52px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,#5c23a0,#3a0e6e);
-  border:3px solid #ffd700;
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:#5c23a0;
+  border:3px solid #ffd700;box-shadow:0 0 0 2px rgba(0,0,0,.4);
+  display:flex;align-items:center;justify-content:center;
 }
-.h-avatar svg{width:30px;height:30px;fill:#c8a0f0}
-.h-info{display:flex;flex-direction:column;gap:2px;padding-top:2px}
-.h-name{color:#fff;font-size:14px;font-weight:900;line-height:1}
-.h-trophy-row{display:flex;align-items:center;gap:3px;margin-top:1px}
+.h-av svg{width:28px;height:28px;fill:rgba(255,255,255,.9)}
+.h-info{display:flex;flex-direction:column;gap:3px;padding-top:3px}
+.h-name{color:#fff;font-size:15px;font-weight:900;line-height:1}
+.h-trophy-row{display:flex;align-items:center;gap:4px}
 .h-trophy-num{color:#ffd700;font-size:13px;font-weight:900}
-.h-league{color:rgba(255,255,255,.5);font-size:10px;font-weight:700;margin-top:1px}
-/* Currency pills */
+.h-league-txt{color:rgba(255,255,255,.55);font-size:10px;font-weight:700}
 .h-currency{display:flex;flex-direction:column;gap:5px;align-items:flex-end}
 .curr-pill{
-  background:#1a1a1a;color:#fff;
-  border:2px solid #333;border-radius:20px;
-  padding:4px 8px 4px 6px;
-  font-size:12px;font-weight:900;
-  display:flex;align-items:center;gap:4px;min-width:76px;
+  background:rgba(0,0,0,.35);color:#fff;
+  border:2px solid rgba(255,255,255,.18);border-radius:20px;
+  padding:4px 8px 4px 6px;font-size:12px;font-weight:900;
+  display:flex;align-items:center;gap:4px;min-width:74px;
 }
 .curr-add{
   width:18px;height:18px;border-radius:50%;
-  background:#C0202A;border:2px solid #0d0d0d;
+  background:rgba(0,0,0,.45);border:1.5px solid rgba(255,255,255,.25);
   color:#fff;font-size:13px;font-weight:900;
   display:flex;align-items:center;justify-content:center;cursor:pointer;
 }
 
-/* ── Home arena (center) ── */
+/* Arena center */
 .h-arena{
   flex:1;display:flex;flex-direction:column;
   align-items:center;justify-content:space-between;
-  padding:10px 16px 10px;min-height:0;
+  padding:4px 14px 8px;min-height:0;
 }
-/* League badge row */
-.h-league-row{
-  align-self:flex-start;
-  display:flex;align-items:center;gap:8px;
-}
-.h-shield svg{width:40px;height:40px}
+.h-league-row{align-self:flex-start;display:flex;align-items:center;gap:8px}
+.h-shield svg{width:38px;height:38px}
 .h-league-info{display:flex;flex-direction:column}
 .h-league-name{color:#fff;font-size:13px;font-weight:900}
-.h-league-sub{color:rgba(255,255,255,.45);font-size:10px;font-weight:600}
+.h-league-sub{color:rgba(255,255,255,.5);font-size:10px;font-weight:700}
 
-/* ── Tilted table (home) ── */
-.h-table-wrap{
-  flex:1;display:flex;align-items:center;justify-content:center;
-  width:100%;min-height:0;padding:8px 0 20px;
-}
-.h-table-tilt{
-  transform:perspective(600px) rotateX(22deg);
-  transform-origin:center 60%;
-  position:relative;
-}
-/* Drop shadow for depth illusion */
-.h-table-tilt::after{
-  content:'';position:absolute;
-  bottom:-22px;left:10%;width:80%;height:22px;
-  background:rgba(0,0,0,.5);filter:blur(14px);border-radius:50%;
-}
-/* The home carpet */
-.h-carpet{
-  width:min(240px,68vw);height:min(240px,68vw);
-}
-/* Arena themes */
-.h-carpet.arena-0{background:radial-gradient(ellipse at 38% 32%,#8a1c1c,#5c0d0d 55%,#3d0707)}
-.h-carpet.arena-1{background:radial-gradient(ellipse at 38% 32%,#1a4a1a,#0d300d 55%,#071a07)}
-.h-carpet.arena-2{background:radial-gradient(ellipse at 38% 32%,#2e1065,#1a0a40 55%,#0d0520)}
-.h-carpet.arena-3{background:radial-gradient(ellipse at 38% 32%,#78200a,#4a1205 55%,#2a0903)}
-.h-carpet.arena-4{background:radial-gradient(ellipse at 38% 32%,#3d2800,#261800 55%,#120c00)}
-/* Gold outer frame */
-.h-carpet .cf-frame{
-  position:absolute;inset:0;
-  border:9px solid transparent;
-  border-image:linear-gradient(135deg,#c8a050,#7a5c20,#c8a050,#7a5c20,#c8a050) 1;
-  pointer-events:none;
-}
-.h-carpet .cf-r1{position:absolute;inset:13px;border:2px solid rgba(200,160,80,.4);border-radius:6px;pointer-events:none}
-.h-carpet .cf-r2{position:absolute;inset:19px;border:1px solid rgba(200,160,80,.2);border-radius:4px;pointer-events:none}
+/* Tilted table */
+.h-table-wrap{flex:1;display:flex;align-items:center;justify-content:center;width:100%;min-height:0;padding:4px 0 14px}
+.h-table-tilt{transform:perspective(600px) rotateX(22deg);transform-origin:center 60%;position:relative}
+.h-table-tilt::after{content:'';position:absolute;bottom:-18px;left:10%;width:80%;height:18px;background:rgba(0,0,0,.45);filter:blur(12px);border-radius:50%}
+.h-carpet{width:min(240px,68vw);height:min(240px,68vw)}
+
+/* ── ARENAS: 5 solid-color city-themed carpets ──────────
+
+   1 الديوانية    — warm sand/ocher  (neighborhood diwaniya)
+   2 الاستراحة   — forest green      (garden resort)
+   3 قاعة البيارق — deep crimson      (hall of banners)
+   4 القصر الملكي — royal navy        (royal palace)
+   5 الديوانية الذهبية — dark purple  (legendary golden diwaniya)
+*/
+.arena-0{background:#c4903a}
+.arena-1{background:#2a6028}
+.arena-2{background:#7a0e0e}
+.arena-3{background:#0e0e5a}
+.arena-4{background:#3a1f50}
+
+/* Frame: solid border, color per arena */
+.cf-frame{position:absolute;inset:0;border:9px solid transparent;pointer-events:none;z-index:1}
+.arena-0 .cf-frame{border-color:#7a5010}
+.arena-1 .cf-frame{border-color:#1a3818}
+.arena-2 .cf-frame{border-color:#c8a050}
+.arena-3 .cf-frame{border-color:#c8a050}
+.arena-4 .cf-frame{border-color:#ffd700}
+
+.cf-r1{position:absolute;inset:13px;border:2px solid transparent;border-radius:6px;pointer-events:none;z-index:1}
+.arena-0 .cf-r1{border-color:rgba(80,44,0,.5)}
+.arena-1 .cf-r1{border-color:rgba(30,80,20,.65)}
+.arena-2 .cf-r1{border-color:rgba(200,160,80,.4)}
+.arena-3 .cf-r1{border-color:rgba(200,160,80,.38)}
+.arena-4 .cf-r1{border-color:rgba(255,215,0,.42)}
+
+.cf-r2{position:absolute;inset:19px;border:1px solid transparent;border-radius:4px;pointer-events:none;z-index:1}
+.arena-0 .cf-r2{border-color:rgba(80,44,0,.28)}
+.arena-1 .cf-r2{border-color:rgba(30,80,20,.38)}
+.arena-2 .cf-r2{border-color:rgba(200,160,80,.22)}
+.arena-3 .cf-r2{border-color:rgba(200,160,80,.2)}
+.arena-4 .cf-r2{border-color:rgba(255,215,0,.25)}
+
 /* Corner ornaments */
-.cf-c{position:absolute;width:14px;height:14px;border-color:rgba(200,160,80,.55);border-style:solid}
+.cf-c{position:absolute;width:14px;height:14px;border-color:transparent;border-style:solid;z-index:1}
 .cf-c.tl{top:24px;right:24px;border-width:2px 0 0 2px}
 .cf-c.tr{top:24px;left:24px;border-width:2px 2px 0 0}
 .cf-c.bl{bottom:24px;right:24px;border-width:0 0 2px 2px}
 .cf-c.br{bottom:24px;left:24px;border-width:0 2px 2px 0}
-/* Center diamond */
-.cf-diamond{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-}
-.cf-diamond-inner{
-  width:46%;height:46%;
-  border:2px solid rgba(200,160,80,.45);
-  transform:rotate(45deg);
-  position:relative;display:flex;align-items:center;justify-content:center;
-}
-.cf-diamond-inner::before{content:'';position:absolute;inset:6px;border:1px solid rgba(200,160,80,.25)}
-.cf-logo{transform:rotate(-45deg);color:rgba(200,160,80,.65);font-size:15px;font-weight:900;letter-spacing:2px}
-/* Seat dots */
-.cf-seat{
-  position:absolute;width:24px;height:24px;border-radius:50%;
-  background:rgba(0,0,0,.4);border:2px solid rgba(200,160,80,.3);
-  display:flex;align-items:center;justify-content:center;
-}
-.cf-seat svg{width:12px;height:12px;fill:rgba(200,160,80,.55)}
+.arena-0 .cf-c{border-color:rgba(80,44,0,.6)}
+.arena-1 .cf-c{border-color:rgba(200,180,50,.5)}
+.arena-2 .cf-c{border-color:rgba(200,160,80,.58)}
+.arena-3 .cf-c{border-color:rgba(200,160,80,.55)}
+.arena-4 .cf-c{border-color:rgba(255,215,0,.62)}
+
+/* Diamond center emblem */
+.cf-diamond{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1}
+.cf-diamond-inner{width:46%;height:46%;border:2px solid transparent;transform:rotate(45deg);position:relative;display:flex;align-items:center;justify-content:center}
+.cf-diamond-inner::before{content:'';position:absolute;inset:6px;border:1px solid rgba(255,255,255,.08)}
+.arena-0 .cf-diamond-inner{border-color:rgba(80,44,0,.48)}
+.arena-1 .cf-diamond-inner{border-color:rgba(200,180,50,.48)}
+.arena-2 .cf-diamond-inner{border-color:rgba(200,160,80,.52)}
+.arena-3 .cf-diamond-inner{border-color:rgba(200,160,80,.5)}
+.arena-4 .cf-diamond-inner{border-color:rgba(255,215,0,.55)}
+.cf-logo{transform:rotate(-45deg);font-size:13px;font-weight:900;letter-spacing:2px}
+.arena-0 .cf-logo{color:rgba(70,38,0,.7)}
+.arena-1 .cf-logo{color:rgba(200,180,50,.72)}
+.arena-2 .cf-logo{color:rgba(200,160,80,.78)}
+.arena-3 .cf-logo{color:rgba(200,160,80,.75)}
+.arena-4 .cf-logo{color:rgba(255,215,0,.82)}
+
+/* Seat indicators */
+.cf-seat{position:absolute;width:24px;height:24px;border-radius:50%;border:2px solid transparent;display:flex;align-items:center;justify-content:center;z-index:1;background:rgba(0,0,0,.22)}
+.cf-seat svg{width:12px;height:12px}
 .cs-n{top:7px;left:50%;transform:translateX(-50%)}
 .cs-s{bottom:7px;left:50%;transform:translateX(-50%)}
 .cs-w{right:7px;top:50%;transform:translateY(-50%)}
 .cs-e{left:7px;top:50%;transform:translateY(-50%)}
+.arena-0 .cf-seat{border-color:rgba(80,44,0,.42)}.arena-0 .cf-seat svg{fill:rgba(80,44,0,.6)}
+.arena-1 .cf-seat{border-color:rgba(200,180,50,.42)}.arena-1 .cf-seat svg{fill:rgba(200,180,50,.62)}
+.arena-2 .cf-seat{border-color:rgba(200,160,80,.48)}.arena-2 .cf-seat svg{fill:rgba(200,160,80,.68)}
+.arena-3 .cf-seat{border-color:rgba(200,160,80,.48)}.arena-3 .cf-seat svg{fill:rgba(200,160,80,.68)}
+.arena-4 .cf-seat{border-color:rgba(255,215,0,.52)}.arena-4 .cf-seat svg{fill:rgba(255,215,0,.72)}
 
-/* ── Home action buttons ── */
+/* Home action buttons */
 .h-actions{display:flex;flex-direction:column;align-items:stretch;gap:8px;width:100%}
 .h-pair{display:flex;gap:10px}
 .h-secondary-btn{
   flex:1;padding:10px 0;
-  background:rgba(0,0,0,.3);color:#fff;
-  border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;
+  background:rgba(0,0,0,.32);color:#fff;
+  border:2.5px solid rgba(0,0,0,.5);box-shadow:3px 3px 0 rgba(0,0,0,.4);
   border-radius:14px;font-size:12px;font-weight:900;
   display:flex;align-items:center;justify-content:center;gap:6px;
   cursor:pointer;transition:transform .1s,box-shadow .1s;
 }
-.h-secondary-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #0d0d0d}
+.h-secondary-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 rgba(0,0,0,.4)}
 .h-secondary-btn svg{width:15px;height:15px;fill:#ffd700;flex-shrink:0}
 .h-play-btn{
-  width:100%;padding:16px 0;
-  background:linear-gradient(180deg,#ffd700,#e6a800);
-  color:#0d0d0d;
-  border:3px solid #0d0d0d;box-shadow:5px 5px 0 #0d0d0d;
-  border-radius:16px;
-  font-size:22px;font-weight:900;letter-spacing:3px;
-  cursor:pointer;transition:transform .1s,box-shadow .1s;
+  width:100%;padding:16px 0;background:#ffd700;color:#0d0d0d;
+  border:3px solid #0d0d0d;box-shadow:5px 5px 0 #0d0d0d;border-radius:16px;
+  font-size:22px;font-weight:900;letter-spacing:3px;cursor:pointer;
+  transition:transform .1s,box-shadow .1s;
 }
 .h-play-btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 #0d0d0d}
 
-/* ── Bottom nav (3 tabs) ── */
+/* Bottom nav — BRAND RED, not black */
 .bottom-nav{
-  display:flex;align-items:stretch;height:68px;flex-shrink:0;
-  background:#0d0d0d;border-top:2.5px solid #1a1a1a;
+  display:flex;align-items:stretch;height:64px;flex-shrink:0;
+  background:#9a1015;
+  border-top:2px solid rgba(255,255,255,.1);
 }
-.nav-tab{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:3px;border:none;background:transparent;cursor:pointer;transition:background .15s;
-}
-.nav-tab:active{background:rgba(255,255,255,.05)}
-.nav-tab svg{width:22px;height:22px;fill:rgba(255,255,255,.3);transition:fill .15s}
+.nav-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;cursor:pointer;transition:background .15s}
+.nav-tab:active{background:rgba(0,0,0,.2)}
+.nav-tab svg{width:22px;height:22px;fill:rgba(255,255,255,.4);transition:fill .15s}
 .nav-tab.active-tab svg,.nav-tab.active-tab .nav-label{fill:#ffd700;color:#ffd700}
-.nav-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:.5px;transition:color .15s}
-/* Center home tab */
-.nav-center{flex:1.1;position:relative}
-.nav-disc{
-  width:48px;height:48px;border-radius:50%;
-  background:#C0202A;border:3px solid #ffd700;
-  box-shadow:0 -4px 16px rgba(192,32,42,.5);
-  display:flex;align-items:center;justify-content:center;
-  position:relative;top:-10px;
-}
+.nav-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:.5px;transition:color .15s}
+.nav-center{flex:1.1;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.nav-disc{width:48px;height:48px;border-radius:50%;background:#C0202A;border:3px solid #ffd700;box-shadow:0 -4px 14px rgba(192,32,42,.6);display:flex;align-items:center;justify-content:center;position:relative;top:-8px}
 .nav-disc svg{width:24px;height:24px;fill:#fff}
-.nav-center .nav-label{margin-top:-6px;color:rgba(255,255,255,.5)}
+.nav-center .nav-label{margin-top:-5px}
 
-/* ══════════════════════════════════════
+/* ======================================================
    GAME SCREEN
-══════════════════════════════════════ */
+====================================================== */
 #scr-game{background:#C0202A}
 
-/* ── Game topbar ── */
+/* Topbar — dark red (brand), not black */
 .g-topbar{
   display:flex;align-items:center;justify-content:space-between;
-  padding:8px 12px 6px;background:#0d0d0d;flex-shrink:0;min-height:46px;
+  padding:8px 12px 6px;
+  background:#2a0000;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  flex-shrink:0;min-height:48px;
 }
-.g-topbar-btn{
-  background:rgba(255,255,255,.08);
-  border:2px solid rgba(255,255,255,.15);border-radius:10px;
-  width:36px;height:36px;font-size:16px;cursor:pointer;color:#fff;
-  display:flex;align-items:center;justify-content:center;font-weight:900;
-}
-/* Score pill */
-.g-score{
-  display:flex;align-items:center;
-  border:2.5px solid #ffd700;box-shadow:3px 3px 0 #ffd700;
-  border-radius:12px;overflow:hidden;
-}
-.g-score-half{
-  display:flex;flex-direction:column;align-items:center;
-  padding:3px 16px;
-}
+.g-topbar-btn{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.15);border-radius:10px;width:36px;height:36px;font-size:16px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
+.g-score{display:flex;align-items:center;border:2.5px solid #ffd700;box-shadow:3px 3px 0 rgba(0,0,0,.3);border-radius:12px;overflow:hidden}
+.g-score-half{display:flex;flex-direction:column;align-items:center;padding:3px 18px}
 .g-score-us{background:#C0202A}
 .g-score-them{background:#5c23a0}
 .g-score-lbl{color:rgba(255,255,255,.55);font-size:8px;font-weight:700;letter-spacing:.5px}
 .g-score-num{color:#fff;font-size:18px;font-weight:900;line-height:1}
 .g-score-div{width:2px;background:#ffd700;align-self:stretch}
 
-/* ══ Player panels ══ */
-.pp{
-  background:#5c23a0;
-  border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;
-  border-radius:14px;
-  display:flex;flex-direction:column;align-items:center;
-  position:relative;
-}
-.pp-av{
-  width:36px;height:36px;border-radius:50%;
-  background:linear-gradient(135deg,#7c3aed,#4c1d95);
-  border:2.5px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:border-color .2s,box-shadow .2s;overflow:hidden;
-}
-.pp-av svg{width:18px;height:18px;fill:rgba(200,160,255,.8)}
+/* Player panels — avatar circle ON TOP of neobrutalist box */
+.pp{background:#5c23a0;border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;border-radius:14px;display:flex;flex-direction:column;align-items:center;position:relative}
+.pp-av{width:38px;height:38px;border-radius:50%;background:#7c3aed;border:2.5px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .2s,box-shadow .2s}
+.pp-av svg{width:18px;height:18px;fill:rgba(220,180,255,.9)}
 .pp-av.active{border-color:#ffd700;box-shadow:2px 2px 0 #ffd700,0 0 10px rgba(255,215,0,.4)}
 .pp-name{color:#fff;font-size:10px;font-weight:900;text-align:center}
-.pp-think{
-  background:#fff;color:#0d0d0d;
-  border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;
-  border-radius:8px;padding:1px 6px;
-  font-size:10px;font-weight:800;
-  min-height:17px;line-height:17px;
-  white-space:nowrap;text-align:center;min-width:32px;
-}
-.card-badge{
-  position:absolute;
-  background:#ffd700;color:#0d0d0d;
-  border:2px solid #0d0d0d;border-radius:50%;
-  width:18px;height:18px;font-size:9px;font-weight:900;
-  display:flex;align-items:center;justify-content:center;
-  z-index:10;
-}
+.pp-think{background:#fff;color:#0d0d0d;border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:800;min-height:17px;line-height:17px;white-space:nowrap;text-align:center;min-width:32px}
+.card-badge{position:absolute;background:#ffd700;color:#0d0d0d;border:2px solid #0d0d0d;border-radius:50%;width:18px;height:18px;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:10}
 
-/* ══ GAME CANVAS — absolute layout, table is fixed anchor ══ */
-.g-canvas{
-  flex:1;position:relative;min-height:0;overflow:hidden;
-}
+/* ── Game canvas: players + table absolutely pinned ── */
+.g-canvas{flex:1;position:relative;min-height:0;overflow:hidden}
 
-/* ── Game table — SAME SQUARE shape as home carpet ── */
+/* Table — same shape as home carpet, BIGGER */
 .g-tbl{
   position:absolute;
-  width:min(218px,58vw);
-  height:min(218px,58vw);
-  left:50%;top:50%;
-  transform:translate(-50%,-50%);
+  width:min(252px,66vw);
+  height:min(252px,66vw);
+  left:50%;top:50%;transform:translate(-50%,-50%);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:6px;z-index:1;
+  padding:6px;z-index:1;background:#13172a;
 }
-.trump-ind{
-  position:absolute;top:5px;left:6px;
-  background:#f97316;color:#fff;
-  border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;
-  border-radius:8px;padding:2px 6px;font-size:9px;font-weight:800;display:none;
-}
-#table-label{
-  position:absolute;bottom:5px;width:100%;
-  text-align:center;color:rgba(255,255,255,.22);font-size:8px;letter-spacing:1px;
-}
-#table-content{width:100%;position:relative}
+.trump-ind{position:absolute;top:5px;left:6px;background:#f97316;color:#fff;border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;border-radius:8px;padding:2px 6px;font-size:9px;font-weight:800;display:none}
+#table-label{position:absolute;bottom:4px;width:100%;text-align:center;color:rgba(255,255,255,.22);font-size:8px;letter-spacing:1px}
+#table-content{width:100%;position:relative;z-index:1}
 
-/* ── North player: centered above table ── */
-.gp-north{
-  position:absolute;
-  left:50%;top:8px;
-  transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:2px;
-  z-index:2;
-}
-.gp-north .gp-fan{
-  position:relative;height:44px;
-  display:flex;align-items:flex-end;justify-content:center;
-  overflow:visible;
-}
-.gp-north .pp{
-  padding:4px 10px 5px;
-  width:min(128px,36vw);
-  position:relative;
-}
-.gp-north .pp-av{
-  position:absolute;top:-17px;left:50%;transform:translateX(-50%);
-}
-.gp-north .pp-inner{margin-top:17px;display:flex;flex-direction:column;align-items:center;gap:2px}
+/* North player: above table, centered */
+.gp-north{position:absolute;left:50%;top:8px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px;z-index:2}
+.gp-north .gp-fan{position:relative;height:46px;display:flex;align-items:flex-end;justify-content:center;overflow:visible}
+.gp-north .pp{width:min(130px,36vw);padding:4px 10px 5px}
+.gp-north .pp-av{position:absolute;top:-18px;left:50%;transform:translateX(-50%)}
+.gp-north .pp-inner{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:2px}
 
-/* ── West player: left side, vertically centered ── */
-.gp-west{
-  position:absolute;
-  left:4px;top:50%;
-  transform:translateY(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  z-index:2;
-}
-/* ── East player: right side, vertically centered ── */
-.gp-east{
-  position:absolute;
-  right:4px;top:50%;
-  transform:translateY(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:4px;
-  z-index:2;
-}
-.gp-west .pp,.gp-east .pp{
-  width:60px;padding:4px 5px 5px;position:relative;
-}
-.gp-west .pp-av,.gp-east .pp-av{
-  position:absolute;top:-17px;left:50%;transform:translateX(-50%);
-}
-.gp-west .pp-inner,.gp-east .pp-inner{
-  margin-top:17px;display:flex;flex-direction:column;align-items:center;gap:2px;
-}
-/* Side fan: small vertical card stack */
-.gp-side-fan{
-  position:relative;width:28px;height:80px;
-  display:flex;align-items:center;justify-content:center;
-  overflow:visible;
-}
-#west-fan-inner,#east-fan-inner{
-  position:relative;display:inline-block;
-}
+/* West player: left edge, vertically centered */
+.gp-west{position:absolute;left:5px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;z-index:2}
+/* East player: right edge, vertically centered */
+.gp-east{position:absolute;right:5px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;z-index:2}
+.gp-west .pp,.gp-east .pp{width:60px;padding:4px 5px 5px}
+.gp-west .pp-av,.gp-east .pp-av{position:absolute;top:-18px;left:50%;transform:translateX(-50%)}
+.gp-west .pp-inner,.gp-east .pp-inner{margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:2px}
 
-/* ── Directional trick cross ── */
-.trick-cross{
-  display:grid;
-  grid-template-areas:". tn ." "tw tc te" ". ts .";
-  grid-template-columns:1fr auto 1fr;
-  grid-template-rows:auto auto auto;
-  gap:4px;width:100%;align-items:center;justify-items:center;
-}
-.tc-n{grid-area:tn}
-.tc-w{grid-area:tw;justify-self:end}
-.tc-c{grid-area:tc}
-.tc-e{grid-area:te;justify-self:start}
-.tc-s{grid-area:ts}
-.trick-slot-d{
-  width:36px;height:52px;border-radius:8px;
-  border:2px dashed rgba(255,255,255,.15);
-  display:flex;align-items:center;justify-content:center;
-}
+/* Side fan — horizontal spread rotated 90 deg */
+.gp-side-fan{position:relative;width:40px;height:68px;overflow:visible;display:flex;align-items:center;justify-content:center}
+#west-fan-inner{position:relative;display:inline-block;transform:rotate(90deg);transform-origin:center}
+#east-fan-inner{position:relative;display:inline-block;transform:rotate(-90deg);transform-origin:center}
+
+/* Trick cross */
+.trick-cross{display:grid;grid-template-areas:". tn ." "tw tc te" ". ts .";grid-template-columns:1fr auto 1fr;grid-template-rows:auto auto auto;gap:4px;width:100%;align-items:center;justify-items:center}
+.tc-n{grid-area:tn}.tc-w{grid-area:tw;justify-self:end}.tc-c{grid-area:tc}.tc-e{grid-area:te;justify-self:start}.tc-s{grid-area:ts}
+.trick-slot-d{width:38px;height:55px;border-radius:8px;border:2px dashed rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center}
 .trick-slot-d.filled{border-color:transparent}
 .trick-slot-d.win-slot{box-shadow:0 0 0 2px #ffd700}
-.tc-c{
-  width:38px;height:38px;border-radius:50%;
-  background:rgba(0,0,0,.3);border:1.5px solid rgba(255,255,255,.08);
-  display:flex;align-items:center;justify-content:center;
-  font-size:9px;color:rgba(255,255,255,.3);text-align:center;
-}
-/* Think bubble inside table */
-.table-think{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  background:#fff;color:#0d0d0d;
-  border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;
-  border-radius:12px;padding:4px 12px;
-  font-size:13px;font-weight:900;
-  white-space:nowrap;z-index:5;
-  animation:popIn .2s cubic-bezier(.34,1.56,.64,1);
-}
+.tc-c{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.3);border:1.5px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(255,255,255,.35);text-align:center}
+.trick-counts{font-size:9px;color:rgba(255,255,255,.4);text-align:center;margin-top:3px;position:absolute;bottom:5px;width:100%}
+.center-card-wrap{display:flex;flex-direction:column;align-items:center;gap:4px}
+.center-card-lbl{color:rgba(255,255,255,.45);font-size:9px;text-align:center}
+.trump-badge{background:#5c23a0;color:#fff;border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;font-size:10px;border-radius:8px;padding:2px 8px;font-weight:800}
+.table-think{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;color:#0d0d0d;border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;border-radius:12px;padding:4px 12px;font-size:13px;font-weight:900;white-space:nowrap;z-index:5;animation:popIn .2s cubic-bezier(.34,1.56,.64,1)}
 @keyframes popIn{from{transform:translate(-50%,-50%) scale(.6);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
-/* Trick counts */
-.trick-counts{font-size:9px;color:rgba(255,255,255,.38);text-align:center;margin-top:3px;position:absolute;bottom:4px;width:100%}
 
-/* Center card (bidding) */
-.center-card-wrap{display:flex;flex-direction:column;align-items:center;gap:3px}
-.center-card-lbl{color:rgba(255,255,255,.45);font-size:9px;letter-spacing:1px;text-align:center}
-.trump-badge{
-  background:#5c23a0;color:#fff;
-  border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;
-  font-size:10px;border-radius:8px;padding:2px 8px;font-weight:800;
-}
-
-/* ── Fixed action area (never changes height) ── */
-#action-area{
-  height:80px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  padding:0 8px;overflow:hidden;
-}
+/* Action area */
+#action-area{height:84px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:0 8px;overflow:hidden}
 .bid-area{display:flex;gap:6px;justify-content:center;align-items:center;width:100%;height:100%}
-/* Bid buttons — neobrutalist, matching mockup colors */
-.bid-btn{
-  flex:1;height:60px;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-  font-size:15px;font-weight:900;color:#fff;
-  border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;
-  border-radius:14px;
-  transition:transform .1s,box-shadow .1s;
-}
+.bid-btn{flex:1;height:64px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:17px;font-weight:900;color:#fff;border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;border-radius:14px;transition:transform .1s,box-shadow .1s}
 .bid-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #0d0d0d}
-.bid-btn-sub{font-size:8px;font-weight:600;opacity:.7}
-.bid-hokm{background:#14b8a6}   /* teal  — حكم */
-.bid-sun {background:#16a34a}   /* green — صن  */
-.bid-ashkal{background:#f8fafc;color:#0d0d0d} /* white — أشكل */
-.bid-pass{background:#a855f7}   /* purple — بس  */
-/* Suit picker */
+.bid-btn-sub{font-size:8px;font-weight:600;opacity:.72}
+.bid-hokm{background:#14b8a6}
+.bid-pass{background:#5c23a0}
+.bid-sun{background:#16a34a}
+.bid-ashkal{background:#f1f5f9;color:#0d0d0d}
 .suit-picker{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%}
 .suit-pick-lbl{color:#fff;font-size:11px;font-weight:700}
 .suit-pick-row{display:flex;gap:8px}
-.suit-pick-btn{
-  width:46px;height:46px;border-radius:12px;
-  border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;
-  cursor:pointer;font-size:20px;
-  background:rgba(255,255,255,.12);color:#fff;
-  transition:transform .1s,box-shadow .1s;
-}
+.suit-pick-btn{width:48px;height:48px;border-radius:12px;border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;cursor:pointer;font-size:20px;background:#fff;transition:transform .1s,box-shadow .1s}
 .suit-pick-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #0d0d0d}
-.suit-pick-btn.red-suit{color:#C0202A;background:#fff}
-.suit-pick-btn.blk-suit{color:#111;background:#fff}
-/* Play hint */
+.suit-pick-btn.red-suit{color:#C0202A}
+.suit-pick-btn.blk-suit{color:#111}
 .play-hint{text-align:center;color:rgba(255,255,255,.6);font-size:11px;width:100%;font-weight:700}
+/* Bid round label */
+.bid-round-lbl{color:rgba(255,255,255,.55);font-size:9px;font-weight:700;text-align:center;width:100%;position:absolute;top:-14px;left:0}
 
-/* ── Hand (POV fan) ── */
-.g-hand{padding:0 0 10px;position:relative;height:128px;display:flex;align-items:flex-end;justify-content:center;flex-shrink:0}
-.hand-inner{position:relative;display:flex;align-items:flex-end;justify-content:center;height:124px}
+/* Hand — BIGGER POV fan */
+.g-hand{padding:0 0 12px;position:relative;height:140px;display:flex;align-items:flex-end;justify-content:center;flex-shrink:0}
+.hand-inner{position:relative;display:flex;align-items:flex-end;justify-content:center;height:134px}
 .hand-card-pos{position:absolute;bottom:0;transform-origin:bottom center;cursor:pointer}
 
-/* ══════════════════════════════════════
-   PLAYING CARDS — neobrutalist
-══════════════════════════════════════ */
-.card-face{
-  background:#fff;border-radius:8px;
-  border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;
-  display:flex;flex-direction:column;justify-content:space-between;
-  padding:3px;position:relative;overflow:hidden;transition:transform .15s;
-}
+/* Cards — direction:ltr so value shows TOP-LEFT corner */
+.card-face{background:#fff;border-radius:8px;border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;display:flex;flex-direction:column;justify-content:space-between;padding:3px;position:relative;overflow:hidden;transition:transform .15s;direction:ltr}
 .card-face.selected{border-color:#ffd700;box-shadow:2px 2px 0 #ffd700,0 0 12px rgba(255,215,0,.5)}
 .card-face.dimmed{opacity:.28;box-shadow:none}
 .card-face.is-trump{border-color:#f97316}
 .card-val{font-size:12px;font-weight:900;line-height:1.1}
-.card-suit{font-size:13px;line-height:1}
-.card-ar-corner{font-size:7px;font-weight:700;line-height:1.2;opacity:.75;direction:rtl}
-.card-center{font-size:20px;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.65}
-.card-ar-center{font-size:13px;font-weight:900;opacity:.9;direction:rtl}
+.card-suit{font-size:12px;line-height:1}
+.card-center{font-size:22px;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
 .card-red{color:#C0202A}.card-blk{color:#111}
-/* Card back */
-.card-back{
-  background:linear-gradient(135deg,#5c23a0,#3a0e6e);
-  border-radius:8px;border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;
-  display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;
-}
-.card-back::before{
-  content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(255,255,255,.04) 4px,rgba(255,255,255,.04) 8px);
-}
-/* Card sizes */
-.c-lg{width:62px;height:90px}
+.card-back{background:#5c23a0;border-radius:8px;border:2px solid #0d0d0d;box-shadow:2px 2px 0 #0d0d0d;position:relative;overflow:hidden}
+.card-back::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(255,255,255,.05) 4px,rgba(255,255,255,.05) 8px)}
+/* Card sizes — POV cards BIGGER */
+.c-lg{width:68px;height:100px}
 .c-md{width:46px;height:66px}
 .c-sm{width:34px;height:50px}
 .c-xs{width:26px;height:38px}
 
-/* ══════════════════════════════════════
-   SCORE MODAL
-══════════════════════════════════════ */
+/* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .25s}
 .modal-overlay.on{opacity:1;pointer-events:auto}
 .modal{background:#1c1033;border-radius:20px;border:3px solid #0d0d0d;box-shadow:6px 6px 0 #0d0d0d;padding:24px 20px;width:90%;max-width:360px}
@@ -498,108 +321,73 @@ body{display:flex;justify-content:center}
 .modal-lbl{color:rgba(255,255,255,.55);font-size:12px}
 .modal-val{color:#fff;font-size:14px;font-weight:800}
 .modal-btns{display:flex;gap:10px;margin-top:18px}
-.modal-btn{
-  flex:1;border:2.5px solid #0d0d0d;border-radius:12px;
-  box-shadow:3px 3px 0 #0d0d0d;
-  padding:12px;font-size:14px;font-weight:900;cursor:pointer;
-  transition:transform .1s,box-shadow .1s;
-}
+.modal-btn{flex:1;border:2.5px solid #0d0d0d;border-radius:12px;box-shadow:3px 3px 0 #0d0d0d;padding:12px;font-size:14px;font-weight:900;cursor:pointer;transition:transform .1s,box-shadow .1s}
 .modal-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #0d0d0d}
 .modal-btn-primary{background:#C0202A;color:#fff}
 .modal-btn-secondary{background:rgba(255,255,255,.1);color:#fff}
+.kaboot-banner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#ffd700;color:#0d0d0d;font-size:28px;font-weight:900;padding:12px 26px;border-radius:16px;border:3px solid #0d0d0d;box-shadow:5px 5px 0 #0d0d0d;z-index:50;animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both}
 
-/* Kaboot banner */
-.kaboot-banner{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  background:#ffd700;color:#0d0d0d;font-size:28px;font-weight:900;
-  padding:12px 26px;border-radius:16px;
-  border:3px solid #0d0d0d;box-shadow:5px 5px 0 #0d0d0d;
-  z-index:50;animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both;
-}
-
-/* ══════════════════════════════════════
-   RULES / SOON screens
-══════════════════════════════════════ */
 #scr-rules{background:#0d0d0d;overflow-y:auto;padding:20px}
 #scr-rules h1{color:#C0202A;font-size:22px;font-weight:900;margin-bottom:14px;text-align:center}
 #scr-rules h2{color:#7c3aed;font-size:14px;font-weight:700;margin:13px 0 5px}
 #scr-rules p,#scr-rules li{color:rgba(255,255,255,.75);font-size:13px;line-height:1.7}
 #scr-rules ul{padding-right:16px;margin-bottom:6px}
-.rules-back{
-  background:#C0202A;color:#fff;
-  border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;
-  border-radius:12px;padding:10px 24px;
-  font-size:14px;font-weight:800;cursor:pointer;
-  margin:18px auto 10px;display:block;
-}
+.rules-back{background:#C0202A;color:#fff;border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;border-radius:12px;padding:10px 24px;font-size:14px;font-weight:800;cursor:pointer;margin:18px auto 10px;display:block}
 #scr-soon{background:#0d0d0d;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
 .soon-title{color:#fff;font-size:22px;font-weight:900}
 .soon-sub{color:rgba(255,255,255,.4);font-size:13px;text-align:center;padding:0 30px}
-.soon-back{
-  background:#C0202A;color:#fff;
-  border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;
-  border-radius:12px;padding:10px 28px;
-  font-size:14px;font-weight:900;cursor:pointer;margin-top:8px;
-}
+.soon-back{background:#C0202A;color:#fff;border:2.5px solid #0d0d0d;box-shadow:3px 3px 0 #0d0d0d;border-radius:12px;padding:10px 28px;font-size:14px;font-weight:900;cursor:pointer;margin-top:8px}
 </style>
 </head>
 <body>
 <div id="root">
 
-<!-- ══════════════════════════════════════════
-     HOME SCREEN
-══════════════════════════════════════════ -->
+<!-- HOME -->
 <div id="scr-home" class="scr on">
 
-  <!-- Top bar -->
   <div class="h-topbar">
     <div class="h-profile">
-      <div class="h-avatar">
+      <div class="h-av">
         <svg viewBox="0 0 40 40"><circle cx="20" cy="14" r="8"/><path d="M4 38c0-8.8 7.2-16 16-16s16 7.2 16 16"/></svg>
       </div>
       <div class="h-info">
         <div class="h-name">لاعب</div>
         <div class="h-trophy-row">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="#ffd700"><path d="M12 2L9.5 9H2l6 4.4L5.6 21 12 16.6l6.4 4.4L16 13.4 22 9h-7.5z"/></svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="#ffd700"><path d="M12 2L9.5 9H2l6 4.4L5.6 21 12 16.6l6.4 4.4L16 13.4 22 9h-7.5z"/></svg>
           <span class="h-trophy-num" id="h-trophies">0</span>
         </div>
-        <div class="h-league" id="h-league">الديوانية · دوري 1</div>
+        <div class="h-league-txt" id="h-league">الديوانية · دوري 1</div>
       </div>
     </div>
     <div class="h-currency">
       <div class="curr-pill">
         <svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#ffd700"/><circle cx="12" cy="12" r="7" fill="#d4a017"/></svg>
-        <span id="h-coins">1250</span>
-        <div class="curr-add">+</div>
+        <span id="h-coins">1250</span><div class="curr-add">+</div>
       </div>
       <div class="curr-pill">
         <svg width="14" height="14" viewBox="0 0 24 24"><polygon points="12,2 22,9 18,20 6,20 2,9" fill="#22c55e"/></svg>
-        <span id="h-gems">30</span>
-        <div class="curr-add">+</div>
+        <span>30</span><div class="curr-add">+</div>
       </div>
     </div>
   </div>
 
-  <!-- Arena -->
   <div class="h-arena">
 
-    <!-- League badge -->
     <div class="h-league-row">
       <div class="h-shield">
         <svg viewBox="0 0 60 70" fill="none">
-          <path d="M30 4L6 16v20c0 16 10.8 30.8 24 34.8C43.2 66.8 54 52 54 36V16L30 4z" fill="rgba(80,40,10,.7)" stroke="#c8a050" stroke-width="2"/>
-          <path d="M30 12L12 22v14c0 11 7.6 21.5 18 24.3C40.4 57.5 48 47 48 36V22L30 12z" fill="rgba(60,30,5,.4)" stroke="rgba(200,160,80,.35)" stroke-width="1"/>
+          <path d="M30 4L6 16v20c0 16 10.8 30.8 24 34.8C43.2 66.8 54 52 54 36V16L30 4z" fill="rgba(80,40,10,.65)" stroke="#c8a050" stroke-width="2"/>
+          <path d="M30 12L12 22v14c0 11 7.6 21.5 18 24.3C40.4 57.5 48 47 48 36V22L30 12z" fill="rgba(60,30,5,.35)" stroke="rgba(200,160,80,.3)" stroke-width="1"/>
           <path d="M20 38l3-8 7 5 7-5 3 8H20z" fill="#c8a050"/>
           <rect x="19" y="39" width="22" height="3" rx="1" fill="#c8a050"/>
         </svg>
       </div>
       <div class="h-league-info">
         <span class="h-league-name" id="h-arena">الديوانية</span>
-        <span class="h-league-sub" id="h-league-sub">دوري 1</span>
+        <span class="h-league-sub" id="h-arena-league">دوري 1</span>
       </div>
     </div>
 
-    <!-- Tilted carpet table -->
     <div class="h-table-wrap">
       <div class="h-table-tilt">
         <div class="kaboot-table h-carpet arena-0" id="arena-carpet">
@@ -611,25 +399,24 @@ body{display:flex;justify-content:center}
           <div class="cf-seat cs-s"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>
           <div class="cf-seat cs-w"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>
           <div class="cf-seat cs-e"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>
-          <div class="cf-diamond">
-            <div class="cf-diamond-inner">
-              <span class="cf-logo">كابوت</span>
-            </div>
-          </div>
+          <div class="cf-diamond"><div class="cf-diamond-inner"><span class="cf-logo">كابوت</span></div></div>
         </div>
       </div>
     </div>
 
-    <!-- Action buttons -->
     <div class="h-actions">
       <div class="h-pair">
         <button class="h-secondary-btn" onclick="showSoon('هدية يومية','هديتك اليومية جاهزة')">
           <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="10" width="18" height="12" rx="2" stroke="#ffd700" stroke-width="2"/><path d="M3 10h18M12 10V22M12 10s-3-1-3-4a3 3 0 016 0c0 3-3 4-3 4z" stroke="#ffd700" stroke-width="2"/></svg>
-          هدية يومية
+          هدية
         </button>
         <button class="h-secondary-btn" onclick="showSoon('الأصحاب','دعوة الأصحاب قريباً')">
           <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="7" r="4" stroke="#ffd700" stroke-width="2"/><circle cx="17" cy="9" r="3" stroke="#ffd700" stroke-width="2"/><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7M17 12c2.2 0 4 1.8 4 4" stroke="#ffd700" stroke-width="2"/></svg>
           الأصحاب
+        </button>
+        <button class="h-secondary-btn" onclick="showScreen('scr-rules')">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#ffd700" stroke-width="2"/><path d="M12 7v5l3 3" stroke="#ffd700" stroke-width="2"/></svg>
+          القواعد
         </button>
       </div>
       <button class="h-play-btn" onclick="startGame()">العب</button>
@@ -637,7 +424,6 @@ body{display:flex;justify-content:center}
 
   </div>
 
-  <!-- Bottom nav: Store | Home | Clan -->
   <div class="bottom-nav">
     <button class="nav-tab" onclick="showSoon('المتجر','سكنات وطاولات جديدة قريباً')">
       <svg viewBox="0 0 24 24" fill="none"><path d="M6 2L3 7h18L18 2H6z" stroke="currentColor" stroke-width="2"/><rect x="3" y="7" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 11a3 3 0 006 0" stroke="currentColor" stroke-width="2"/></svg>
@@ -657,12 +443,9 @@ body{display:flex;justify-content:center}
 
 </div>
 
-<!-- ══════════════════════════════════════════
-     GAME SCREEN
-══════════════════════════════════════════ -->
+<!-- GAME -->
 <div id="scr-game" class="scr">
 
-  <!-- Topbar -->
   <div class="g-topbar">
     <button class="g-topbar-btn" onclick="goHome()">←</button>
     <div class="g-score">
@@ -679,21 +462,18 @@ body{display:flex;justify-content:center}
     <button class="g-topbar-btn" id="g-sound">&#9834;</button>
   </div>
 
-  <!-- Game canvas: all players + table absolutely positioned -->
   <div class="g-canvas">
 
-    <!-- Table — same square shape as home carpet -->
+    <!-- Table -->
     <div class="kaboot-table g-tbl" id="game-table">
       <div class="trump-ind" id="trump-ind"></div>
       <div id="table-content"></div>
       <div id="table-label"></div>
     </div>
 
-    <!-- North player -->
+    <!-- North -->
     <div class="gp-north">
-      <div class="gp-fan">
-        <div id="north-fan-inner"></div>
-      </div>
+      <div class="gp-fan"><div id="north-fan-inner"></div></div>
       <div class="pp" id="pp-north">
         <div class="pp-av" id="av-north">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
@@ -705,7 +485,7 @@ body{display:flex;justify-content:center}
       </div>
     </div>
 
-    <!-- West player -->
+    <!-- West -->
     <div class="gp-west">
       <div class="pp" id="pp-west">
         <div class="pp-av" id="av-west">
@@ -716,12 +496,10 @@ body{display:flex;justify-content:center}
           <div class="pp-think" id="th-west">&nbsp;</div>
         </div>
       </div>
-      <div class="gp-side-fan">
-        <div id="west-fan-inner"></div>
-      </div>
+      <div class="gp-side-fan"><div id="west-fan-inner"></div></div>
     </div>
 
-    <!-- East player -->
+    <!-- East -->
     <div class="gp-east">
       <div class="pp" id="pp-east">
         <div class="pp-av" id="av-east">
@@ -732,53 +510,43 @@ body{display:flex;justify-content:center}
           <div class="pp-think" id="th-east">&nbsp;</div>
         </div>
       </div>
-      <div class="gp-side-fan">
-        <div id="east-fan-inner"></div>
-      </div>
+      <div class="gp-side-fan"><div id="east-fan-inner"></div></div>
     </div>
 
   </div>
 
-  <!-- Fixed action area -->
   <div id="action-area"></div>
 
-  <!-- POV hand -->
-  <div class="g-hand">
-    <div class="hand-inner" id="hand-inner"></div>
-  </div>
+  <div class="g-hand"><div class="hand-inner" id="hand-inner"></div></div>
 
 </div>
 
-<!-- ══ RULES ══ -->
+<!-- RULES -->
 <div id="scr-rules" class="scr">
   <h1>قواعد كابوت</h1>
   <h2>الأوراق</h2>
   <p>32 ورقة — سبعة للاكه في أربع صور: ♠ سبيت · ♥ هاس · ♦ ديمان · ♣ شريا</p>
   <p>أسماء: ولد (J) · بنت (Q) · شيبة (K) · اكه (A)</p>
-  <h2>المزايدة</h2>
-  <ul>
-    <li><strong>حكم</strong> — اقبل صورة المركزية كاتم</li>
-    <li><strong>صن</strong> — بدون اتم (sans atout)</li>
-    <li><strong>أشكل</strong> — ارفض واختر صورة ثانية</li>
-    <li><strong>بس</strong> — مرّر</li>
-  </ul>
+  <h2>المزايدة — جولتان</h2>
+  <p>الجولة الأولى: كل لاعب يختار <strong>حكم</strong> (الصورة المقترحة اتم) أو <strong>بس</strong> (يمرّر).</p>
+  <p>إذا مرّر الجميع — جولة ثانية: <strong>صن</strong> (بدون اتم) · <strong>أشكل</strong> (اختر اتم ثاني) · <strong>بس</strong>. إذا مرّر الجميع تُعاد التوزيع.</p>
   <h2>نقاط الحكم (152)</h2>
-  <p>ولد الحكم=20 · تسعة الحكم=14 · اكه=11 · عشرة=10 · شيبة=4 · بنت=3 · ولد=2 · باقي=0 · المزايد يحتاج &gt;76</p>
+  <p>ولد الحكم=20 · تسعة الحكم=14 · اكه=11 · عشرة=10 · شيبة=4 · بنت=3 · ولد=2 · المزايد يحتاج &gt;76</p>
   <h2>نقاط الصن (120)</h2>
-  <p>اكه=11 · عشرة=10 · شيبة=4 · بنت=3 · ولد=2 · باقي=0 · المزايد يحتاج &gt;60</p>
+  <p>اكه=11 · عشرة=10 · شيبة=4 · بنت=3 · ولد=2 · المزايد يحتاج &gt;60</p>
   <h2>اللعب</h2>
   <p>8 أكلات. اتبع الصورة الأولى. آخر أكلة +10 نقاط. صفر للخصم = كابوت!</p>
   <button class="rules-back" onclick="goHome()">رجوع</button>
 </div>
 
-<!-- ══ SOON ══ -->
+<!-- SOON -->
 <div id="scr-soon" class="scr">
   <div class="soon-title" id="soon-title">قريباً</div>
   <div class="soon-sub" id="soon-sub">هذه الميزة تحت التطوير</div>
   <button class="soon-back" onclick="goHome()">رجوع</button>
 </div>
 
-<!-- ══ SCORE MODAL ══ -->
+<!-- MODAL -->
 <div class="modal-overlay" id="score-modal">
   <div class="modal">
     <div class="modal-winner" id="m-winner">♛</div>
@@ -793,7 +561,7 @@ body{display:flex;justify-content:center}
 </div>
 
 <script>
-// ── Constants ──────────────────────────────────────
+// ── Constants ──────────────────────────────
 const SUITS   = ['♠','♥','♦','♣'];
 const VALS    = [7,8,9,10,11,12,13,14];
 const VNAME   = {7:'7',8:'8',9:'9',10:'10',11:'J',12:'Q',13:'K',14:'A'};
@@ -804,20 +572,20 @@ const POS_ORD = ['south','west','north','east'];
 const POS_AR  = {south:'أنت',west:'غرب',north:'الشريك',east:'شرق'};
 
 const ARENAS = [
-  {min:0,    ar:'الديوانية',          league:'دوري 1', cls:'arena-0'},
-  {min:200,  ar:'الاستراحة',          league:'دوري 2', cls:'arena-1'},
-  {min:600,  ar:'قاعة البيارق',      league:'دوري 3', cls:'arena-2'},
-  {min:1200, ar:'القصر الملكي',      league:'دوري 4', cls:'arena-3'},
-  {min:2000, ar:'الديوانية الذهبية', league:'دوري 5', cls:'arena-4'},
+  {min:0,    ar:'الديوانية',           league:'دوري 1', cls:'arena-0'},
+  {min:200,  ar:'الاستراحة',           league:'دوري 2', cls:'arena-1'},
+  {min:600,  ar:'قاعة البيارق',       league:'دوري 3', cls:'arena-2'},
+  {min:1200, ar:'القصر الملكي',       league:'دوري 4', cls:'arena-3'},
+  {min:2000, ar:'الديوانية الذهبية',  league:'دوري 5', cls:'arena-4'},
 ];
 
-// ── Persistent ─────────────────────────────────────
+// ── Persistent ─────────────────────────────
 let trophies = +localStorage.getItem('kb_trophies')||0;
 let coins    = +localStorage.getItem('kb_coins')||1250;
 let wins     = +localStorage.getItem('kb_wins')||0;
 let losses   = +localStorage.getItem('kb_losses')||0;
 
-// ── Game State ─────────────────────────────────────
+// ── Game State ──────────────────────────────
 let G = {};
 function initG(){
   G={
@@ -825,7 +593,7 @@ function initG(){
     hands:{south:[],west:[],north:[],east:[]},
     centerCard:null,reserve:[],
     bidOrder:['south','west','north','east'],
-    bidIdx:0,hasBid:false,
+    bidIdx:0,bidRound:1,hasBid:false,
     bidWinner:null,bidType:null,
     mode:null,trumpSuit:null,
     trick:{},trickLeader:'south',
@@ -837,7 +605,7 @@ function initG(){
   };
 }
 
-// ── Deck ───────────────────────────────────────────
+// ── Deck ────────────────────────────────────
 function makeDeck(){const d=[];for(const s of SUITS)for(const v of VALS)d.push({suit:s,value:v});return d;}
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;}
 function deal(){
@@ -845,7 +613,7 @@ function deal(){
   return{south:d.slice(0,7),west:d.slice(7,14),north:d.slice(14,21),east:d.slice(21,28),centerCard:d[28],reserve:[d[29],d[30],d[31]]};
 }
 
-// ── Card Logic ─────────────────────────────────────
+// ── Card Logic ──────────────────────────────
 const isRed=c=>c.suit==='♥'||c.suit==='♦';
 function cardPts(c,mode,trump){
   if(mode==='sun'&&c.suit===trump){if(c.value===11)return 20;if(c.value===9)return 14;}
@@ -872,19 +640,29 @@ function sortHand(hand,trump,mode){
   });
 }
 
-// ── AI ─────────────────────────────────────────────
-function aiBid(hand,center,hasBid){
+// ── AI Bidding (2 rounds) ────────────────────
+function aiBid(hand,center,hasBid,bidRound){
   if(hasBid)return'pass';
-  const cs=center.suit;let sc=0;const cnt={};
-  for(const c of hand){sc+=cardPts(c,'sun',cs);cnt[c.suit]=(cnt[c.suit]||0)+1;}
-  const J=hand.some(c=>c.suit===cs&&c.value===11);
-  const N=hand.some(c=>c.suit===cs&&c.value===9);
-  const t=cnt[cs]||0;
-  if(sc>=60&&(J||N))return'hokm';
-  if(sc>=50&&J&&N)return'hokm';
-  if(sc>=55&&t>=3)return'hokm';
-  if(sc>=44&&J&&t>=2)return'hokm';
-  return'pass';
+  if(bidRound===1){
+    // Round 1: only hokm or pass
+    const cs=center.suit;let sc=0;const cnt={};
+    for(const c of hand){sc+=cardPts(c,'sun',cs);cnt[c.suit]=(cnt[c.suit]||0)+1;}
+    const J=hand.some(c=>c.suit===cs&&c.value===11);
+    const N=hand.some(c=>c.suit===cs&&c.value===9);
+    const t=cnt[cs]||0;
+    if(sc>=60&&(J||N))return'hokm';
+    if(sc>=50&&J&&N)return'hokm';
+    if(sc>=55&&t>=3)return'hokm';
+    if(sc>=44&&J&&t>=2)return'hokm';
+    return'pass';
+  } else {
+    // Round 2: sun, ashkal, or pass
+    const noTrump=hand.reduce((a,c)=>a+cardPts(c,'baloot',null),0);
+    if(noTrump>=48)return'sun';
+    const best=SUITS.map(s=>({s,sc:hand.reduce((a,c)=>a+cardPts(c,'sun',s),0)})).sort((a,b)=>b.sc-a.sc)[0];
+    if(best.sc>=42)return'ashkal';
+    return'pass';
+  }
 }
 function aiPlay(pos,hand,lead,trump,mode,trick){
   const v=getValid(hand,lead,trump,mode);
@@ -898,25 +676,25 @@ function aiPlay(pos,hand,lead,trump,mode,trick){
   return cardStr(bs[0],lead,trump,mode)>cardStr(trick[w],lead,trump,mode)?bs[0]:bs[bs.length-1];
 }
 
-// ── Card HTML ──────────────────────────────────────
+// ── Card HTML ───────────────────────────────
 function faceHTML(c,cls,extra=''){
   const v=VNAME[c.value],r=isRed(c)?'card-red':'card-blk';
   const ar=CARD_AR[c.value]||'';const isFace=c.value>=11;
-  const cc=isFace?`<span class="card-ar-center">${ar}</span>`:`<span>${c.suit}</span>`;
+  const cent=isFace?`<span style="font-size:14px;font-weight:900;direction:rtl">${ar}</span>`:`<span>${c.suit}</span>`;
   return`<div class="card-face ${cls} ${extra}">
-    <div class="${r}"><div class="card-val">${v}</div><div class="card-suit">${c.suit}</div>${isFace?`<div class="card-ar-corner">${ar}</div>`:''}</div>
-    <div class="card-center ${r}">${cc}</div>
-    <div class="${r}" style="transform:rotate(180deg)"><div class="card-val">${v}</div><div class="card-suit">${c.suit}</div></div>
+    <div class="${r}" style="display:flex;flex-direction:column"><div class="card-val">${v}</div><div class="card-suit">${c.suit}</div></div>
+    <div class="card-center ${r}">${cent}</div>
+    <div class="${r}" style="transform:rotate(180deg);display:flex;flex-direction:column"><div class="card-val">${v}</div><div class="card-suit">${c.suit}</div></div>
   </div>`;
 }
 function backHTML(cls){return`<div class="card-back ${cls}"></div>`;}
 
-// ── Render: Hand (POV fan) ─────────────────────────
+// ── Render: Hand ────────────────────────────
 function renderHand(){
   const inner=document.getElementById('hand-inner');
   const hand=G.hands.south||[];inner.innerHTML='';if(!hand.length)return;
-  const n=hand.length;const deg=Math.min(5,36/n);const mid=(n-1)/2;
-  const W=52;const ov=n>6?28:22;const totalW=W+(n-1)*ov;
+  const n=hand.length;const deg=Math.min(5,38/n);const mid=(n-1)/2;
+  const W=58;const ov=n>6?32:26;const totalW=W+(n-1)*ov;
   inner.style.width=totalW+'px';
   const valid=G.phase==='playing'&&G.trickOrder[G.trickIdx]==='south'
     ?getValid(hand,G.leadSuit,G.trumpSuit,G.mode):null;
@@ -933,50 +711,47 @@ function renderHand(){
   });
 }
 
-// ── Render: North fan + badge ──────────────────────
+// ── Render: North fan ───────────────────────
 function renderNorth(){
   const el=document.getElementById('north-fan-inner');if(!el)return;
   const n=(G.hands.north||[]).length;el.innerHTML='';
-  if(!n){el.style.width='0';return;}
+  if(!n){el.style.cssText='';return;}
   const W=24,H=36;const deg=Math.min(4,28/n);const ov=n>6?15:11;const mid=(n-1)/2;
-  const totalW=W+(n-1)*ov;el.style.width=totalW+'px';el.style.height=H+'px';
+  const totalW=W+(n-1)*ov;
+  el.style.cssText=`width:${totalW}px;height:${H}px;position:relative;display:inline-block;`;
   for(let i=0;i<n;i++){
     const rot=(i-mid)*deg,xOff=(i-mid)*ov,yLift=Math.abs(i-mid)*2;
     const div=document.createElement('div');
     div.style.cssText=`position:absolute;bottom:0;left:${xOff+totalW/2-W/2}px;transform:rotate(${rot}deg) translateY(${yLift}px);transform-origin:bottom center;z-index:${i};`;
     div.innerHTML=backHTML('c-xs');el.appendChild(div);
   }
-  // Card count badge — top left of fan
   const badge=document.createElement('div');
-  badge.className='card-badge';
-  badge.style.cssText='top:-8px;right:-8px;';
+  badge.className='card-badge';badge.style.cssText='top:-8px;right:-8px;';
   badge.textContent=n;el.appendChild(badge);
 }
 
-// ── Render: Side fans — vertical card stack ────────
+// ── Render: Side fans (horizontal fan, rotated) ─
 function renderSides(){
   ['west','east'].forEach(pos=>{
     const el=document.getElementById(pos+'-fan-inner');if(!el)return;
     const n=(G.hands[pos]||[]).length;el.innerHTML='';
-    if(!n){el.style.cssText='width:0;height:0;position:relative;';return;}
-    // Vertical stack: cards overlapping going downward
-    const W=24,H=36,step=7;
-    const totalH=H+(n-1)*step;
-    el.style.cssText=`width:${W}px;height:${totalH}px;position:relative;display:inline-block;`;
+    if(!n){el.style.cssText='';return;}
+    const W=22,H=33;const deg=Math.min(4,26/n);const ov=n>6?13:10;const mid=(n-1)/2;
+    const totalW=W+(n-1)*ov;
+    el.style.cssText=`width:${totalW}px;height:${H}px;position:relative;display:inline-block;`;
     for(let i=0;i<n;i++){
+      const rot=(i-mid)*deg,xOff=(i-mid)*ov,yLift=Math.abs(i-mid)*2;
       const div=document.createElement('div');
-      div.style.cssText=`position:absolute;top:${i*step}px;left:0;z-index:${i};`;
+      div.style.cssText=`position:absolute;bottom:0;left:${xOff+totalW/2-W/2}px;transform:rotate(${rot}deg) translateY(${yLift}px);transform-origin:bottom center;z-index:${i};`;
       div.innerHTML=backHTML('c-xs');el.appendChild(div);
     }
-    // Badge at top
     const badge=document.createElement('div');
-    badge.className='card-badge';
-    badge.style.cssText='top:-8px;left:50%;transform:translateX(-50%);';
+    badge.className='card-badge';badge.style.cssText='top:-8px;right:-6px;';
     badge.textContent=n;el.appendChild(badge);
   });
 }
 
-// ── Render: Avatars (active highlight) ────────────
+// ── Render: Avatars ──────────────────────────
 function renderAvatars(){
   POS_ORD.forEach(p=>{
     const el=document.getElementById('av-'+p);if(!el)return;
@@ -986,10 +761,10 @@ function renderAvatars(){
   });
 }
 
-// ── Render: Table ──────────────────────────────────
+// ── Render: Table ────────────────────────────
 function renderTable(){
-  const label=document.getElementById('table-label');
   const trumpEl=document.getElementById('trump-ind');
+  const label=document.getElementById('table-label');
   const content=document.getElementById('table-content');
 
   if(G.phase==='bidding'||G.phase==='ashkal'){
@@ -997,11 +772,10 @@ function renderTable(){
     const s=G.centerCard?.suit||'',sn=SUIT_AR[s]||'';
     content.innerHTML=G.centerCard?`
       <div class="center-card-wrap">
-        <div class="center-card-lbl">الصورة المقترحة</div>
+        <div class="center-card-lbl">الصورة المقترحة — جولة ${G.bidRound}</div>
         ${faceHTML(G.centerCard,'c-lg')}
         <div class="trump-badge">${s} ${sn}</div>
       </div>`:'';
-
   } else if(G.phase==='playing'||G.phase==='trickResolve'){
     label.textContent='';
     if(G.mode==='sun'&&G.trumpSuit){trumpEl.textContent='حكم: '+SUIT_AR[G.trumpSuit]+' '+G.trumpSuit;trumpEl.style.display='block';}
@@ -1020,35 +794,41 @@ function renderTable(){
         <div class="tc-s">${slot('south')}</div>
       </div>
       <div class="trick-counts">نحن ${G.tricks.us} · هم ${G.tricks.them}</div>`;
-
   } else if(G.phase==='dealing'){
-    label.textContent='جاري التوزيع';trumpEl.style.display='none';
-    content.innerHTML='';
+    label.textContent='جاري التوزيع';trumpEl.style.display='none';content.innerHTML='';
   } else {
     label.textContent='';trumpEl.style.display='none';content.innerHTML='';
   }
 }
 
-// ── Render: Action area ────────────────────────────
+// ── Render: Action ───────────────────────────
 function renderAction(){
   const a=document.getElementById('action-area');a.innerHTML='';
   if(G.phase==='bidding'){
-    if(G.bidOrder[G.bidIdx]==='south'){
-      a.innerHTML=`<div class="bid-area">
-        <button class="bid-btn bid-ashkal" onclick="humanBid('ashkal')"><span>أشكل</span><span class="bid-btn-sub">اتم ثاني</span></button>
-        <button class="bid-btn bid-sun"    onclick="humanBid('sun')"><span>صن</span><span class="bid-btn-sub">بدون اتم</span></button>
-        <button class="bid-btn bid-hokm"   onclick="humanBid('hokm')"><span>حكم</span><span class="bid-btn-sub">اتم المركزية</span></button>
-        <button class="bid-btn bid-pass"   onclick="humanBid('pass')"><span>بس</span><span class="bid-btn-sub">تمرير</span></button>
-      </div>`;
+    const isSouth=G.bidOrder[G.bidIdx]==='south';
+    if(isSouth){
+      if(G.bidRound===1){
+        a.innerHTML=`<div class="bid-area">
+          <button class="bid-btn bid-hokm" onclick="humanBid('hokm')"><span>حكم</span><span class="bid-btn-sub">اقبل الاتم</span></button>
+          <button class="bid-btn bid-pass" onclick="humanBid('pass')"><span>بس</span><span class="bid-btn-sub">مرّر</span></button>
+        </div>`;
+      } else {
+        a.innerHTML=`<div class="bid-area">
+          <button class="bid-btn bid-sun"    onclick="humanBid('sun')"><span>صن</span><span class="bid-btn-sub">بدون اتم</span></button>
+          <button class="bid-btn bid-ashkal" onclick="humanBid('ashkal')"><span>أشكل</span><span class="bid-btn-sub">اتم ثاني</span></button>
+          <button class="bid-btn bid-pass"   onclick="humanBid('pass')"><span>بس</span><span class="bid-btn-sub">مرّر</span></button>
+        </div>`;
+      }
     } else {
-      a.innerHTML=`<div class="play-hint">انتظار ${POS_AR[G.bidOrder[G.bidIdx]]}...</div>`;
+      const rnd=G.bidRound===1?'جولة أولى':'جولة ثانية';
+      a.innerHTML=`<div class="play-hint">${rnd} — انتظار ${POS_AR[G.bidOrder[G.bidIdx]]}...</div>`;
     }
   } else if(G.phase==='ashkal'){
-    const others=SUITS.filter(s=>s!==G.centerCard.suit);
+    const suits=G.bidRound===1?SUITS.filter(s=>s!==G.centerCard.suit):SUITS;
     a.innerHTML=`<div class="suit-picker">
-      <div class="suit-pick-lbl">اختر الاتم — غير ${G.centerCard.suit} ${SUIT_AR[G.centerCard.suit]}</div>
+      <div class="suit-pick-lbl">اختر الاتم</div>
       <div class="suit-pick-row">
-        ${others.map(s=>{const r=s==='♥'||s==='♦';
+        ${suits.map(s=>{const r=s==='♥'||s==='♦';
           return`<button class="suit-pick-btn ${r?'red-suit':'blk-suit'}" onclick="pickSuit('${s}')">
             <div>${s}</div><div style="font-size:9px;font-weight:800;margin-top:1px">${SUIT_AR[s]}</div>
           </button>`;}).join('')}
@@ -1060,80 +840,110 @@ function renderAction(){
       ?`<div class="play-hint" style="color:#ffd700;font-size:13px">دورك — اضغط ورقة مرتين</div>`
       :`<div class="play-hint">دور ${POS_AR[cur]}...</div>`;
   } else {
-    a.innerHTML=`<div class="play-hint"></div>`;
+    a.innerHTML='';
   }
 }
 
-// ── Render: Scores ─────────────────────────────────
 function renderScores(){
   document.getElementById('g-us').textContent  =G.score.us;
   document.getElementById('g-them').textContent=G.score.them;
 }
 
-// ── Think bubbles ──────────────────────────────────
+// ── Think bubbles ────────────────────────────
 function think(pos,txt){
-  const el=document.getElementById('th-'+pos);
-  if(el){el.textContent=txt||' ';}
-  // Also show in table center for AI positions
-  const tc=document.getElementById('table-content');
-  if(tc&&txt&&pos!=='south'){
-    let tb=document.getElementById('table-think-bubble');
-    if(!tb){tb=document.createElement('div');tb.id='table-think-bubble';tb.className='table-think';tc.appendChild(tb);}
+  const el=document.getElementById('th-'+pos);if(el)el.textContent=txt||' ';
+  if(txt&&pos!=='south'){
+    const tc=document.getElementById('table-content');if(!tc)return;
+    let tb=document.getElementById('ttb');
+    if(!tb){tb=document.createElement('div');tb.id='ttb';tb.className='table-think';tc.appendChild(tb);}
     tb.textContent=txt;
-    setTimeout(()=>{const b=document.getElementById('table-think-bubble');if(b)b.remove();},900);
+    clearTimeout(tb._t);tb._t=setTimeout(()=>tb.remove(),900);
   }
 }
 function clearThink(){POS_ORD.forEach(p=>think(p,''));}
 
-// ── Full render ────────────────────────────────────
 function render(){renderHand();renderNorth();renderSides();renderAvatars();renderTable();renderAction();renderScores();}
 
-// ── Game Flow ──────────────────────────────────────
+// ── Game Flow ────────────────────────────────
 function startGame(){
   showScreen('scr-game');initG();G.score={us:0,them:0};newRound();
 }
 function newRound(){
   const d=deal();
-  G.hands=Object.fromEntries(Object.entries(d).filter(([k])=>k!=='centerCard'&&k!=='reserve'));
+  G.hands={south:d.south,west:d.west,north:d.north,east:d.east};
   G.centerCard=d.centerCard;G.reserve=d.reserve;
   G.trick={};G.trickLeader='south';G.leadSuit=null;
   G.points={us:0,them:0};G.tricks={us:0,them:0};
-  G.selectedCard=-1;G.bidIdx=0;G.hasBid=false;
+  G.selectedCard=-1;G.bidIdx=0;G.bidRound=1;G.hasBid=false;
   G.bidWinner=null;G.bidType=null;G.mode=null;G.trumpSuit=null;
   G.trickWinner=null;G.trickOrder=[];G.trickIdx=0;
   G.phase='dealing';clearThink();render();
   setTimeout(startBidding,700);
 }
-function startBidding(){G.phase='bidding';G.bidIdx=0;render();advanceBid();}
+function startBidding(){
+  G.phase='bidding';G.bidIdx=0;G.bidRound=1;G.hasBid=false;render();advanceBid();
+}
+
+// ── 2-Round Bidding ──────────────────────────
 function advanceBid(){
-  if(G.bidIdx>=G.bidOrder.length){
-    if(!G.hasBid){think('south','كل مرّر');setTimeout(()=>{clearThink();newRound();},1000);}
+  if(G.bidIdx>=4){
+    if(!G.hasBid){
+      if(G.bidRound===1){
+        // All passed round 1 — start round 2
+        G.bidRound=2;G.bidIdx=0;G.hasBid=false;
+        clearThink();render();setTimeout(advanceBid,400);
+      } else {
+        // All passed round 2 — redeal
+        think('south','يُعاد التوزيع');
+        setTimeout(()=>{clearThink();newRound();},1100);
+      }
+    }
     return;
   }
-  renderAvatars();const bidder=G.bidOrder[G.bidIdx];
-  if(bidder!=='south'){setTimeout(()=>{const r=aiBid(G.hands[bidder],G.centerCard,G.hasBid);applyBid(bidder,r);},900);}
-  else{renderAction();}
+  renderAvatars();
+  const bidder=G.bidOrder[G.bidIdx];
+  if(bidder!=='south'){
+    setTimeout(()=>{const r=aiBid(G.hands[bidder],G.centerCard,G.hasBid,G.bidRound);applyBid(bidder,r);},900);
+  } else {
+    renderAction();
+  }
 }
-function humanBid(type){if(G.phase!=='bidding')return;if(G.bidOrder[G.bidIdx]!=='south')return;applyBid('south',type);}
+function humanBid(type){
+  if(G.phase!=='bidding')return;
+  if(G.bidOrder[G.bidIdx]!=='south')return;
+  applyBid('south',type);
+}
 function applyBid(pos,type){
   if(type==='pass'){
     think(pos,'بس');G.bidIdx++;
-    if(G.bidIdx>=G.bidOrder.length&&!G.hasBid){G.phase='bidding';renderTable();renderAction();setTimeout(()=>{clearThink();newRound();},1100);return;}
-    setTimeout(()=>{think(pos,'');renderAvatars();renderAction();advanceBid();},750);return;
+    setTimeout(()=>{think(pos,'');renderAvatars();renderAction();advanceBid();},750);
+    return;
   }
   G.hasBid=true;G.bidWinner=pos;G.bidType=type;
-  if(type==='hokm'){G.mode='sun';G.trumpSuit=G.centerCard.suit;think(pos,'حكم!');distribute(pos);setTimeout(()=>{clearThink();startPlay();},1200);}
-  else if(type==='sun'){G.mode='baloot';G.trumpSuit=null;think(pos,'صن!');distribute(pos);setTimeout(()=>{clearThink();startPlay();},1200);}
-  else if(type==='ashkal'){
+  if(type==='hokm'){
+    G.mode='sun';G.trumpSuit=G.centerCard.suit;
+    think(pos,'حكم!');distribute(pos);
+    setTimeout(()=>{clearThink();startPlay();},1200);
+  } else if(type==='sun'){
+    G.mode='baloot';G.trumpSuit=null;
+    think(pos,'صن!');distribute(pos);
+    setTimeout(()=>{clearThink();startPlay();},1200);
+  } else if(type==='ashkal'){
     if(pos==='south'){G.phase='ashkal';render();}
     else{
-      const ot=SUITS.filter(s=>s!==G.centerCard.suit);
+      const exclude=G.bidRound===1?[G.centerCard.suit]:[];
+      const ot=SUITS.filter(s=>!exclude.includes(s));
       const best=ot.map(s=>({s,sc:G.hands[pos].reduce((a,c)=>a+cardPts(c,'sun',s),0)})).sort((a,b)=>b.sc-a.sc)[0].s;
-      G.mode='sun';G.trumpSuit=best;think(pos,'أشكل '+best);distribute(pos);setTimeout(()=>{clearThink();startPlay();},1400);
+      G.mode='sun';G.trumpSuit=best;
+      think(pos,'أشكل '+best);distribute(pos);
+      setTimeout(()=>{clearThink();startPlay();},1400);
     }
   }
 }
-function pickSuit(s){if(G.phase!=='ashkal')return;G.mode='sun';G.trumpSuit=s;G.bidType='ashkal';distribute('south');setTimeout(startPlay,500);}
+function pickSuit(s){
+  if(G.phase!=='ashkal')return;
+  G.mode='sun';G.trumpSuit=s;G.bidType='ashkal';distribute('south');setTimeout(startPlay,500);
+}
 function distribute(winner){
   G.hands[winner].push(G.centerCard);
   const others=POS_ORD.filter(p=>p!==winner);
@@ -1141,7 +951,7 @@ function distribute(winner){
   G.hands.south=sortHand(G.hands.south,G.trumpSuit,G.mode);render();
 }
 
-// ── Play Phase ─────────────────────────────────────
+// ── Play Phase ───────────────────────────────
 function buildOrder(leader){const si=POS_ORD.indexOf(leader);G.trickOrder=POS_ORD.map((_,i)=>POS_ORD[(si+i)%4]);}
 function startPlay(){G.phase='playing';G.trickLeader='south';buildOrder(G.trickLeader);G.trickIdx=0;render();advancePlay();}
 function advancePlay(){
@@ -1217,32 +1027,30 @@ function nextRound(){
   G.roundNum++;newRound();
 }
 
-// ── Navigation ─────────────────────────────────────
+// ── Navigation ───────────────────────────────
 function showScreen(id){
   document.querySelectorAll('.scr').forEach(el=>el.classList.remove('on'));
   document.getElementById(id).classList.add('on');
 }
 function goHome(){document.getElementById('score-modal').classList.remove('on');updateHomeUI();showScreen('scr-home');}
-function showRules(){showScreen('scr-rules');}
 function showSoon(title,sub){
   document.getElementById('soon-title').textContent=title;
   document.getElementById('soon-sub').textContent=sub;
   showScreen('scr-soon');
 }
 
-// ── Home UI ────────────────────────────────────────
+// ── Home UI ──────────────────────────────────
 function updateHomeUI(){
   document.getElementById('h-trophies').textContent=trophies.toLocaleString();
   document.getElementById('h-coins').textContent=coins.toLocaleString();
   const ar=ARENAS.slice().reverse().find(a=>trophies>=a.min)||ARENAS[0];
   document.getElementById('h-arena').textContent=ar.ar;
-  const ls=document.getElementById('h-league-sub');if(ls)ls.textContent=ar.league;
-  const hl=document.getElementById('h-league');if(hl)hl.textContent=ar.ar+' · '+ar.league;
+  const al=document.getElementById('h-arena-league');if(al)al.textContent=ar.league;
+  document.getElementById('h-league').textContent=ar.ar+' · '+ar.league;
   const carpet=document.getElementById('arena-carpet');
   if(carpet){ARENAS.forEach(a=>carpet.classList.remove(a.cls));carpet.classList.add(ar.cls);}
 }
 
-// ── Init ───────────────────────────────────────────
 (()=>{ updateHomeUI(); })();
 </script>
 </body>
